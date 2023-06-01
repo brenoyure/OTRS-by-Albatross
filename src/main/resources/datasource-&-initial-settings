@@ -1,8 +1,9 @@
-### Adicionando Módulo do MySQL ####
+######### Jakarta EE 10 - WildFly 28.0.1 ##########
+
+### 1. Adicionando Módulo do MySQL ####
 
 module add --name=com.mysql --dependencies=jakarta.transaction.api,javax.api --resources=/home/breno.brito/.m2/repository/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar
 
-### Adicionando DataSource no Subsystem ####
+### 2. Adicionando DataSource no Subsystem ####
 
 /subsystem=datasources/jdbc-driver=mysql:add(driver-module-name=com.mysql, driver-xa-datasource-class-name=com.mysql.cj.jdbc.MysqlXADataSource)
-
