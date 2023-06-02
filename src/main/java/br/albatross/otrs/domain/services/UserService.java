@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import br.albatross.otrs.domain.dao.UserDAO;
 import br.albatross.otrs.domain.models.User;
+
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 
@@ -17,7 +18,7 @@ public class UserService {
 	public Optional<User> buscaPorId(Integer id) {
 		return dao.findById(id);
 	}
-	
+
 	public List<User> listarTodos() {
 		return dao.findAll();
 	}

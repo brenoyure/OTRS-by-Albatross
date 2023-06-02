@@ -1,8 +1,11 @@
-package br.albatross.otrs.domain.models;
+package br.albatross.otrs.domain.models.queue;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
+
+import br.albatross.otrs.domain.models.Valid;
+import br.albatross.otrs.domain.models.groups.Group;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,34 +20,28 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 
- * Representa os usuários do OTRS.
+ * Representa as Filas de chamados, como: Nível 1, Nível 2, Lixo e etc.
  * 
  * @author breno.brito
  *
  */
-@Entity @Table(name = "users")
+@Entity @Table(name = "queue")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
-public class User {
+public class Queue {
 
 	@Id @GeneratedValue(strategy = IDENTITY)
 	private Integer id;
 
-	@Column(length = 200, nullable = false, unique = true)
-	private String login;
+	@Column(length = 200, unique = true, nullable = false)
+	private String name;
 
-	@Column(length = 64, nullable = false)
-	private String pw;
+	@Column(length = 250, unique = false, nullable = true)
+	private String comments;
 
-	@Column(length = 50)
-	private String title;
-
-	@Column(name = "first_name", length = 100, nullable = false)
-	private String firstName;
-
-	@Column(name = "last_name", length = 100, nullable = false)
-	private String lastName;
+	@ManyToOne
+	@JoinColumn(name = "group_id", nullable = false)	
+	private Group group;
 
 	@ManyToOne
 	@JoinColumn(name = "valid_id", nullable = false)
