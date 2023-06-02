@@ -8,10 +8,38 @@
 
 <h:head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
 	<title>
 		OTRS
 	</title>
 </h:head>
+
+<h:body>
+
+	<h:messages />
+	
+	<h:form>
+
+		<fieldset> 
+			<legend>OTRS</legend>
+				<h:panelGrid columns="3">
+				    <h:outputLabel for="inputText-BM" value="BM: " />
+				    <h:inputText id="inputText-BM" />
+				    <h:commandButton value="Consultar" />
+	
+				    <h:outputLabel for="inputText-NdeSerie" value="Nº de Série * : " />
+				    <h:inputText id="inputText-NdeSerie" required="true" requiredMessage="Nº de Série Obrigatório" />
+				    <br />
+				</h:panelGrid>
+
+			<h:commandButton type="submit" value="Enviar" />
+			<h:commandButton type="reset" immediate="true"  value="Limpar" />
+				
+		</fieldset>
+
+		<br />
+
+    </h:form>
+</h:body>
+
 
 </html>
