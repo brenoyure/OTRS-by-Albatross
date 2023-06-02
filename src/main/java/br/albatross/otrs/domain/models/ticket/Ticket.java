@@ -1,5 +1,6 @@
 package br.albatross.otrs.domain.models.ticket;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
@@ -43,7 +44,7 @@ public class Ticket {
 	/**
 	 * Representa a Fila do Ticket/Chamado, como: Nível 1, Nível 2, Lixo e etc.
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "queue_id", nullable = false)
 	private Queue queue;
 
@@ -51,7 +52,7 @@ public class Ticket {
 	 * Representa o tipo do Ticket: como Incidente, Solicitação de Serviço, Problema
 	 * e etc.
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "type_id")
 	private TicketType type;
 
@@ -60,15 +61,15 @@ public class Ticket {
 	 * Instalação de Softwares, Impressoras e Scanners, Garantia de Fabricante e
 	 * etc.
 	 */
-	@ManyToOne
-	@JoinColumn(name = "service_id")
+	@ManyToOne(fetch = LAZY)
+	@JoinColumn(name = "service_id", nullable = true)
 	private Service service;
 
 	/**
 	 * <p>Representa o "usuário" que <strong>criou</strong> o ticket (chamado).</p>
 	 * Por exemplo no caso do chamado ter chegado por e-mail, o user_id será sempre 1, o <em>root</em> do OTRS, ou seja o próprio OTRS).
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
@@ -77,7 +78,7 @@ public class Ticket {
 	 * <p>No caso de chamados abertos via e-mail ou que na abertura manual,<br/> na opção de <em>Novo Chamado via Fone</em>, por exemplo,
 	 * em que o responsável não é especificado, o responsável atribuído será o de id 1, ou seja o próprio <em>root</em> do OTRS.</p>
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "responsible_user_id", nullable = false)
 	private User responsibleUser;
 
@@ -85,7 +86,7 @@ public class Ticket {
 	 * <p>Representa o estado atual, de maneira detalhada, do ticket.</p>
 	 * <p>Por exemplo: <em>novo, aberto, fechado com/sem êxito, aguardando usuário/fornecedor.</em></p>
 	 */
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "ticket_state_id", nullable = false)
 	private TicketState ticketState;
 
@@ -100,5 +101,5 @@ public class Ticket {
 
 	@Column(name = "change_time", nullable = false)
 	private LocalDateTime changeTime;
-	
+
 }

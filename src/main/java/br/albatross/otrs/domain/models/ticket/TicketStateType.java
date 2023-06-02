@@ -4,14 +4,12 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
 
-import br.albatross.otrs.domain.models.Valid;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,9 +39,5 @@ public class TicketStateType {
 
 	@Column(name = "change_time", nullable = false)
 	private LocalDateTime changeTime;
-
-	@ManyToOne
-	@JoinColumn(name = "valid_id", nullable = false)
-	private Valid valid;
 
 }

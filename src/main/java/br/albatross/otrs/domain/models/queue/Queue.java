@@ -1,11 +1,11 @@
 package br.albatross.otrs.domain.models.queue;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
 
 import br.albatross.otrs.domain.models.Valid;
-import br.albatross.otrs.domain.models.groups.Group;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,11 +39,7 @@ public class Queue {
 	@Column(length = 250, unique = false, nullable = true)
 	private String comments;
 
-	@ManyToOne
-	@JoinColumn(name = "group_id", nullable = false)	
-	private Group group;
-
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "valid_id", nullable = false)
 	private Valid valid;
 

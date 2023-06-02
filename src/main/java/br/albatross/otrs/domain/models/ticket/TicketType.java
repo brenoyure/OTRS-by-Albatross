@@ -1,5 +1,6 @@
 package br.albatross.otrs.domain.models.ticket;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
@@ -39,7 +40,7 @@ public class TicketType {
 	@Column(name = "change_time", nullable = false)
 	private LocalDateTime changeTime;
 
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "valid_id", nullable = false)
 	private Valid valid;
 

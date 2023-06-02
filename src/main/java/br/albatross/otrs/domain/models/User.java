@@ -1,5 +1,6 @@
 package br.albatross.otrs.domain.models;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
@@ -46,7 +47,7 @@ public class User {
 	@Column(name = "last_name", length = 100, nullable = false)
 	private String lastName;
 
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "valid_id", nullable = false)
 	private Valid valid;
 
