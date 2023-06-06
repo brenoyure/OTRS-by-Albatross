@@ -15,7 +15,7 @@
 
 <h:body>
 
-	<h:messages />
+	<h:messages id="mensagens" style="color:red" />
 	
 	<h:form>
 
@@ -23,16 +23,18 @@
 			<legend>OTRS</legend>
 				<h:panelGrid columns="3">
 				    <h:outputLabel for="inputText-BM" value="BM: " />
-				    <h:inputText id="inputText-BM" />
-				    <h:commandButton value="Consultar" />
-	
-				    <h:outputLabel for="inputText-NdeSerie" value="Nº de Série * : " />
-				    <h:inputText id="inputText-NdeSerie" required="true" requiredMessage="Nº de Série Obrigatório" />
+				    <h:inputText id="inputText-BM" value="#{otrsBean.bm}" />
+				    <h:commandButton value="Consultar" action="#{otrsBean.buscarNumeroDeSeriePeloBm}" >
+				    	<f:ajax execute="inputText-BM" render="inputText-NumeroDeSerie :mensagens" />
+				    </h:commandButton>
+
+				    <h:outputLabel for="inputText-NumeroDeSerie" value="Nº de Série * : " />
+				    <h:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.numeroDeSerie}" />
 				    <br />
 				</h:panelGrid>
 
 			<h:commandButton type="submit" value="Enviar" />
-			<h:commandButton type="reset" immediate="true"  value="Limpar" />
+			<h:commandButton type="reset"  value="Limpar" immediate="true" />
 				
 		</fieldset>
 
