@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,28 +16,26 @@
 
 <h:body>
 
-	<h:messages id="mensagens" style="color:red" />
+	<p:messages id="mensagens" style="color:red" />
 	
 	<h:form>
 
-		<fieldset> 
-			<legend>OTRS</legend>
-				<h:panelGrid columns="3">
-				    <h:outputLabel for="inputText-BM" value="BM: " />
-				    <h:inputText id="inputText-BM" value="#{otrsBean.bm}" />
-				    <h:commandButton value="Consultar" action="#{otrsBean.buscarNumeroDeSeriePeloBm}" >
-				    	<f:ajax execute="inputText-BM" render="inputText-NumeroDeSerie :mensagens" />
-				    </h:commandButton>
+		<p:fieldset legend="OTRS"> 
+				<p:panelGrid columns="3">
+				    <p:outputLabel for="inputText-BM" value="BM: " />
+				    <p:inputText id="inputText-BM" value="#{otrsBean.bm}" />
+				    <p:commandButton value="Consultar" action="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
+				    				 process="@this inputText-BM" update="inputText-NumeroDeSerie :mensagens" />
 
-				    <h:outputLabel for="inputText-NumeroDeSerie" value="Nº de Série * : " />
-				    <h:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.numeroDeSerie}" />
+				    <p:outputLabel for="inputText-NumeroDeSerie" value="Nº de Série: " />
+				    <p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.numeroDeSerie}" />
 				    <br />
-				</h:panelGrid>
+				</p:panelGrid>
 
-			<h:commandButton type="submit" value="Enviar" />
-			<h:commandButton type="reset"  value="Limpar" immediate="true" />
+			<p:commandButton type="submit" value="Enviar" style="margin-right: 5px; margin-top:10px" update=":mensagens" />
+			<p:commandButton type="reset"  value="Limpar" immediate="true" style="margin-top:10px" update=":mensagens" />
 				
-		</fieldset>
+		</p:fieldset>
 
 		<br />
 

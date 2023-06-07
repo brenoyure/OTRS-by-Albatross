@@ -11,7 +11,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 
 @Stateless
-public class ConfigItemBeanService {
+public class ConfigItemServiceBean {
 
 	@Inject
 	private ConfigItemService service;

@@ -1,6 +1,6 @@
 package br.albatross.otrs.view.beans;
 
-import br.albatross.otrs.domain.services.beans.ConfigItemBeanService;
+import br.albatross.otrs.domain.services.beans.ConfigItemServiceBean;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -11,7 +11,7 @@ import lombok.Setter;
 public class OtrsBean {
 
 	@Inject
-	private ConfigItemBeanService service;
+	private ConfigItemServiceBean service;
 
 	@Getter @Setter
 	private String numeroDeSerie;

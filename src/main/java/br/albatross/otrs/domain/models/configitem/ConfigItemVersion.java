@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SecondaryTable;
 import jakarta.persistence.Table;
 
 import lombok.EqualsAndHashCode;
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Entity @Table(name = "configitem_version")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
+@SecondaryTable(name = "xml_storage")
 public class ConfigItemVersion {
 
 	@Id @GeneratedValue(strategy = IDENTITY)
@@ -32,10 +34,11 @@ public class ConfigItemVersion {
 	@JoinColumn(name = "configitem_id")
 	private ConfigItem configItem;
 
+//	@ManyToOne(fetch = LAZY)
+//	@JoinColumn(name = "xml_key")
+//	private XmlStorage xmlStorage;
+
 	@Column(name = "create_time", nullable = false)
 	private LocalDateTime createTime;
-
-	@Column(name = "change_time", nullable = false)
-	private LocalDateTime changeTime;
 
 }

@@ -1,11 +1,15 @@
 package br.albatross.otrs.domain.models.configitem;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import lombok.Getter;
@@ -22,16 +26,19 @@ import lombok.Setter;
 public class XmlStorage {
 
 	@Id @GeneratedValue(strategy = IDENTITY)
-	@Column(name = "xml_key", length = 250)
-	private String xmlKey;
+	private Integer id;
+
+	@ManyToOne(fetch = LAZY)
+	@JoinColumn(name = "xml_key")
+	private ConfigItemVersion configItemVersion;
 
 	@Column(length = 200, name = "xml_type", nullable = false)
 	private String xmlType;
 
-	@Column(length = 250, name = "xml_content_key", nullable = true)
+	@Lob @Column(length = 250, name = "xml_content_key", nullable = true)
 	private String xmlContentKey;
 
-	@Column(length = 200, name = "xml_content_value", nullable = true)
+	@Lob @Column(length = 200, name = "xml_content_value", nullable = true)
 	private String xmlContentValue;
 	
 }

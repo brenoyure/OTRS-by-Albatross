@@ -13,7 +13,7 @@ public class ConfigItemService {
 	private ConfigItemDao dao;
 
 	public Optional<String> getNumeroDeSerieByBm(String bm) {
-		return dao.findNumeroDeSerieByBmNative(bm);
+		return dao.findNumeroDeSerieByBmCriteria(bm);
 	}
 
 }
