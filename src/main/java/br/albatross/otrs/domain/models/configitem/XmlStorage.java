@@ -28,6 +28,9 @@ public class XmlStorage {
 	@Id @GeneratedValue(strategy = IDENTITY)
 	private Integer id;
 
+	/**
+	 * Nome do atributo do XML que referencia a tabela/entidade ConfigItemVersion.
+	 */
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "xml_key")
 	private ConfigItemVersion configItemVersion;
@@ -35,6 +38,9 @@ public class XmlStorage {
 	@Column(length = 200, name = "xml_type", nullable = false)
 	private String xmlType;
 
+	/**
+	 * Atributo que representa um campo do XML.
+	 */
 	@Lob @Column(length = 250, name = "xml_content_key", nullable = true)
 	private String xmlContentKey;
 

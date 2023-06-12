@@ -1,5 +1,10 @@
 package br.albatross.otrs.domain.dao;
 
+import static br.albatross.otrs.domain.models.configitem.ConfigItemVersion_.id;
+import static br.albatross.otrs.domain.models.configitem.ConfigItemVersion_.name;
+import static br.albatross.otrs.domain.models.configitem.XmlStorage_.configItemVersion;
+import static br.albatross.otrs.domain.models.configitem.XmlStorage_.xmlContentKey;
+
 import java.util.Optional;
 
 import br.albatross.otrs.domain.models.configitem.XmlStorage;
@@ -15,26 +20,6 @@ public class ConfigItemDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	/**
-	 * No do atributo do XML que referencia a tabela/entidade ConfigItemVersion.
-	 */
-	private static final String CONFIG_ITEM_VERSION = "configItemVersion";
-	
-	/**
-	 * No do atributo do XML que referencia a tabela/entidade ConfigItemVersion.
-	 */
-	private static final String ID = "id";
-
-	/**
-	 * Nome da Versão do Item de configuração, nesse caso o BM.
-	 */
-	private static final String CONFIG_ITEM_VERSION_NAME = "name";
-
-	/**
-	 * Atributo que representa um campo do XML.
-	 */
-	private static final String XML_CONTENT_KEY = "xmlContentKey";
-
 	/**
 	 * Campo que será filtrado no XML, no caso o Número de Série.
 	 */
@@ -53,17 +38,17 @@ public class ConfigItemDao {
 			var query       =  cb.createQuery(XmlStorage.class);
 			var xmlStorage  =  query.from(XmlStorage.class);
 			
-			xmlStorage.fetch(CONFIG_ITEM_VERSION, JoinType.INNER);
+			xmlStorage.fetch(configItemVersion, JoinType.INNER);
 
-			var predicateXmlKeyEqualsToConfigItemPkey = cb.equal(xmlStorage.get(CONFIG_ITEM_VERSION).get(CONFIG_ITEM_VERSION_NAME), bm);
-			var predicateColumnEqualsToNumeroDeSerie = cb.equal(xmlStorage.get(XML_CONTENT_KEY), XML_CONTENT_KEY_NUMERO_DE_SERIE);
+			var predicateXmlKeyEqualsToConfigItemPkey = cb.equal(xmlStorage.get(configItemVersion).get(name), bm);
+			var predicateColumnEqualsToNumeroDeSerie = cb.equal(xmlStorage.get(xmlContentKey), XML_CONTENT_KEY_NUMERO_DE_SERIE);
 
 			var finalAndPredicate = cb.and(predicateXmlKeyEqualsToConfigItemPkey, predicateColumnEqualsToNumeroDeSerie);
 
 			query.where(finalAndPredicate);
 
 			query.orderBy(
-						cb.desc(xmlStorage.get(CONFIG_ITEM_VERSION).get(ID)));
+						cb.desc(xmlStorage.get(configItemVersion).get(id)));
 
 
 			return Optional.of(entityManager.createQuery(query).setMaxResults(1).getSingleResult().getXmlContentValue());

@@ -16,12 +16,14 @@
 
 <h:body>
 
-	<p:messages id="mensagens" style="color:red" />
-	
+	<p:growl id="mensagens" style="color:red" />
+
 	<h:form>
+	
+	<p:focus context="panel" />
 
 		<p:fieldset legend="OTRS"> 
-				<p:panelGrid columns="3">
+				<p:panelGrid columns="3" id="panel">
 				    <p:outputLabel for="inputText-BM" value="BM: " />
 				    <p:inputText id="inputText-BM" value="#{otrsBean.bm}" />
 				    <p:commandButton value="Consultar" action="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
@@ -30,6 +32,19 @@
 				    <p:outputLabel for="inputText-NumeroDeSerie" value="Nº de Série: " />
 				    <p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.numeroDeSerie}" />
 				    <br />
+
+				    <p:outputLabel value="Informe o tipo do Serviço de Garantia" for="tipo-garantia" />
+				    <p:selectOneRadio id="tipo-garantia" layout="grid" columns="2" required="true" requiredMessage="É obrigatório informar o tipo do Serviço.">
+				    	<f:selectItem itemLabel="Monitor DATEN"  itemValue="garantia-monitor"  />
+				    	<f:selectItem itemLabel="Mouse DATEN"    itemValue="garantia-mouse"    />
+				    	<f:selectItem itemLabel="Teclado DATEN"  itemValue="garantia-teclado"  />
+				    	<f:selectItem itemLabel="Gabinete DATEN" itemValue="garantia-gabinete" />
+				    </p:selectOneRadio>
+				    <br />
+
+				    <p:outputLabel for="inputTextArea-DescricaoProblema" value="Informe a Descrição do Problema" />
+					<p:inputTextarea rows="6" cols="33" id="inputTextArea-DescricaoProblema" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
+				    
 				</p:panelGrid>
 
 			<p:commandButton type="submit" value="Enviar" style="margin-right: 5px; margin-top:10px" update=":mensagens" />

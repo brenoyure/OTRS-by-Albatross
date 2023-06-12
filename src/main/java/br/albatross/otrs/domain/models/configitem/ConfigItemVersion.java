@@ -27,16 +27,15 @@ public class ConfigItemVersion {
 	@Id @GeneratedValue(strategy = IDENTITY)
 	private Long id;
 
+	/**
+	 * Nome da Versão do Item de configuração, nesse caso o BM.
+	 */
 	@Column(length = 250, nullable = false)
 	private String name;
 
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "configitem_id")
 	private ConfigItem configItem;
-
-//	@ManyToOne(fetch = LAZY)
-//	@JoinColumn(name = "xml_key")
-//	private XmlStorage xmlStorage;
 
 	@Column(name = "create_time", nullable = false)
 	private LocalDateTime createTime;
