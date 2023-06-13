@@ -26,7 +26,7 @@ public class OtrsBean implements Serializable {
 
 	@Inject
 	private ConfigItemServiceBean service;
-	
+
 	@Inject
 	private TicketService ticketService;
 
@@ -38,17 +38,17 @@ public class OtrsBean implements Serializable {
 
 	@Inject
 	private ValidadorTicketGarantia validador;
-	
+
 	@Inject
 	private FacesContext context;
-	
+
 	public void buscarNumeroDeSeriePeloBm() {
 		service
 			.buscarNumeroDeSeriePorBm(problema.getBm())
 			.ifPresent(NdeSerie -> problema.setNumeroDeSerie(NdeSerie));
 	}
 
-	public void validarTicket(FacesContext context, UIComponent componente,Object value) {
+	public void validarTicket(FacesContext context, UIComponent componente, Object value) {
 		validador.validate(context, componente, (String)value);
 	}
 

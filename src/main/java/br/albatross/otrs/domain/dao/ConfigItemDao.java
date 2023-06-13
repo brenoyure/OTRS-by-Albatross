@@ -19,7 +19,7 @@ public class ConfigItemDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	/**
 	 * Campo que será filtrado no XML, no caso o Número de Série.
 	 */
@@ -37,7 +37,7 @@ public class ConfigItemDao {
 			var cb          =  entityManager.getCriteriaBuilder();
 			var query       =  cb.createQuery(XmlStorage.class);
 			var xmlStorage  =  query.from(XmlStorage.class);
-			
+
 			xmlStorage.fetch(configItemVersion, JoinType.INNER);
 
 			var predicateXmlKeyEqualsToConfigItemPkey = cb.equal(xmlStorage.get(configItemVersion).get(name), bm);
@@ -52,46 +52,9 @@ public class ConfigItemDao {
 
 
 			return Optional.of(entityManager.createQuery(query).setMaxResults(1).getSingleResult().getXmlContentValue());
-			
+
 		} catch (NoResultException e) {	return Optional.empty(); }
 
 	}
 
-/*
-
-	private Optional<String> findNumeroDeSerieByBmNative(String bm) {
-		try {
-
-			Query query = entityManager.createNativeQuery(getNativeQuery(bm), String.class);
-			return Optional.of((String)query.getSingleResult());
-		} 
-		  catch (NoResultException e) { return Optional.empty(); } 
-
-	}
-	private String getNativeQuery(String bm) {
-		return String.format("""
-SELECT
-
-    xmls.xml_content_value
-
-FROM
-    configitem ci
-        LEFT JOIN
-    configitem_version civ ON ci.id = civ.configitem_id
-        LEFT JOIN
-    xml_storage xmls ON civ.id = xmls.xml_key
-
-WHERE
-    civ.name = '%s'
-        AND xmls.xml_content_key LIKE '%%Version%%'
-        AND xmls.xml_content_key LIKE '%%NumeroDeSerie%%'
-        AND xmls.xml_content_key LIKE '%%Content%%'
-        
-    ORDER BY
-		ci.last_version_id DESC
-
-	LIMIT 1;
-""", bm);
-	}
- */
 }

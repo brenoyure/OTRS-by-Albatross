@@ -30,7 +30,7 @@ public class TicketDao {
 
 		return entityManager.createQuery(query).getResultList();
 	}
-	
+
 	public Ticket findById(Long ticketNumber) {
 		var cb = entityManager.getCriteriaBuilder();
 		var cq = cb.createQuery(Ticket.class);
