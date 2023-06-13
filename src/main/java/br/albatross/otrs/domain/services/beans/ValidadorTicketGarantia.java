@@ -19,25 +19,26 @@ public class ValidadorTicketGarantia implements Validator<String> {
 	@Inject
 	private TicketDao dao;
 	
-	private static String nomeDoServicoDoTicket;
-
-	private static FacesMessage ticketNotFoundValidatorExceptionMessage = new FacesMessage(SEVERITY_WARN, "Ticket com o número informado não encontrado.", null);
-	private static FacesMessage invalidTicketValidatorExceptionMessage  = new FacesMessage(SEVERITY_ERROR, "O Tipo do Serviço do Ticket é inválido.", "O Serviço do Ticket informado está como " + nomeDoServicoDoTicket + " que não é um serviço válido para Garantia.");
-	private static FacesMessage validTicketFoundValidatorMessage        = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ticket Validado com Sucesso.", null);
+	private static FacesMessage ticketNotFoundValidatorExceptionMessage          =  new FacesMessage(SEVERITY_WARN, "Ticket com o número informado não encontrado.", null);
+	private static FacesMessage invalidTicketServiceValidatorExceptionMessage;
+	private static FacesMessage validTicketFoundValidatorMessage;
 
 	@Override
 	public void validate(FacesContext context, UIComponent component, String ticketNumber) throws ValidatorException {
-		var optionalTicket = dao.findTicketNumber(ticketNumber);
+
+		var optionalTicket = dao.findByTicketNumber(ticketNumber);
 
 		if (optionalTicket.isEmpty())
 			throw new ValidatorException(ticketNotFoundValidatorExceptionMessage);
 
 		var ticket = optionalTicket.get();
-		nomeDoServicoDoTicket = ticket.getService().getName();
 
-		if (!ticketServiceValidoParaGarantia(ticket))
-			throw new ValidatorException(invalidTicketValidatorExceptionMessage);
+		if (!ticketServiceValidoParaGarantia(ticket)) {
+			invalidTicketServiceValidatorExceptionMessage = new FacesMessage(SEVERITY_ERROR, "O Serviço do Ticket é inválido.", "O Serviço do Ticket informado está como " + ticket.getService().getName() + " que não é um serviço válido para Garantia.");
+			throw new ValidatorException(invalidTicketServiceValidatorExceptionMessage);
+		}
 
+		validTicketFoundValidatorMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ticket Validado com Sucesso.", ticket.getService().getName());
 		context.addMessage("otrs", validTicketFoundValidatorMessage);
 
 	}

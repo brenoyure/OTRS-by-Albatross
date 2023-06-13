@@ -49,7 +49,7 @@
 
 				</p:panelGrid>
 
-			<p:commandButton type="submit" value="Enviar" style="margin-right: 5px; margin-top:10px" process="@this @form" update=":mensagens" />
+			<p:commandButton type="submit" value="Enviar" style="margin-right: 5px; margin-top:10px" actionListener="#{otrsBean.enviarSolicitacaoDeGarantiaPorEmail}" process="@this @form" update=":mensagens" />
 			<p:commandButton type="reset"  value="Limpar" immediate="true" style="margin-top:10px" update=":mensagens" />
 
 		</p:fieldset>

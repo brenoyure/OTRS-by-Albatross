@@ -1,6 +1,7 @@
 package br.albatross.otrs.domain.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import br.albatross.otrs.domain.dao.TicketDao;
 import br.albatross.otrs.domain.models.ticket.Ticket;
@@ -18,8 +19,12 @@ public class TicketService {
 		return dao.findAll();
 	}
 
-	public Ticket buscaPeloNumeroDoTicket(Long numeroTicket) {
-		return dao.findByTicketNumber(numeroTicket);
+	public Ticket buscarPeloIdDoTicket(Long id) {
+		return dao.findById(id);
+	}
+
+	public Optional<Ticket> buscarPeloNumeroDoTicket(String numeroDoTicket) {
+		return dao.findByTicketNumber(numeroDoTicket);
 	}
 
 }

@@ -31,7 +31,7 @@ public class TicketDao {
 		return entityManager.createQuery(query).getResultList();
 	}
 	
-	public Ticket findByTicketNumber(Long ticketNumber) {
+	public Ticket findById(Long ticketNumber) {
 		var cb = entityManager.getCriteriaBuilder();
 		var cq = cb.createQuery(Ticket.class);
 		var ticket = cq.from(Ticket.class);
@@ -42,13 +42,14 @@ public class TicketDao {
 		
 	}
 
-	public Optional<Ticket> findTicketNumber(String ticketNumber) {
+	public Optional<Ticket> findByTicketNumber(String ticketNumber) {
 		try {
 			var cb = entityManager.getCriteriaBuilder();
 			var cq = cb.createQuery(Ticket.class);
 			var ticket = cq.from(Ticket.class);
 
 			ticket.fetch(Ticket_.service, JoinType.INNER);
+			ticket.fetch(Ticket_.responsibleUser, JoinType.INNER);
 
 			var predicateTicketEqualsToTicketNumber = cb.equal(ticket.get(Ticket_.ticketNumber), ticketNumber);
 			
