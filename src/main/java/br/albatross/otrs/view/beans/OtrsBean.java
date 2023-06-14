@@ -2,20 +2,22 @@ package br.albatross.otrs.view.beans;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import br.albatross.otrs.domain.models.ticket.Service;
 import br.albatross.otrs.domain.services.TicketService;
 import br.albatross.otrs.domain.services.beans.ConfigItemServiceBean;
 import br.albatross.otrs.domain.services.beans.Problema;
 import br.albatross.otrs.domain.services.beans.ValidadorTicketGarantia;
+import br.albatross.otrs.domain.services.garantia.EmailGarantia;
+import br.albatross.otrs.domain.services.garantia.GarantiaService;
+
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,6 +40,9 @@ public class OtrsBean implements Serializable {
 
 	@Inject
 	private ValidadorTicketGarantia validador;
+	
+	@Inject
+	private GarantiaService garantiaService;
 
 	@Inject
 	private FacesContext context;
@@ -53,10 +58,8 @@ public class OtrsBean implements Serializable {
 	}
 
 	public void enviarSolicitacaoDeGarantiaPorEmail() {
-		var logger = Logger.getLogger(this.getClass().getName());
-		var sucessoNoEnvio = "Email relacionado ao computador de BM: " + problema.getBm() + " foi aberto com sucesso.";
-		logger.log(Level.INFO, sucessoNoEnvio);
-		context.addMessage("otrs", new FacesMessage(sucessoNoEnvio));
+		garantiaService.enviarEmail(new EmailGarantia(problema, problema.getDescricao(),"breno.brito@mailtrap", "Problema Mouse - Garantia"));
+		context.addMessage("otrs", new FacesMessage("E-mail enviado com Sucesso."));
 	}
 
 }

@@ -12,7 +12,7 @@ import jakarta.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(value = XmlStorage.class)
 public abstract class XmlStorage_ {
 
-	public static volatile SingularAttribute<XmlStorage, Integer> id;
+	public static volatile SingularAttribute<XmlStorage, Long> id;
 
 	public static volatile SingularAttribute<XmlStorage, ConfigItemVersion> configItemVersion;
 

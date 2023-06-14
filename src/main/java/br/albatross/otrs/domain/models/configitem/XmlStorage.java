@@ -26,7 +26,7 @@ import lombok.Setter;
 public class XmlStorage {
 
 	@Id @GeneratedValue(strategy = IDENTITY)
-	private Integer id;
+	private Long id;
 
 	/**
 	 * Nome do atributo do XML que referencia a tabela/entidade ConfigItemVersion.
