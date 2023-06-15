@@ -14,20 +14,20 @@ public class GarantiaService {
 	@Resource(lookup = "java:jboss/mail/OtrsMailSession")
 	private Session sessaoEmail;
 
-	private static final String EMAIL_FROM     =  "mail.address";
 	private static final String EMAIL_USER     =  "mail.smtp.user";
 	private static final String EMAIL_PASSWORD =  "mail.smtp.pass";
 	
 	public void enviarEmail(EmailGarantia email) {
 		try {
 			MimeMessage mensagem = new MimeMessage(sessaoEmail);
-			mensagem.setFrom(EMAIL_FROM);
+			mensagem.setFrom(email.getFrom());
 			mensagem.setRecipients(Message.RecipientType.TO, email.getTo());
 			mensagem.setSubject(email.getSubject());
-			mensagem.setText(getEmailComAssinatura(email.getBody(), email.getProblema().getNumeroDeSerie()));
+			mensagem.setText(getEmailComAssinatura(email.getBody(), email.getNumeroDeSerie()));
 			Transport.send(mensagem, EMAIL_USER, EMAIL_PASSWORD);
 		} catch (MessagingException e) {
 			e.printStackTrace();
+			//TODO Implementar a MSG de Erro no Envio.
 		}
 	}
 	

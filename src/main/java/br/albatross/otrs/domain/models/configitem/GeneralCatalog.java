@@ -36,7 +36,7 @@ public class GeneralCatalog {
 
 	@Column(length = 100, nullable = false) //TODO Verificar o tipo do Relacionamento.
 	private String generalCatalogClass;
-	
+
 	@Column(length = 100, nullable = false)
 	private String name;
 

@@ -1,17 +1,21 @@
 package br.albatross.otrs.domain.services.garantia;
 
-import br.albatross.otrs.domain.services.beans.Problema;
-import lombok.AllArgsConstructor;
+import java.io.Serializable;
+
+import br.albatross.otrs.domain.models.ticket.Ticket;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter @Setter
-public class EmailGarantia {
-	private Problema problema;
-	private String body;
-	private String to;
+public class EmailGarantia implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private String numeroDeSerie; 
+	private Ticket ticket;
 	private String subject;
+	private String body;
+	private String from;
+	private String to;
+
 }

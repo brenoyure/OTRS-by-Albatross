@@ -25,28 +25,42 @@
 		<p:fieldset legend="OTRS"> 
 				<p:panelGrid columns="3" id="panel">
 				    <p:outputLabel for="inputText-BM" value="BM: " />
-				    <p:inputText id="inputText-BM" value="#{otrsBean.problema.bm}" />
+				    <p:inputText id="inputText-BM" value="#{otrsBean.bm}" />
 				    <p:commandButton value="Consultar" action="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
 				    				 process="@this inputText-BM" update="inputText-NumeroDeSerie :mensagens" />
 
 				    <p:outputLabel for="inputText-NumeroDeSerie" value="Nº de Série: " />
-				    <p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.problema.numeroDeSerie}" />
+				    <p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.emailGarantia.numeroDeSerie}" />
 				    <br />
 
    				    <p:outputLabel for="inputText-NumeroDoTicket" value="Nº de Ticket: " />
-				    <p:inputMask id="inputText-NumeroDoTicket" required="true" requiredMessage="Nº de Ticket Obrigatório" validator="#{otrsBean.validarTicket}" value="#{otrsBean.problema.numeroDeSerie}" mask="9999999999999999" validateMask="true" />
+				    <p:inputMask id="inputText-NumeroDoTicket" required="true" requiredMessage="Nº de Ticket Obrigatório" validator="#{otrsBean.validarTicket}" value="#{otrsBean.emailGarantia.numeroDeSerie}" mask="9999999999999999" validateMask="true" />
 				    <p:commandButton value="Validar" 
 				    				 process="@this inputText-NumeroDoTicket" update=":mensagens" />
 
 				    <p:outputLabel value="Serviço de Garantia" for="tipo-garantia" />
-				    <p:selectOneRadio id="tipo-garantia" layout="grid" columns="2" required="true" requiredMessage="É obrigatório informar o tipo do Serviço." value="#{otrsBean.problema.descricao}">
+				    <p:selectOneRadio id="tipo-garantia" layout="grid" columns="2" required="true" requiredMessage="É obrigatório informar o tipo do Serviço." value="#{otrsBean.emailGarantia.body}">
 				    	<f:selectItems value="#{otrsBean.servicosValidos}" var="garantia" itemLabel="#{garantia.name}" itemValue="#{garantia.name}" />
 				    </p:selectOneRadio>
 			        <p:commandButton value="Confirmar" 
 				    			 process="@this tipo-garantia" update="inputTextArea-DescricaoProblema" />				    
 
+				    <p:outputLabel for="inputText-Assunto" value="Informe o Assunto: " />
+						<p:inputText id="inputText-Assunto" value="#{otrsBean.emailGarantia.subject}" required="true" requiredMessage="Assunto Obrigatória" />
+					<br />
+					
 				    <p:outputLabel for="inputTextArea-DescricaoProblema" value="Informe a Descrição do Problema" />
-					<p:inputTextarea rows="6" cols="33" id="inputTextArea-DescricaoProblema" value="#{otrsBean.problema.descricao}" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
+						<p:inputTextarea rows="6" cols="33" id="inputTextArea-DescricaoProblema" value="#{otrsBean.emailGarantia.body}" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
+					<br />
+					
+					<p:outputLabel for="inputText-EmailRemetente" value="E-mail do Remetente: ">
+						<p:inputText id="inputText-EmailRemetente" type="email" value="#{otrsBean.emailGarantia.to}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." />
+					</p:outputLabel>
+
+					<p:outputLabel for="inputText-EmailDestino" value="E-mail Destino: ">
+						<p:inputText id="inputText-EmailDestino" type="email" value="#{otrsBean.emailGarantia.from}" required="true" requiredMessage="E-mail de Destino Obrigatório." />
+					</p:outputLabel>
+
 
 				</p:panelGrid>
 

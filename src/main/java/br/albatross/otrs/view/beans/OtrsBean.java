@@ -5,11 +5,10 @@ import java.util.List;
 
 import br.albatross.otrs.domain.models.ticket.Service;
 import br.albatross.otrs.domain.models.ticket.Ticket;
+import br.albatross.otrs.domain.services.EmailProducer;
 import br.albatross.otrs.domain.services.TicketService;
 import br.albatross.otrs.domain.services.beans.ConfigItemServiceBean;
-import br.albatross.otrs.domain.services.beans.Problema;
 import br.albatross.otrs.domain.services.garantia.EmailGarantia;
-import br.albatross.otrs.domain.services.garantia.GarantiaService;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -31,7 +30,10 @@ public class OtrsBean implements Serializable {
 
 	@Getter @Setter
 	private Ticket ticket;
-	
+
+	@Getter @Setter
+	private String bm;
+
 	@Inject
 	private TicketService ticketService;
 
@@ -39,21 +41,26 @@ public class OtrsBean implements Serializable {
 	private List<Service> servicosValidos;
 
 	@Getter @Setter
-	private Problema problema = new Problema();
+	private EmailGarantia emailGarantia = new EmailGarantia();
 
 	@Inject
 	private Validator<Ticket> validador;
 	
 	@Inject
-	private GarantiaService garantiaService;
+	private EmailProducer emailProducer;
 
 	@Inject
 	private FacesContext context;
 
 	public void buscarNumeroDeSeriePeloBm() {
 		service
-			.buscarNumeroDeSeriePorBm(problema.getBm())
-			.ifPresent(NdeSerie -> problema.setNumeroDeSerie(NdeSerie));
+			.buscarNumeroDeSeriePorBm(bm)
+			.ifPresent(NdeSerie -> emailGarantia.setNumeroDeSerie(NdeSerie));
+	}
+
+	public void enviarSolicitacaoDeGarantiaPorEmail() {
+		emailProducer.enviarEmailParaAJmsQueue(this.emailGarantia);
+		context.addMessage("otrs", new FacesMessage("E-mail enviado com Sucesso."));
 	}
 
 	public void validarTicket(FacesContext context, UIComponent componente, Object value) {
@@ -64,12 +71,7 @@ public class OtrsBean implements Serializable {
 				validador.validate(context, componente, (Ticket)this.ticket);},
 
 		 () -> {
-			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ticket com o Número informado não encontrado.", null));});
-	}
-
-	public void enviarSolicitacaoDeGarantiaPorEmail() {
-		garantiaService.enviarEmail(new EmailGarantia(problema, problema.getDescricao(),"breno.brito@mailtrap", "Problema Mouse - Garantia"));
-		context.addMessage("otrs", new FacesMessage("E-mail enviado com Sucesso."));
+			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ticket Não encontrado.", "Ticket não localizado ou ainda não foi definido um serviço para o mesmo."));});
 	}
 
 }
