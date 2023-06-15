@@ -1,6 +1,9 @@
 package br.albatross.otrs.domain.dao;
 
+import static br.albatross.otrs.domain.models.ticket.TicketState_.ticketStateType;
 import static br.albatross.otrs.domain.models.ticket.Ticket_.queue;
+import static br.albatross.otrs.domain.models.ticket.Ticket_.service;
+import static br.albatross.otrs.domain.models.ticket.Ticket_.ticketState;
 import static java.util.Optional.empty;
 
 import java.util.List;
@@ -48,8 +51,11 @@ public class TicketDao {
 			var cq = cb.createQuery(Ticket.class);
 			var ticket = cq.from(Ticket.class);
 
-			ticket.fetch(Ticket_.service, JoinType.INNER);
-			ticket.fetch(Ticket_.responsibleUser, JoinType.INNER);
+			ticket.fetch(service, JoinType.INNER);
+
+			ticket
+			    .fetch(ticketState,     JoinType.INNER)
+			    .fetch(ticketStateType, JoinType.INNER);
 
 			var predicateTicketEqualsToTicketNumber = cb.equal(ticket.get(Ticket_.ticketNumber), ticketNumber);
 			

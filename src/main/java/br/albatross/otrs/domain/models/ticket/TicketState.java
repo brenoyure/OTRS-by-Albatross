@@ -33,7 +33,7 @@ public class TicketState {
 	@Column(length = 250, nullable = true)
 	private String comments;
 
-	@ManyToOne
+	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "type_id", nullable = false)
 	private TicketStateType ticketStateType;
 

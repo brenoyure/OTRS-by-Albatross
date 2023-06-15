@@ -17,7 +17,7 @@ import jakarta.persistence.criteria.JoinType;
 @Stateless
 public class ConfigItemDao {
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "otrsdb")
 	private EntityManager entityManager;
 
 	/**

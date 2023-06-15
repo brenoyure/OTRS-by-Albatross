@@ -4,20 +4,20 @@ import java.io.Serializable;
 import java.util.List;
 
 import br.albatross.otrs.domain.models.ticket.Service;
+import br.albatross.otrs.domain.models.ticket.Ticket;
 import br.albatross.otrs.domain.services.TicketService;
 import br.albatross.otrs.domain.services.beans.ConfigItemServiceBean;
 import br.albatross.otrs.domain.services.beans.Problema;
-import br.albatross.otrs.domain.services.beans.ValidadorTicketGarantia;
 import br.albatross.otrs.domain.services.garantia.EmailGarantia;
 import br.albatross.otrs.domain.services.garantia.GarantiaService;
-
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.validator.Validator;
+import jakarta.faces.validator.ValidatorException;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +29,9 @@ public class OtrsBean implements Serializable {
 	@Inject
 	private ConfigItemServiceBean service;
 
+	@Getter @Setter
+	private Ticket ticket;
+	
 	@Inject
 	private TicketService ticketService;
 
@@ -39,7 +42,7 @@ public class OtrsBean implements Serializable {
 	private Problema problema = new Problema();
 
 	@Inject
-	private ValidadorTicketGarantia validador;
+	private Validator<Ticket> validador;
 	
 	@Inject
 	private GarantiaService garantiaService;
@@ -54,7 +57,14 @@ public class OtrsBean implements Serializable {
 	}
 
 	public void validarTicket(FacesContext context, UIComponent componente, Object value) {
-		validador.validate(context, componente, (String)value);
+		ticketService.buscarPeloNumeroDoTicket((String) value)
+
+		.ifPresentOrElse(ticketFound -> {
+				setTicket(ticketFound);
+				validador.validate(context, componente, (Ticket)this.ticket);},
+
+		 () -> {
+			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ticket com o Número informado não encontrado.", null));});
 	}
 
 	public void enviarSolicitacaoDeGarantiaPorEmail() {

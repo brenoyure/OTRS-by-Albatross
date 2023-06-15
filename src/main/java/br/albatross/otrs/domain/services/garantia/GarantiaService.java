@@ -14,7 +14,7 @@ public class GarantiaService {
 	@Resource(lookup = "java:jboss/mail/OtrsMailSession")
 	private Session sessaoEmail;
 
-	private static final String EMAIL_FROM     =  "smtp.gmail.com";
+	private static final String EMAIL_FROM     =  "mail.address";
 	private static final String EMAIL_USER     =  "mail.smtp.user";
 	private static final String EMAIL_PASSWORD =  "mail.smtp.pass";
 	
