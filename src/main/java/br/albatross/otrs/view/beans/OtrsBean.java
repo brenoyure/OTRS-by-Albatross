@@ -51,7 +51,7 @@ public class OtrsBean implements Serializable {
 
 	@Inject
 	private FacesContext context;
-
+	
 	public void buscarNumeroDeSeriePeloBm() {
 		service
 			.buscarNumeroDeSeriePorBm(bm)
@@ -72,6 +72,46 @@ public class OtrsBean implements Serializable {
 
 		 () -> {
 			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ticket Não encontrado.", "Ticket não localizado ou ainda não foi definido um serviço para o mesmo."));});
+	}
+
+	public void utilizarTextosProntos() {
+				
+		if (ticket != null) {
+			
+			if (emailGarantia.getBody().contains("Monitor")) {
+				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Monitor Fabricante - Company", ticket.getTicketNumber()));
+				return;
+			}
+			
+			if (emailGarantia.getBody().contains("Mouse")) {
+				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Mouse Fabricante - Company", ticket.getTicketNumber()));
+				return;
+			}
+			
+			else {
+				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Computador Fabricante - Company", ticket.getTicketNumber()));
+				return;
+			}
+			
+		}
+		
+		else {
+			if (emailGarantia.getBody().contains("Monitor")) {
+				emailGarantia.setSubject("Problema Monitor Fabricante - Company");
+				return;
+			}
+			
+			if (emailGarantia.getBody().contains("Mouse")) {
+				emailGarantia.setSubject("Problema Mouse Fabricante - Company");
+				return;
+			}
+			
+			else {
+				emailGarantia.setSubject(("Problema Computador Fabricante - Company"));
+				return;
+			}
+		}
+		
 	}
 
 }

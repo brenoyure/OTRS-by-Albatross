@@ -23,6 +23,10 @@ public class ValidadorTicketGarantia implements Validator<Ticket>, Serializable 
 	@Override
 	public void validate(FacesContext context, UIComponent component, Ticket ticket) throws ValidatorException {
 
+		if (ticket.getService() == null) {
+			throw new ValidatorException(new FacesMessage(SEVERITY_ERROR, "O Serviço do Ticket ainda foi não definido.", "Este problema pode ocorrer no caso de um novo chamado aberto, geralmente via e-mail. Atribua um Serviço para este Ticket e tente novamente."));
+		}
+
 		if (!ticketServiceValidoParaGarantia(ticket)) {
 			invalidTicketServiceValidatorExceptionMessage = new FacesMessage(SEVERITY_ERROR, "O Serviço do Ticket é inválido.", "O Serviço do Ticket informado está como " + ticket.getService().getName() + " que não é um serviço válido para Garantia.");
 			throw new ValidatorException(invalidTicketServiceValidatorExceptionMessage);

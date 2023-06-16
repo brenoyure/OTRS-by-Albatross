@@ -38,12 +38,15 @@
 				    <p:commandButton value="Validar" 
 				    				 process="@this inputText-NumeroDoTicket" update=":mensagens" />
 
-				    <p:outputLabel value="Serviço de Garantia" for="tipo-garantia" />
-				    <p:selectOneRadio id="tipo-garantia" layout="grid" columns="2" required="true" requiredMessage="É obrigatório informar o tipo do Serviço." value="#{otrsBean.emailGarantia.body}">
-				    	<f:selectItems value="#{otrsBean.servicosValidos}" var="garantia" itemLabel="#{garantia.name}" itemValue="#{garantia.name}" />
+				    <p:outputLabel value="Utilizar Textos Prontos (Opcional)" for="tipo-garantia" />
+				    <p:selectOneRadio id="tipo-garantia" layout="grid" columns="2" value="#{otrsBean.emailGarantia.body}" >
+			    		<f:selectItem itemLabel="Mouse - Problema no Scroll" itemValue="Mouse com problema no Scroll." />
+				    	<f:selectItem itemLabel="Monitor - Tela Piscando"      itemValue="Monitor está apresentando erro de tela piscando." />
+				    	<f:selectItem itemLabel="Gabinete - Problema de Bateria" itemValue="Máquina com problema de bateria, é necessário pressionar F1 sempre ao ligar a máquina." />
+				    	<f:selectItem itemLabel="Gabinete - Máquina não liga nem ascende LED" itemValue="Ao Pressionar o botão de Power a máquina não liga, não acendendo nenhum LED." />
 				    </p:selectOneRadio>
-			        <p:commandButton value="Confirmar" 
-				    			 process="@this tipo-garantia" update="inputTextArea-DescricaoProblema" />				    
+			        <p:commandButton value="Utilizar" 
+				    			 process="@this tipo-garantia" actionListener="#{otrsBean.utilizarTextosProntos}" update="inputTextArea-DescricaoProblema inputText-Assunto" />				    
 
 				    <p:outputLabel for="inputText-Assunto" value="Informe o Assunto: " />
 						<p:inputText id="inputText-Assunto" value="#{otrsBean.emailGarantia.subject}" required="true" requiredMessage="Assunto Obrigatória" />
