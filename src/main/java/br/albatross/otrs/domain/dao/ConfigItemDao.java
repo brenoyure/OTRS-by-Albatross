@@ -1,9 +1,9 @@
 package br.albatross.otrs.domain.dao;
 
-import static br.albatross.otrs.domain.models.configitem.ConfigItemVersion_.id;
-import static br.albatross.otrs.domain.models.configitem.ConfigItemVersion_.name;
-import static br.albatross.otrs.domain.models.configitem.XmlStorage_.configItemVersion;
-import static br.albatross.otrs.domain.models.configitem.XmlStorage_.xmlContentKey;
+import static br.albatross.otrs.domain.models.configitem.metamodel.ConfigItemVersion_.id;
+import static br.albatross.otrs.domain.models.configitem.metamodel.ConfigItemVersion_.name;
+import static br.albatross.otrs.domain.models.configitem.metamodel.XmlStorage_.configItemVersion;
+import static br.albatross.otrs.domain.models.configitem.metamodel.XmlStorage_.xmlContentKey;
 
 import java.util.Optional;
 

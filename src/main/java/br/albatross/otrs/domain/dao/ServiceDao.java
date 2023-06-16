@@ -1,6 +1,6 @@
 package br.albatross.otrs.domain.dao;
 
-import static br.albatross.otrs.domain.models.ticket.Service_.id;
+import static br.albatross.otrs.domain.models.ticket.metamodel.Service_.id;
 
 import java.util.List;
 

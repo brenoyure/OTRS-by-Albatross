@@ -1,5 +1,7 @@
-package br.albatross.otrs.domain.models.configitem;
+package br.albatross.otrs.domain.models.configitem.metamodel;
 
+import br.albatross.otrs.domain.models.configitem.ConfigItemVersion;
+import br.albatross.otrs.domain.models.configitem.XmlStorage;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
 
