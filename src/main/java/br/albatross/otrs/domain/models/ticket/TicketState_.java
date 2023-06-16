@@ -1,10 +1,8 @@
-package br.albatross.otrs.domain.models.ticket.metamodel;
+package br.albatross.otrs.domain.models.ticket;
 
 import java.time.LocalDateTime;
 
 import br.albatross.otrs.domain.models.Valid;
-import br.albatross.otrs.domain.models.ticket.TicketState;
-import br.albatross.otrs.domain.models.ticket.TicketStateType;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
 

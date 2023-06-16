@@ -1,9 +1,7 @@
-package br.albatross.otrs.domain.models.configitem.metamodel;
+package br.albatross.otrs.domain.models.configitem;
 
 import java.time.LocalDateTime;
 
-import br.albatross.otrs.domain.models.configitem.ConfigItem;
-import br.albatross.otrs.domain.models.configitem.ConfigItemVersion;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
 
