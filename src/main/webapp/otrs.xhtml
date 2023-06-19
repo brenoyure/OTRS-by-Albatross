@@ -18,7 +18,7 @@
 
 	<p:growl id="mensagens" showDetail="true" skipDetailIfEqualsSummary="true" style="color:red" />
 
-	<h:form>
+	<h:form enctype="multipart/form-data">
 	
 	<p:focus context="panel" />
 
@@ -51,11 +51,16 @@
 				    <p:outputLabel for="inputText-Assunto" value="Informe o Assunto: " />
 						<p:inputText id="inputText-Assunto" value="#{otrsBean.emailGarantia.subject}" required="true" requiredMessage="Assunto Obrigatória" />
 					<br />
-					
+
 				    <p:outputLabel for="inputTextArea-DescricaoProblema" value="Informe a Descrição do Problema" />
 						<p:inputTextarea rows="6" cols="33" id="inputTextArea-DescricaoProblema" value="#{otrsBean.emailGarantia.body}" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
 					<br />
-					
+
+					<p:outputLabel value="Anexar Formulário" for="fileUpload">
+						<h:inputFile id="fileUpload" value="#{otrsBean.uploadedFile}" required="true" />
+						<p:commandButton value="Upload do Formulário" actionListener="#{otrsBean.upload}" process="@this fileUpload" update=":mensagens fileUpload @this" />
+					</p:outputLabel>
+
 					<p:outputLabel for="inputText-EmailRemetente" value="E-mail do Remetente: ">
 						<p:inputText id="inputText-EmailRemetente" type="email" value="#{otrsBean.emailGarantia.to}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." />
 					</p:outputLabel>

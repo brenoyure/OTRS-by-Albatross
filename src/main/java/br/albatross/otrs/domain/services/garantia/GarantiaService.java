@@ -2,11 +2,15 @@ package br.albatross.otrs.domain.services.garantia;
 
 import jakarta.annotation.Resource;
 import jakarta.ejb.Singleton;
+import jakarta.mail.BodyPart;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
+import jakarta.mail.Multipart;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
+import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 
 @Singleton
 public class GarantiaService {
@@ -23,12 +27,20 @@ public class GarantiaService {
 			mensagem.setFrom(email.getFrom());
 			mensagem.setRecipients(Message.RecipientType.TO, email.getTo());
 			mensagem.setSubject(email.getSubject());
-			mensagem.setText(getEmailComAssinatura(email.getBody(), email.getNumeroDeSerie()));
+
+			BodyPart bodyPart = new MimeBodyPart();
+			bodyPart.setFileName(email.getUploadedFile().getName());
+			bodyPart.setText(getEmailComAssinatura(email.getBody(), email.getNumeroDeSerie()));
+
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(bodyPart);
+			mensagem.setContent(multipart);
+			
 			Transport.send(mensagem, EMAIL_USER, EMAIL_PASSWORD);
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 			//TODO Implementar a MSG de Erro no Envio.
-		}
+		} 
 	}
 	
 	private String getEmailComAssinatura(String body, String numeroDeSerie) {

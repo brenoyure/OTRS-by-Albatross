@@ -1,5 +1,7 @@
 package br.albatross.otrs.view.beans;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import jakarta.faces.validator.ValidatorException;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.Part;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -52,10 +55,22 @@ public class OtrsBean implements Serializable {
 	@Inject
 	private FacesContext context;
 	
+	@Getter @Setter
+	private Part uploadedFile;
+
 	public void buscarNumeroDeSeriePeloBm() {
 		service
 			.buscarNumeroDeSeriePorBm(bm)
 			.ifPresent(NdeSerie -> emailGarantia.setNumeroDeSerie(NdeSerie));
+	}
+
+	public void upload() throws IOException {
+		if (uploadedFile != null) {
+			uploadedFile.write("/tmp/" + uploadedFile.getSubmittedFileName());
+			emailGarantia.setUploadedFile(new File("/tmp/" + uploadedFile.getSubmittedFileName()));
+			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_INFO, "Upload de Arquivo", "Upload do arquivo " + uploadedFile.getSubmittedFileName() + " feito com sucesso."));
+		}
+		
 	}
 
 	public void enviarSolicitacaoDeGarantiaPorEmail() {
@@ -75,7 +90,7 @@ public class OtrsBean implements Serializable {
 	}
 
 	public void utilizarTextosProntos() {
-				
+
 		if (ticket != null) {
 			
 			if (emailGarantia.getBody().contains("Monitor")) {
@@ -96,6 +111,7 @@ public class OtrsBean implements Serializable {
 		}
 		
 		else {
+
 			if (emailGarantia.getBody().contains("Monitor")) {
 				emailGarantia.setSubject("Problema Monitor Fabricante - Company");
 				return;
