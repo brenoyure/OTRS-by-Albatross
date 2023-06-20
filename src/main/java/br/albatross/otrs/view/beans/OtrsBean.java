@@ -1,6 +1,5 @@
 package br.albatross.otrs.view.beans;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -57,6 +56,9 @@ public class OtrsBean implements Serializable {
 	
 	@Getter @Setter
 	private Part uploadedFile;
+	
+	@Inject
+	private FormularioGenerator geradorFormulario;
 
 	public void buscarNumeroDeSeriePeloBm() {
 		service
@@ -66,11 +68,11 @@ public class OtrsBean implements Serializable {
 
 	public void upload() throws IOException {
 		if (uploadedFile != null) {
-			uploadedFile.write("/tmp/" + uploadedFile.getSubmittedFileName());
-			emailGarantia.setUploadedFile(new File("/tmp/" + uploadedFile.getSubmittedFileName()));
+			var formulario = geradorFormulario.getFormulario(uploadedFile.getInputStream(), emailGarantia.getNumeroDeSerie(), emailGarantia.getBody());
+			emailGarantia.setUploadedFile(formulario);
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_INFO, "Upload de Arquivo", "Upload do arquivo " + uploadedFile.getSubmittedFileName() + " feito com sucesso."));
 		}
-		
+
 	}
 
 	public void enviarSolicitacaoDeGarantiaPorEmail() {

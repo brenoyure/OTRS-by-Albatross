@@ -1,8 +1,9 @@
 package br.albatross.otrs.domain.services.garantia;
 
+import java.io.IOException;
+
 import jakarta.annotation.Resource;
 import jakarta.ejb.Singleton;
-import jakarta.mail.BodyPart;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
@@ -28,18 +29,22 @@ public class GarantiaService {
 			mensagem.setRecipients(Message.RecipientType.TO, email.getTo());
 			mensagem.setSubject(email.getSubject());
 
-			BodyPart bodyPart = new MimeBodyPart();
-			bodyPart.setFileName(email.getUploadedFile().getName());
-			bodyPart.setText(getEmailComAssinatura(email.getBody(), email.getNumeroDeSerie()));
+			MimeBodyPart attachPart = new MimeBodyPart();
+			attachPart.attachFile(email.getUploadedFile());
 
-			Multipart multipart = new MimeMultipart();
-			multipart.addBodyPart(bodyPart);
+			MimeBodyPart bodyPart = new MimeBodyPart();
+			bodyPart.setText(getEmailComAssinatura(email.getBody(), email.getNumeroDeSerie()), "utf-8");
+
+			Multipart multipart = new MimeMultipart(attachPart, bodyPart);
 			mensagem.setContent(multipart);
-			
+
 			Transport.send(mensagem, EMAIL_USER, EMAIL_PASSWORD);
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 			//TODO Implementar a MSG de Erro no Envio.
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
 		} 
 	}
 	
