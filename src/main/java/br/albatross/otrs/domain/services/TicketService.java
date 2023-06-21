@@ -14,16 +14,16 @@ public class TicketService {
 	@Inject
 	private TicketDao dao;
 
-	public Ticket buscarPeloIdDoTicket(Long id) {
+	public Optional<Ticket> buscarPeloIdDoTicket(Long id) {
 		return dao.findById(id);
-	}
-
-	public List<Ticket> listarTodosOsChamadosAbertosDaFilaNivel1() {
-		return dao.findAllOpenedTicketsForNivel1Queue();
 	}
 
 	public Optional<Ticket> buscarPeloNumeroDoTicket(String numeroDoTicket) {
 		return dao.findByTicketNumber(numeroDoTicket);
+	}
+
+	public List<Ticket> listarTodosOsChamadosAbertosDaFilaNivel1() {
+		return dao.findAllOpenedTicketsForNivel1Queue();
 	}
 
 }

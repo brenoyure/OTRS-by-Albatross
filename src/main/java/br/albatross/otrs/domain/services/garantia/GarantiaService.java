@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import jakarta.annotation.Resource;
 import jakarta.ejb.Singleton;
+import jakarta.inject.Inject;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
@@ -12,17 +13,21 @@ import jakarta.mail.Transport;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+import jakarta.validation.Valid;
 
 @Singleton
 public class GarantiaService {
 
+	@Inject
+	private AssinaturaEmailService assinaturaEmailService;
+
 	@Resource(lookup = "java:jboss/mail/OtrsMailSession")
 	private Session sessaoEmail;
 
-	private static final String EMAIL_USER     =  "mail.smtp.user";
-	private static final String EMAIL_PASSWORD =  "mail.smtp.pass";
-	
-	public void enviarEmail(EmailGarantia email) {
+	private static final String EMAIL_USER      =  "mail.smtp.user";
+	private static final String EMAIL_PASSWORD  =  "mail.smtp.pass";
+
+	public void enviarEmail(@Valid EmailGarantia email) {
 		try {
 			MimeMessage mensagem = new MimeMessage(sessaoEmail);
 			mensagem.setFrom(email.getFrom());
@@ -33,35 +38,21 @@ public class GarantiaService {
 			attachPart.attachFile(email.getUploadedFile());
 
 			MimeBodyPart bodyPart = new MimeBodyPart();
-			bodyPart.setText(getEmailComAssinatura(email.getBody(), email.getNumeroDeSerie()), "utf-8");
+			bodyPart.setText(assinaturaEmailService.getEmailComAssinatura(email.getNumeroDeSerie(), email.getTicket().getResponsibleUser().getLogin(), email.getTicket().getResponsibleUser().getFirstName(), email.getTicket().getResponsibleUser().getLastName()), "utf-8");
 
 			Multipart multipart = new MimeMultipart(attachPart, bodyPart);
 			mensagem.setContent(multipart);
 
 			Transport.send(mensagem, EMAIL_USER, EMAIL_PASSWORD);
-		} catch (MessagingException e) {
+			email.getUploadedFile().delete();
+
+		}  catch (IOException e) {
 			throw new RuntimeException(e);
 			//TODO Implementar a MSG de Erro no Envio.
-		} catch (IOException e) {
+		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException(e);
 		} 
-	}
-	
-	private String getEmailComAssinatura(String body, String numeroDeSerie) {
-		return String.format("""
-Prezados,
-Segue o formulário preenchido para abertura de chamado para o equipamento: %s.
-%s
-				
-Atenciosamente,
---
-Breno Brito 
-Técnico de Suporte Nível 1 
-(55) 4433-2142
-email@albatross.com
-				
-				""", numeroDeSerie, body);
 	}
 	
 }

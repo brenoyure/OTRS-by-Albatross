@@ -2,6 +2,7 @@ package br.albatross.otrs.domain.dao;
 
 import static br.albatross.otrs.domain.models.ticket.TicketState_.ticketStateType;
 import static br.albatross.otrs.domain.models.ticket.Ticket_.queue;
+import static br.albatross.otrs.domain.models.ticket.Ticket_.responsibleUser;
 import static br.albatross.otrs.domain.models.ticket.Ticket_.service;
 import static br.albatross.otrs.domain.models.ticket.Ticket_.ticketState;
 import static br.albatross.otrs.domain.models.ticket.Ticket_.user;
@@ -25,17 +26,28 @@ public class TicketDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	private static final Integer QUEUE_NIVEL_1 = 5;
 
-	public Ticket findById(Long ticketNumber) {
-		var cb = entityManager.getCriteriaBuilder();
-		var cq = cb.createQuery(Ticket.class);
-		var ticket = cq.from(Ticket.class);
+	public Optional<Ticket> findById(Long ticketNumber) {
+		try {
+			var cb = entityManager.getCriteriaBuilder();
+			var cq = cb.createQuery(Ticket.class);
+			var ticket = cq.from(Ticket.class);
 
-		cq.where(cb.equal(ticket.get(Ticket_.ticketNumber), ticketNumber));
+			ticket.fetch(service, JoinType.LEFT);
 
-		return entityManager.createQuery(cq).getSingleResult();
+			ticket
+			    .fetch(ticketState,     JoinType.INNER)
+			    .fetch(ticketStateType, JoinType.INNER);
+
+			ticket.fetch(responsibleUser, JoinType.INNER);
+
+			cq.where(cb.equal(ticket.get(Ticket_.ticketNumber), ticketNumber));
+
+			return Optional.of(entityManager.createQuery(cq).getSingleResult());
+
+		} catch (NoResultException e) {	return empty();	}
 
 	}
 
@@ -50,6 +62,8 @@ public class TicketDao {
 			ticket
 			    .fetch(ticketState,     JoinType.INNER)
 			    .fetch(ticketStateType, JoinType.INNER);
+
+			ticket.fetch(responsibleUser, JoinType.INNER);
 
 			var predicateTicketEqualsToTicketNumber = cb.equal(ticket.get(Ticket_.ticketNumber), ticketNumber);
 

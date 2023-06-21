@@ -11,9 +11,10 @@ import jakarta.inject.Inject;
 import jakarta.jms.JMSConnectionFactory;
 import jakarta.jms.JMSContext;
 import jakarta.jms.Queue;
+import jakarta.validation.Valid;
 
 @Singleton
-public class EmailProducer {
+public class OtrsJMSQueueEmailProducer {
 
 	@Inject @JMSConnectionFactory(value = "java:jboss/DefaultJMSConnectionFactory")
 	private JMSContext context;
@@ -21,7 +22,7 @@ public class EmailProducer {
 	@Resource(mappedName = "java:/jms/queue/OtrsEmailQueue")
 	private Queue queue;
 
-	public void enviarEmailParaAJmsQueue(EmailGarantia email) {
+	public void enviarEmailParaAJmsQueue(@Valid EmailGarantia email) {
 		context.createProducer().send(queue, email);
 	}
 

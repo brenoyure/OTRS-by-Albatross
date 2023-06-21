@@ -34,7 +34,7 @@
 				    <br />
 
    				    <p:outputLabel for="inputText-NumeroDoTicket" value="Nº de Ticket: " />
-				    <p:inputMask id="inputText-NumeroDoTicket" required="true" requiredMessage="Nº de Ticket Obrigatório" validator="#{otrsBean.validarTicket}" value="#{otrsBean.emailGarantia.numeroDeSerie}" mask="9999999999999999" validateMask="true" />
+				    <p:inputMask id="inputText-NumeroDoTicket" required="true" requiredMessage="Nº de Ticket Obrigatório" validator="#{otrsBean.validarTicket}" mask="9999999999999999" validateMask="true" />
 				    <p:commandButton value="Validar" 
 				    				 process="@this inputText-NumeroDoTicket" update=":mensagens" />
 
@@ -56,10 +56,9 @@
 						<p:inputTextarea rows="6" cols="33" id="inputTextArea-DescricaoProblema" value="#{otrsBean.emailGarantia.body}" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
 					<br />
 
-					<p:outputLabel value="Anexar Formulário" for="fileUpload">
+					<p:outputLabel value="Anexar Formulário" for="fileUpload" />
 						<h:inputFile id="fileUpload" value="#{otrsBean.uploadedFile}" required="true" requiredMessage="É Obrigatório submeter o formulário." />
 						<p:commandButton value="Upload do Formulário" actionListener="#{otrsBean.upload}" process="@this fileUpload" update=":mensagens @this" />
-					</p:outputLabel>
 
 					<p:outputLabel for="inputText-EmailRemetente" value="E-mail do Remetente: ">
 						<p:inputText id="inputText-EmailRemetente" type="email" value="#{otrsBean.emailGarantia.to}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." />

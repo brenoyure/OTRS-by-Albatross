@@ -2,6 +2,7 @@ package br.albatross.otrs.domain.models.ticket;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -23,7 +24,9 @@ import lombok.Setter;
 @Entity @Table(name = "ticket_state_type")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
-public class TicketStateType {
+public class TicketStateType implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id @GeneratedValue(strategy = IDENTITY)
 	private Integer id;

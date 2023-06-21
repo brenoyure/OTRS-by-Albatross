@@ -29,16 +29,18 @@ public class FormularioGenerator implements Serializable {
 				xwpfTable.getRow(20).getCell(1).setText(descricaoDoProblema);
 			}
 
-			try (FileOutputStream fos = new FileOutputStream("/tmp/Abertura_de_Chamado_" + numeroDeSerie + "_" + now().getYear() + ".docx")) {
+			var fileName = "/tmp/Abertura_de_Chamado_" + numeroDeSerie + "_" + now().getYear() + ".docx";
+
+			try (FileOutputStream fos = new FileOutputStream(fileName)) {
 				doc.write(fos);
 			}
 
-			return new File("/tmp/Abertura_de_Chamado_" + numeroDeSerie + "_2023.docx");
+			return new File(fileName);
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		
+
 	}
-	
+
 }
