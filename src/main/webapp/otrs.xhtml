@@ -24,13 +24,14 @@
 
 		<p:fieldset legend="OTRS"> 
 				<p:panelGrid columns="3" id="panel">
+
 				    <p:outputLabel for="inputText-BM" value="BM: " />
-				    <p:inputText id="inputText-BM" value="#{otrsBean.bm}" />
-				    <p:commandButton value="Consultar" action="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
-				    				 process="@this inputText-BM" update="inputText-NumeroDeSerie :mensagens" />
+				    	<p:inputText id="inputText-BM" value="#{otrsBean.bm}" />
+				    	<p:commandButton value="Consultar" action="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
+				    				 		process="@this inputText-BM" update="inputText-NumeroDeSerie :mensagens" />
 
 				    <p:outputLabel for="inputText-NumeroDeSerie" value="Nº de Série: " />
-				    <p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.emailGarantia.numeroDeSerie}" />
+				    	<p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.emailGarantia.numeroDeSerie}" />
 				    <br />
 
    				    <p:outputLabel for="inputText-NumeroDoTicket" value="Nº de Ticket: " />
@@ -38,12 +39,13 @@
 				    <p:commandButton value="Validar" 
 				    				 process="@this inputText-NumeroDoTicket" update=":mensagens" />
 
-				    <p:outputLabel value="Utilizar Textos Prontos (Opcional)" for="tipo-garantia" />
+				    <p:outputLabel value="Utilizar Textos Prontos" for="tipo-garantia" />
 				    <p:selectOneRadio id="tipo-garantia" layout="grid" columns="2" value="#{otrsBean.emailGarantia.body}" >
 			    		<f:selectItem itemLabel="Mouse - Problema no Scroll" itemValue="Mouse com problema no Scroll." />
 				    	<f:selectItem itemLabel="Monitor - Tela Piscando"      itemValue="Monitor está apresentando erro de tela piscando." />
 				    	<f:selectItem itemLabel="Gabinete - Problema de Bateria" itemValue="Máquina com problema de bateria, é necessário pressionar F1 sempre ao ligar a máquina." />
 				    	<f:selectItem itemLabel="Gabinete - Máquina não liga nem ascende LED" itemValue="Ao Pressionar o botão de Power a máquina não liga, não acendendo nenhum LED." />
+				    	<f:selectItem itemLabel="Outro" itemValue="Forneça uma Descrição para o Problema." />
 				    </p:selectOneRadio>
 			        <p:commandButton value="Utilizar" 
 				    			 process="@this tipo-garantia" actionListener="#{otrsBean.utilizarTextosProntos}" update=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />				    
@@ -57,8 +59,8 @@
 					<br />
 
 					<p:outputLabel value="Anexar Formulário" for="fileUpload" />
-						<h:inputFile id="fileUpload" value="#{otrsBean.uploadedFile}" required="true" requiredMessage="É Obrigatório submeter o formulário." />
-						<p:commandButton value="Upload do Formulário" actionListener="#{otrsBean.upload}" process="@this fileUpload" update=":mensagens @this" />
+						<h:inputFile id="fileUpload" value="#{otrsBean.uploadedFile}" process="@this" update="@this :mensagens" required="true" requiredMessage="É Obrigatório submeter o formulário." />
+						<p:commandButton value="Upload do Formulário" actionListener="#{otrsBean.upload}" process="@this fileUpload" update=":mensagens" />
 
 					<p:outputLabel for="inputText-EmailRemetente" value="E-mail do Remetente: ">
 						<p:inputText id="inputText-EmailRemetente" type="email" value="#{otrsBean.emailGarantia.to}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." />
@@ -71,8 +73,8 @@
 
 				</p:panelGrid>
 
-			<p:commandButton type="submit" value="Enviar" style="margin-right: 5px; margin-top:10px" actionListener="#{otrsBean.enviarSolicitacaoDeGarantiaPorEmail}" process="@this @form" update=":mensagens" />
-			<p:commandButton type="reset"  value="Limpar" immediate="true" style="margin-top:10px" update=":mensagens" />
+			<p:commandButton type="submit" value="Enviar" process="@this @form" update=":mensagens" actionListener="#{otrsBean.enviarSolicitacaoDeGarantiaPorEmail}" style="margin-right: 5px; margin-top:10px" />
+			<p:commandButton type="reset"  value="Limpar" immediate="true"      update=":mensagens" style="margin-top:10px" />
 
 		</p:fieldset>
 

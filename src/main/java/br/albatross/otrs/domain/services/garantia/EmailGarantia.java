@@ -23,7 +23,7 @@ public class EmailGarantia implements Serializable {
 	@NotBlank
 	private String subject;
 
-	@NotBlank
+	@NotBlank(message = "Descrição do Problema não pode ficar em branco.")
 	private String body;
 
 	@NotBlank

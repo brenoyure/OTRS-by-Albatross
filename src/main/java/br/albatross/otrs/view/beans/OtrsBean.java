@@ -63,7 +63,7 @@ public class OtrsBean implements Serializable {
 	private AssinaturaEmailService assinaturaEmailService;
 	
 	private boolean solicitacaoGarantiaJaEfetuada = false;
-
+	
 	public void buscarNumeroDeSeriePeloBm() {
 		service
 			.buscarNumeroDeSeriePorBm(bm)
@@ -82,30 +82,34 @@ public class OtrsBean implements Serializable {
 						throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ticket Não encontrado.", "Ticket não localizado ou ainda não foi definido um serviço para o mesmo."));});
 	}
 
-	public void upload() throws IOException {
-		if (uploadedFile != null) {
-			var formulario = geradorFormulario.getFormulario(uploadedFile.getInputStream(), emailGarantia.getNumeroDeSerie(), emailGarantia.getBody());
-			emailGarantia.setUploadedFile(formulario);
-			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_INFO, "Upload de Arquivo", "Upload do arquivo " + uploadedFile.getSubmittedFileName() + " feito com sucesso."));
+	public void upload() {
+		if (uploadedFile == null) {
+			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Formulário Não Submetido", "Submeta um arquivo de formulário e tente novamente"));
+			return;
 		}
 
+		context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_INFO, "Upload de Arquivo", "Upload do arquivo " + uploadedFile.getSubmittedFileName() + " feito com sucesso."));
 	}
 
 	public void utilizarTextosProntos() {
-		assuntoEmailService.setAssuntoDoEmail(emailGarantia);
+		if (emailGarantia.getTicket() != null) {
+			assuntoEmailService.setAssuntoDoEmail(emailGarantia);
+		}
 	}
 
-	public void enviarSolicitacaoDeGarantiaPorEmail() {
+	public void enviarSolicitacaoDeGarantiaPorEmail() throws IOException {
 
 		if (solicitacaoGarantiaJaEfetuada) {
-			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Solicitação de Garantia Já Realizada.", ""));
+			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Solicitação de Garantia Já Realizada.", null));
 			return;
 		}
 
 		try {
+			var formulario = geradorFormulario.getFormulario(uploadedFile.getInputStream(), emailGarantia.getNumeroDeSerie(), emailGarantia.getBody());
+			emailGarantia.setUploadedFile(formulario);
 			emailGarantiaService.enviarSolicitacaoDeGarantiaParaFilaDeEnvios(emailGarantia);
 			solicitacaoGarantiaJaEfetuada = true;
-			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_INFO, "E-mail enviado com sucesso.", null));
+			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_INFO, "E-mail despachado para fila de envios", "E-mail despachado para a fila de envios e logo será enviado."));
 		} catch (ConstraintViolationException e) {
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getLocalizedMessage(), e.getMessage()));
 		}
