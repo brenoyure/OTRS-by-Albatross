@@ -5,9 +5,8 @@ import jakarta.enterprise.context.RequestScoped;
 @RequestScoped
 public class AssinaturaEmailService {
 
-	public String getEmailComAssinatura(String numeroDeSerie, String login, String firstName, String lastName) {
+	public String getCorpoDoEmailComAssinatura(String numeroDeSerie, String login, String firstName, String lastName) {
 		return String.format("""
-
 Prezados,
 Segue o formulário preenchido para abertura de chamado para o equipamento: %s.
 

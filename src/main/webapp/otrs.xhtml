@@ -46,7 +46,7 @@
 				    	<f:selectItem itemLabel="Gabinete - Máquina não liga nem ascende LED" itemValue="Ao Pressionar o botão de Power a máquina não liga, não acendendo nenhum LED." />
 				    </p:selectOneRadio>
 			        <p:commandButton value="Utilizar" 
-				    			 process="@this tipo-garantia" actionListener="#{otrsBean.utilizarTextosProntos}" update="inputTextArea-DescricaoProblema inputText-Assunto" />				    
+				    			 process="@this tipo-garantia" actionListener="#{otrsBean.utilizarTextosProntos}" update=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />				    
 
 				    <p:outputLabel for="inputText-Assunto" value="Informe o Assunto: " />
 						<p:inputText id="inputText-Assunto" value="#{otrsBean.emailGarantia.subject}" required="true" requiredMessage="Assunto Obrigatória" />

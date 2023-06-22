@@ -38,7 +38,7 @@ public class GarantiaService {
 			attachPart.attachFile(email.getUploadedFile());
 
 			MimeBodyPart bodyPart = new MimeBodyPart();
-			bodyPart.setText(assinaturaEmailService.getEmailComAssinatura(email.getNumeroDeSerie(), email.getTicket().getResponsibleUser().getLogin(), email.getTicket().getResponsibleUser().getFirstName(), email.getTicket().getResponsibleUser().getLastName()), "utf-8");
+			bodyPart.setText(assinaturaEmailService.getCorpoDoEmailComAssinatura(email.getNumeroDeSerie(), email.getTicket().getResponsibleUser().getLogin(), email.getTicket().getResponsibleUser().getFirstName(), email.getTicket().getResponsibleUser().getLastName()), "utf-8");
 
 			Multipart multipart = new MimeMultipart(attachPart, bodyPart);
 			mensagem.setContent(multipart);

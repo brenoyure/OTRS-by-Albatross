@@ -1,4 +1,4 @@
-package br.albatross.otrs.view.beans;
+package br.albatross.otrs.domain.services.garantia;
 
 import static java.time.LocalDate.now;
 

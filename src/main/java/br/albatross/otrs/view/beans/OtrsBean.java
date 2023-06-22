@@ -7,7 +7,10 @@ import br.albatross.otrs.domain.models.ticket.Ticket;
 import br.albatross.otrs.domain.services.EmailGarantiaService;
 import br.albatross.otrs.domain.services.TicketService;
 import br.albatross.otrs.domain.services.beans.ConfigItemServiceBean;
+import br.albatross.otrs.domain.services.garantia.AssinaturaEmailService;
+import br.albatross.otrs.domain.services.garantia.AssuntoEmailService;
 import br.albatross.otrs.domain.services.garantia.EmailGarantia;
+import br.albatross.otrs.domain.services.garantia.FormularioGenerator;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -29,9 +32,6 @@ public class OtrsBean implements Serializable {
 	@Inject
 	private ConfigItemServiceBean service;
 
-	@Getter @Setter
-	private Ticket ticket;
-	
 	@Getter @Setter
 	private String bm;
 
@@ -55,6 +55,14 @@ public class OtrsBean implements Serializable {
 
 	@Inject
 	private FormularioGenerator geradorFormulario;
+	
+	@Inject
+	private AssuntoEmailService assuntoEmailService;
+	
+	@Inject
+	private AssinaturaEmailService assinaturaEmailService;
+	
+	private boolean solicitacaoGarantiaJaEfetuada = false;
 
 	public void buscarNumeroDeSeriePeloBm() {
 		service
@@ -67,8 +75,8 @@ public class OtrsBean implements Serializable {
 		ticketService.buscarPeloNumeroDoTicket((String) value)
 
 		.ifPresentOrElse(ticketFound -> {
-				setTicket(ticketFound);
-				validador.validate(context, componente, (Ticket)this.ticket);},
+				emailGarantia.setTicket(ticketFound);
+				validador.validate(context, componente, (Ticket)emailGarantia.getTicket());},
 
 				 () -> {
 						throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ticket Não encontrado.", "Ticket não localizado ou ainda não foi definido um serviço para o mesmo."));});
@@ -83,10 +91,20 @@ public class OtrsBean implements Serializable {
 
 	}
 
+	public void utilizarTextosProntos() {
+		assuntoEmailService.setAssuntoDoEmail(emailGarantia);
+	}
+
 	public void enviarSolicitacaoDeGarantiaPorEmail() {
+
+		if (solicitacaoGarantiaJaEfetuada) {
+			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Solicitação de Garantia Já Realizada.", ""));
+			return;
+		}
+
 		try {
-			emailGarantia.setTicket(ticket);
 			emailGarantiaService.enviarSolicitacaoDeGarantiaParaFilaDeEnvios(emailGarantia);
+			solicitacaoGarantiaJaEfetuada = true;
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_INFO, "E-mail enviado com sucesso.", null));
 		} catch (ConstraintViolationException e) {
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getLocalizedMessage(), e.getMessage()));
@@ -94,45 +112,5 @@ public class OtrsBean implements Serializable {
 
 	}
 
-	public void utilizarTextosProntos() {
-
-		if (ticket != null) {
-			
-			if (emailGarantia.getBody().contains("Monitor")) {
-				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Monitor Fabricante - Company", ticket.getTicketNumber()));
-				return;
-			}
-			
-			if (emailGarantia.getBody().contains("Mouse")) {
-				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Mouse Fabricante - Company", ticket.getTicketNumber()));
-				return;
-			}
-			
-			else {
-				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Computador Fabricante - Company", ticket.getTicketNumber()));
-				return;
-			}
-			
-		}
-		
-		else {
-
-			if (emailGarantia.getBody().contains("Monitor")) {
-				emailGarantia.setSubject("Problema Monitor Fabricante - Company");
-				return;
-			}
-			
-			if (emailGarantia.getBody().contains("Mouse")) {
-				emailGarantia.setSubject("Problema Mouse Fabricante - Company");
-				return;
-			}
-			
-			else {
-				emailGarantia.setSubject(("Problema Computador Fabricante - Company"));
-				return;
-			}
-		}
-		
-	}
-
 }
+
