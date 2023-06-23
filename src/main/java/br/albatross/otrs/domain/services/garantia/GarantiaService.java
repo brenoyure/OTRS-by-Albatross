@@ -3,7 +3,7 @@ package br.albatross.otrs.domain.services.garantia;
 import java.io.IOException;
 
 import jakarta.annotation.Resource;
-import jakarta.ejb.Singleton;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -15,7 +15,7 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.validation.Valid;
 
-@Singleton
+@Stateless
 public class GarantiaService {
 
 	@Inject
@@ -43,7 +43,7 @@ public class GarantiaService {
 			Multipart multipart = new MimeMultipart(attachPart, bodyPart);
 			mensagem.setContent(multipart);
 
-			Transport.send(mensagem, EMAIL_USER, EMAIL_PASSWORD);
+			Transport.send(mensagem, sessaoEmail.getProperty(EMAIL_USER), sessaoEmail.getProperty(EMAIL_PASSWORD));
 			email.getUploadedFile().delete();
 
 		}  catch (IOException e) {

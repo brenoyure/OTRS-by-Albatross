@@ -59,15 +59,17 @@
 					<br />
 
 					<p:outputLabel value="Anexar Formulário" for="fileUpload" />
-						<h:inputFile id="fileUpload" value="#{otrsBean.uploadedFile}" process="@this" update="@this :mensagens" required="true" requiredMessage="É Obrigatório submeter o formulário." />
-						<p:commandButton value="Upload do Formulário" actionListener="#{otrsBean.upload}" process="@this fileUpload" update=":mensagens" />
+						<h:inputFile id="fileUpload" value="#{otrsBean.uploadedFile}" required="true" requiredMessage="É Obrigatório submeter o formulário." >
+							<f:ajax execute="@this" render=":mensagens" />
+						</h:inputFile>
+					<br />
 
 					<p:outputLabel for="inputText-EmailRemetente" value="E-mail do Remetente: ">
-						<p:inputText id="inputText-EmailRemetente" type="email" value="#{otrsBean.emailGarantia.to}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." />
+						<p:inputText id="inputText-EmailRemetente" type="email" value="#{otrsBean.emailGarantia.from}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." />
 					</p:outputLabel>
 
 					<p:outputLabel for="inputText-EmailDestino" value="E-mail Destino: ">
-						<p:inputText id="inputText-EmailDestino" type="email" value="#{otrsBean.emailGarantia.from}" required="true" requiredMessage="E-mail de Destino Obrigatório." />
+						<p:inputText id="inputText-EmailDestino" type="email" value="#{otrsBean.emailGarantia.to}" required="true" requiredMessage="E-mail de Destino Obrigatório." />
 					</p:outputLabel>
 
 

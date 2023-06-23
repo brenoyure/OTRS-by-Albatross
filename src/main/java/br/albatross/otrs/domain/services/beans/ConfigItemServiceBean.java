@@ -5,12 +5,12 @@ import static java.util.Optional.empty;
 import java.util.Optional;
 
 import br.albatross.otrs.domain.services.ConfigItemService;
-import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 
-@Stateless
+@RequestScoped
 public class ConfigItemServiceBean {
 
 	@Inject

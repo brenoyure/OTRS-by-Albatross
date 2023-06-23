@@ -5,26 +5,31 @@ import jakarta.enterprise.context.RequestScoped;
 @RequestScoped
 public class AssuntoEmailService {
 
+	private static final int GARANTIA_MOUSE_DATEN    =  221;
+	private static final int GARANTIA_MONITOR_DATEN  =  222;
+	private static final int GARANTIA_TECLADO_DATEN  =  223;
+	private static final int GARANTIA_GABINETE_DATEN =  224;
+
 	public void setAssuntoDoEmail(EmailGarantia emailGarantia) {
 
-		switch (emailGarantia.getTicket().getService().getName()) {
+		switch (emailGarantia.getTicket().getService().getId()) {
 		
-			case "Garantia DATEN::Monitor DATEN": {
+			case GARANTIA_MONITOR_DATEN: {
 				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Monitor Fabricante - Company", emailGarantia.getTicket().getTicketNumber()));
 				break;
 			}
 
-			case "Garantia DATEN::Mouse DATEN": {
+			case GARANTIA_MOUSE_DATEN: {
 				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Mouse Fabricante - Company", emailGarantia.getTicket().getTicketNumber()));
 				break;
 			}
 
-			case "Garantia DATEN::Gabinete DATEN": {
+			case GARANTIA_GABINETE_DATEN: {
 				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Computador Fabricante - Company", emailGarantia.getTicket().getTicketNumber()));
 				break;
 			}
 
-			case "Garantia DATEN::Teclado DATEN": {
+			case GARANTIA_TECLADO_DATEN: {
 				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Teclado Fabricante - Company", emailGarantia.getTicket().getTicketNumber()));
 				break;
 			}
