@@ -56,13 +56,13 @@ public class OtrsBean implements Serializable {
 
 	@Inject
 	private FormularioGenerator geradorFormulario;
-	
+
 	@Inject
 	private AssuntoEmailService assuntoEmailService;
-	
+
 	@Inject
 	private AssinaturaEmailService assinaturaEmailService;
-	
+
 	private boolean solicitacaoGarantiaJaEfetuada = false;
 	
 	public void buscarNumeroDeSeriePeloBm() {
@@ -76,9 +76,8 @@ public class OtrsBean implements Serializable {
 		ticketService.buscarPeloNumeroDoTicket((String) value)
 
 		.ifPresentOrElse(ticketFound -> {
-				emailGarantia.setTicket(ticketFound);
-				validador.validate(context, componente, (Ticket)emailGarantia.getTicket());},
-
+			validador.validate(context, componente, (Ticket)ticketFound);	
+			emailGarantia.setTicket(ticketFound);},
 				 () -> {
 						throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ticket Não encontrado.", "Ticket não localizado ou ainda não foi definido um serviço para o mesmo."));});
 	}
@@ -103,7 +102,7 @@ public class OtrsBean implements Serializable {
 			solicitacaoGarantiaJaEfetuada = true;
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_INFO, "E-mail despachado para fila de envios", "E-mail despachado para a fila de envios e logo será enviado."));
 
-		}   catch (NoSuchFileException e) {
+		}   catch (NullPointerException | NoSuchFileException e) {
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Formulário Não Submetido", "Submeta um arquivo de formulário e tente novamente"));
 		}		
 		    catch (ConstraintViolationException e) {

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 
 import br.albatross.otrs.domain.models.ticket.Ticket;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -26,7 +27,7 @@ public class EmailGarantia implements Serializable {
 	@NotBlank(message = "Descrição do Problema não pode ficar em branco.")
 	private String body;
 
-	@NotBlank
+	@NotBlank @Email
 	private String from;
 
 	@NotBlank

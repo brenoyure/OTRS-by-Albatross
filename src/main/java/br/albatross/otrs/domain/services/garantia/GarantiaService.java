@@ -10,6 +10,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.Multipart;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
@@ -24,14 +25,11 @@ public class GarantiaService {
 	@Resource(lookup = "java:jboss/mail/OtrsMailSession")
 	private Session sessaoEmail;
 
-	private static final String EMAIL_USER      =  "mail.smtp.user";
-	private static final String EMAIL_PASSWORD  =  "mail.smtp.pass";
-
 	public void enviarEmail(@Valid EmailGarantia email) {
 		try {
 			MimeMessage mensagem = new MimeMessage(sessaoEmail);
 			mensagem.setFrom(email.getFrom());
-			mensagem.setRecipients(Message.RecipientType.TO, email.getTo());
+			mensagem.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email.getTo()));
 			mensagem.setSubject(email.getSubject());
 
 			MimeBodyPart attachPart = new MimeBodyPart();
@@ -43,7 +41,8 @@ public class GarantiaService {
 			Multipart multipart = new MimeMultipart(attachPart, bodyPart);
 			mensagem.setContent(multipart);
 
-			Transport.send(mensagem, sessaoEmail.getProperty(EMAIL_USER), sessaoEmail.getProperty(EMAIL_PASSWORD));
+			Transport.send(mensagem);
+
 			email.getUploadedFile().delete();
 
 		}  catch (IOException e) {
@@ -56,3 +55,9 @@ public class GarantiaService {
 	}
 	
 }
+
+
+
+
+//private static final String EMAIL_USER      =  "mail.smtp.user";
+//private static final String EMAIL_PASSWORD  =  "mail.smtp.pass";

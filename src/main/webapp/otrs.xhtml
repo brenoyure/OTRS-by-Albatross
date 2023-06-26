@@ -60,7 +60,7 @@
 
 					<p:outputLabel value="Anexar Formulário" for="fileUpload" />
 						<h:inputFile id="fileUpload" value="#{otrsBean.uploadedFile}" required="true" requiredMessage="É Obrigatório submeter o formulário." >
-							<f:ajax execute="@this" render=":mensagens" />
+							<f:ajax execute="@this fileUpload" render=":mensagens" />
 						</h:inputFile>
 					<br />
 
