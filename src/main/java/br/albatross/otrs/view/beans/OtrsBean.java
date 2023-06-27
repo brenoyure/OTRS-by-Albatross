@@ -3,11 +3,14 @@ package br.albatross.otrs.view.beans;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.NoSuchFileException;
+import java.util.List;
 
 import br.albatross.otrs.domain.models.ticket.Ticket;
 import br.albatross.otrs.domain.services.EmailGarantiaService;
 import br.albatross.otrs.domain.services.TicketService;
 import br.albatross.otrs.domain.services.beans.ConfigItemServiceBean;
+import br.albatross.otrs.domain.services.beans.DescricaoProblema;
+import br.albatross.otrs.domain.services.beans.TextosProntosService;
 import br.albatross.otrs.domain.services.garantia.AssinaturaEmailService;
 import br.albatross.otrs.domain.services.garantia.AssuntoEmailService;
 import br.albatross.otrs.domain.services.garantia.EmailGarantia;
@@ -62,8 +65,14 @@ public class OtrsBean implements Serializable {
 
 	@Inject
 	private AssinaturaEmailService assinaturaEmailService;
+	
+	@Inject
+	private TextosProntosService textosProntosService;
 
 	private boolean solicitacaoGarantiaJaEfetuada = false;
+
+	@Inject @Getter
+	private List<DescricaoProblema> listaDeProblemas;
 	
 	public void buscarNumeroDeSeriePeloBm() {
 		service

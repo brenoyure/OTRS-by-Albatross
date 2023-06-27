@@ -11,7 +11,7 @@ import jakarta.persistence.PersistenceContext;
 @Stateless
 public class QueueDao {
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "otrsdb")
 	private EntityManager entityManager;
 
 	public List<Queue> findAll() {

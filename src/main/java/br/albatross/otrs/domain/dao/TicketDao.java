@@ -24,7 +24,7 @@ import jakarta.persistence.criteria.JoinType;
 @Stateless
 public class TicketDao {
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "otrsdb")
 	private EntityManager entityManager;
 
 	private static final Integer QUEUE_NIVEL_1 = 5;

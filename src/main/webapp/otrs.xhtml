@@ -41,11 +41,7 @@
 
 				    <p:outputLabel value="Utilizar Textos Prontos" for="tipo-garantia" />
 				    <p:selectOneRadio id="tipo-garantia" layout="grid" columns="2" value="#{otrsBean.emailGarantia.body}" >
-			    		<f:selectItem itemLabel="Mouse - Problema no Scroll" itemValue="Mouse com problema no Scroll." />
-				    	<f:selectItem itemLabel="Monitor - Tela Piscando"      itemValue="Monitor está apresentando erro de tela piscando." />
-				    	<f:selectItem itemLabel="Gabinete - Problema de Bateria" itemValue="Máquina com problema de bateria, é necessário pressionar F1 sempre ao ligar a máquina." />
-				    	<f:selectItem itemLabel="Gabinete - Máquina não liga nem ascende LED" itemValue="Ao Pressionar o botão de Power a máquina não liga, não acendendo nenhum LED." />
-				    	<f:selectItem itemLabel="Outro" itemValue="Forneça uma Descrição para o Problema." />
+				    	<f:selectItems var="problema" value="#{otrsBean.listaDeProblemas}" itemLabel="#{problema.descricaoResumida}" itemDescription="#{problema.descricaoDetalhada}" itemValue="#{problema.descricaoDetalhada}" />
 				    </p:selectOneRadio>
 			        <p:commandButton value="Utilizar" 
 				    			 process="@this tipo-garantia" actionListener="#{otrsBean.utilizarTextosProntos}" update=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />				    

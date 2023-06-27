@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>
+		Problemas
+	</title>
+</h:head>
+
+<h:body>
+
+	<p:growl id="mensagens" showDetail="true" skipDetailIfEqualsSummary="true" style="color:red" />
+	
+	<h:form id="formulario-cadastro-tipo">
+		<p:focus context="panel" />
+	
+			<p:fieldset legend="Problemas">
+				<p:panelGrid columns="2" id="panel">
+	
+					<p:outputLabel value="Informe o Tipo do Problema" />
+						<p:inputText value="#{problemasBean.problema.tipo}" />
+				</p:panelGrid>
+	
+				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvar}" process="@form" update=":mensagens :formulario-tabela-problemas:tabela-problemas" style="margin-right: 5px; margin-top:10px" />
+				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
+				
+			</p:fieldset>
+	</h:form>
+
+	<h:form id="formulario-tabela-problemas" >
+		<p:dataTable id="tabela-problemas" value="#{problemasBean.descricaoProblemas}" var="problema">
+			<p:column headerText="Tipo do Problema" >
+				<p:outputLabel value="#{problema.problema.tipo}" />
+			</p:column>
+
+			<p:column headerText="Descrição Resumida" >
+				<p:outputLabel value="#{problema.descricaoResumida}" />
+			</p:column>
+			
+			<p:column headerText="Descrição Detalhada" >
+				<p:outputLabel value="#{problema.descricaoDetalhada}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+
+</h:body>
+
+</html>
