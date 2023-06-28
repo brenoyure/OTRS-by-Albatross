@@ -33,19 +33,22 @@
 
 				    <p:outputLabel for="inputText-BM" value="BM: " />
 				    	<p:inputText id="inputText-BM" value="#{otrsBean.bm}" />
-				    	<p:commandButton value="Consultar" action="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
+				    	<p:commandButton value="Consultar" actionListener="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
 				    				 		process="@this inputText-BM" update="inputText-NumeroDeSerie :mensagens" />
 
 				    <p:outputLabel for="inputText-NumeroDeSerie" value="Nº de Série: " />
 				    	<p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.emailGarantia.numeroDeSerie}" />
 				    <br />
 
-   				    <p:outputLabel for="inputText-NumeroDoTicket" value="Nº de Ticket: " />
-					    <p:inputMask id="inputText-NumeroDoTicket" required="true" requiredMessage="Nº de Ticket Obrigatório" validator="#{otrsBean.validarTicket}" mask="9999999999999999" validateMask="true" >
-							<f:ajax event="blur" execute="@this" render=":mensagens" />					    	
-					    </p:inputMask>
+   				    <p:outputLabel for="selectOne-Ticket" value="Nº de Ticket: " />
+					    <h:selectOneMenu id="selectOne-Ticket" value="#{otrsBean.emailGarantia.ticket}" required="true" requiredMessage="Ticket Obrigatório" converter="ticketConverter" validator="#{otrsBean.validarTicket}" >
+					    	<f:selectItems value="#{otrsBean.ticketsAbertosNivel1}" var="ticket" itemLabel="Nº: #{ticket.ticketNumber} | Serviço: #{ticket.service.name} | Resp: #{ticket.responsibleUser.login}" itemValue="#{ticket}" />
+							<f:ajax event="focus"  execute="@this" render=":mensagens inputText-Assunto" />
+							<f:ajax event="change" execute="@this" render=":mensagens inputText-Assunto" />
+							<f:ajax event="click"  execute="@this" render=":mensagens inputText-Assunto" />
+					    </h:selectOneMenu>
 					    <p:commandButton value="Validar" 
-					    				 process="@this inputText-NumeroDoTicket" update=":mensagens" />
+					    				 process="@this selectOne-Ticket" update=":mensagens inputText-Assunto" />
 
 				    <p:outputLabel value="Utilizar Textos Prontos" for="tipo-garantia" />
 				    <p:outputLabel value="Nenhum Texto Pronto Cadastrado" rendered="#{empty otrsBean.listaDeProblemas}" /> <p:divider rendered="#{empty otrsBean.listaDeProblemas}" />

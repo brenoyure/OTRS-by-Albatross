@@ -5,12 +5,13 @@ import java.io.Serializable;
 import java.nio.file.NoSuchFileException;
 import java.util.List;
 
+import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
+
 import br.albatross.otrs.domain.models.ticket.Ticket;
 import br.albatross.otrs.domain.services.EmailGarantiaService;
 import br.albatross.otrs.domain.services.TicketService;
 import br.albatross.otrs.domain.services.beans.ConfigItemServiceBean;
 import br.albatross.otrs.domain.services.beans.DescricaoProblema;
-import br.albatross.otrs.domain.services.beans.TextosProntosService;
 import br.albatross.otrs.domain.services.garantia.AssinaturaEmailService;
 import br.albatross.otrs.domain.services.garantia.AssuntoEmailService;
 import br.albatross.otrs.domain.services.garantia.EmailGarantia;
@@ -19,7 +20,6 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.validator.Validator;
-import jakarta.faces.validator.ValidatorException;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -48,6 +48,9 @@ public class OtrsBean implements Serializable {
 	@Inject
 	private Validator<Ticket> validador;
 
+	@Inject @Getter
+	private List<Ticket> ticketsAbertosNivel1;
+
 	@Inject
 	private EmailGarantiaService emailGarantiaService;
 
@@ -66,9 +69,6 @@ public class OtrsBean implements Serializable {
 	@Inject
 	private AssinaturaEmailService assinaturaEmailService;
 	
-	@Inject
-	private TextosProntosService textosProntosService;
-
 	private boolean solicitacaoGarantiaJaEfetuada = false;
 
 	@Inject @Getter
@@ -81,13 +81,9 @@ public class OtrsBean implements Serializable {
 	}
 
 	public void validarTicket(FacesContext context, UIComponent componente, Object value) {
-		ticketService.buscarPeloNumeroDoTicket((String) value)
-
-		.ifPresentOrElse(ticketFound -> {
-			validador.validate(context, componente, (Ticket)ticketFound);	
-			emailGarantia.setTicket(ticketFound);},
-				 () -> {
-						throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ticket Não encontrado.", "Ticket não localizado ou ainda não foi definido um serviço para o mesmo."));});
+		validador.validate(context, componente, (Ticket) value);
+		emailGarantia.setTicket((Ticket) value);
+		utilizarTextosProntos();
 	}
 
 	public void utilizarTextosProntos() {
@@ -114,8 +110,9 @@ public class OtrsBean implements Serializable {
 
 		}   catch (NullPointerException | NoSuchFileException e) {
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Formulário Não Submetido", "Submeta um arquivo de formulário e tente novamente"));
-		}		
-		    catch (ConstraintViolationException e) {
+		}	catch (NotOfficeXmlFileException e) {
+			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Arquivo Inválido", "Arquivo submetido não é um formulário válido."));
+		}   catch (ConstraintViolationException e) {
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getLocalizedMessage(), e.getMessage()));
 		}
 

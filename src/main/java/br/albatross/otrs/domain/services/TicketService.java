@@ -6,6 +6,8 @@ import java.util.Optional;
 import br.albatross.otrs.domain.dao.TicketDao;
 import br.albatross.otrs.domain.models.ticket.Ticket;
 import jakarta.ejb.Stateless;
+import jakarta.enterprise.inject.Produces;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 
 @Stateless
@@ -22,6 +24,7 @@ public class TicketService {
 		return dao.findByTicketNumber(numeroDoTicket);
 	}
 
+	@Produces @ViewScoped
 	public List<Ticket> listarTodosOsChamadosAbertosDaFilaNivel1() {
 		return dao.findAllOpenedTicketsForNivel1Queue();
 	}

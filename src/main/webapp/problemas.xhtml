@@ -61,19 +61,22 @@
 	</h:form>
 
 	<h:form id="formulario-tabela-problemas" rendered="#{not empty problemasBean.descricaoProblemas}" >
-		<p:dataTable id="tabela-problemas" value="#{problemasBean.descricaoProblemas}" var="problema">
-			<p:column headerText="Tipo do Problema" >
-				<p:outputLabel value="#{problema.problema.tipo}" />
-			</p:column>
-
-			<p:column headerText="Descrição Resumida" >
-				<p:outputLabel value="#{problema.descricaoResumida}" />
-			</p:column>
-			
-			<p:column headerText="Descrição Detalhada" >
-				<p:outputLabel value="#{problema.descricaoDetalhada}" />
-			</p:column>
-		</p:dataTable>
+		
+		<p:fieldset legend="Textos Prontos">
+			<p:dataTable id="tabela-problemas" value="#{problemasBean.descricaoProblemas}" var="problema" >
+				<p:column headerText="Tipo do Problema" >
+					<p:outputLabel value="#{problema.problema.tipo}" />
+				</p:column>
+	
+				<p:column headerText="Descrição Resumida" >
+					<p:outputLabel value="#{problema.descricaoResumida}" />
+				</p:column>
+				
+				<p:column headerText="Descrição Detalhada" >
+					<p:outputLabel value="#{problema.descricaoDetalhada}" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
 	</h:form>
 
 </h:body>

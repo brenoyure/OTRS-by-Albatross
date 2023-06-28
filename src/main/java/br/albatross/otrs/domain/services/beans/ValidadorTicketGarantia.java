@@ -35,9 +35,9 @@ public class ValidadorTicketGarantia implements Validator<Ticket>, Serializable 
 		if (!ticketEstaAberto(ticket)) {
 			throw new ValidatorException(new FacesMessage(SEVERITY_ERROR, "Ticket já fechado.", "O Ticket informado já está fechado."));
 		}
-
-		validTicketFoundValidatorMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ticket Validado com Sucesso.", ticket.getService().getName());
-		context.addMessage("otrs", validTicketFoundValidatorMessage);
+//
+//		validTicketFoundValidatorMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ticket Validado com Sucesso.", ticket.getService().getName());
+//		context.addMessage("otrs", validTicketFoundValidatorMessage);
 
 	}
 

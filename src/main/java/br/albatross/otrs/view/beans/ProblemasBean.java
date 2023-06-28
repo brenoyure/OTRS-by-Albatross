@@ -27,26 +27,26 @@ public class ProblemasBean implements Serializable {
 	@Inject
 	private DescricaoProblemaDao descricaoDao;
 
-	@PostConstruct
-	void init() {
-		problemas = dao.findAll();
-		descricaoProblemas = descricaoDao.findAll();
-	}
-
 	@Getter
 	private List<Problema> problemas;
-	
+
 	@Getter
 	private List<DescricaoProblema> descricaoProblemas;
 
 	@Getter @Setter
 	private Problema problema = new Problema();
 
+	@Getter @Setter
+	private DescricaoProblema descricaoProblema = new DescricaoProblema();
+
 	@Inject
 	private FacesContext context;
 
-	@Getter @Setter
-	private DescricaoProblema descricaoProblema = new DescricaoProblema();
+	@PostConstruct
+	void init() {
+		problemas = dao.findAll();
+		descricaoProblemas = descricaoDao.findAll();
+	}
 
 	public void salvarProblema() {
 		dao.persist(problema);
