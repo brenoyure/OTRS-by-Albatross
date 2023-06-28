@@ -16,6 +16,12 @@
 
 <h:body>
 
+	<h:form style="margin:10px 0 10px 0">
+		<p:menuButton value="Navegação" >
+			<p:menuitem value="Problemas - Textos Prontos" action="problemas?faces-redirect=true"  immediate="true" update="@all" />
+		</p:menuButton>
+	</h:form>
+
 	<p:growl id="mensagens" showDetail="true" skipDetailIfEqualsSummary="true" style="color:red" />
 
 	<h:form enctype="multipart/form-data">
@@ -35,15 +41,20 @@
 				    <br />
 
    				    <p:outputLabel for="inputText-NumeroDoTicket" value="Nº de Ticket: " />
-				    <p:inputMask id="inputText-NumeroDoTicket" required="true" requiredMessage="Nº de Ticket Obrigatório" validator="#{otrsBean.validarTicket}" mask="9999999999999999" validateMask="true" />
-				    <p:commandButton value="Validar" 
-				    				 process="@this inputText-NumeroDoTicket" update=":mensagens" />
+					    <p:inputMask id="inputText-NumeroDoTicket" required="true" requiredMessage="Nº de Ticket Obrigatório" validator="#{otrsBean.validarTicket}" mask="9999999999999999" validateMask="true" >
+							<f:ajax event="blur" execute="@this" render=":mensagens" />					    	
+					    </p:inputMask>
+					    <p:commandButton value="Validar" 
+					    				 process="@this inputText-NumeroDoTicket" update=":mensagens" />
 
 				    <p:outputLabel value="Utilizar Textos Prontos" for="tipo-garantia" />
-				    <p:selectOneRadio id="tipo-garantia" layout="grid" columns="2" value="#{otrsBean.emailGarantia.body}" >
+				    <p:outputLabel value="Nenhum Texto Pronto Cadastrado" rendered="#{empty otrsBean.listaDeProblemas}" /> <p:divider rendered="#{empty otrsBean.listaDeProblemas}" />
+
+				    <h:selectOneMenu id="tipo-garantia" value="#{otrsBean.emailGarantia.body}" rendered="#{not empty otrsBean.listaDeProblemas}" >
 				    	<f:selectItems var="problema" value="#{otrsBean.listaDeProblemas}" itemLabel="#{problema.descricaoResumida}" itemDescription="#{problema.descricaoDetalhada}" itemValue="#{problema.descricaoDetalhada}" />
-				    </p:selectOneRadio>
-			        <p:commandButton value="Utilizar" 
+				    	<f:ajax event="click" execute="tipo-garantia" listener="#{otrsBean.utilizarTextosProntos()}" render=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />
+				    </h:selectOneMenu>
+			        <p:commandButton value="Utilizar" rendered="#{not empty otrsBean.listaDeProblemas}"
 				    			 process="@this tipo-garantia" actionListener="#{otrsBean.utilizarTextosProntos}" update=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />				    
 
 				    <p:outputLabel for="inputText-Assunto" value="Informe o Assunto: " />

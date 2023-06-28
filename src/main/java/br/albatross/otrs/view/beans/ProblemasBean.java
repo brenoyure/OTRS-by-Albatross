@@ -8,6 +8,8 @@ import br.albatross.otrs.domain.dao.problema.ProblemaDao;
 import br.albatross.otrs.domain.services.beans.DescricaoProblema;
 import br.albatross.otrs.domain.services.beans.Problema;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -40,15 +42,24 @@ public class ProblemasBean implements Serializable {
 	@Getter @Setter
 	private Problema problema = new Problema();
 
+	@Inject
+	private FacesContext context;
+
 	@Getter @Setter
 	private DescricaoProblema descricaoProblema = new DescricaoProblema();
 
 	public void salvarProblema() {
 		dao.persist(problema);
+		problemas = dao.findAll();
+		context.addMessage("problemas", new FacesMessage(String.format("Problema '%s' salvo com sucesso", problema.getTipo())));
+		problema = new Problema();
 	}
 
 	public void salvarDescricaoProblema() {
 		descricaoDao.persist(descricaoProblema);
+		context.addMessage("problemas", new FacesMessage("Nova Descrição salva com sucesso"));
+		descricaoProblemas = descricaoDao.findAll();
+		this.descricaoProblema = new DescricaoProblema();
 	}
 
 }

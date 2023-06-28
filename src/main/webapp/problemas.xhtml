@@ -16,25 +16,51 @@
 
 <h:body>
 
+		<h:form style="margin:10px 0 10px 0">
+			<p:menuButton value="Navegação" >
+				<p:menuitem value="OTRS - Serviço Garantia" action="otrs?faces-redirect=true" immediate="true" update="@all" />
+			</p:menuButton>
+		</h:form>
+
 	<p:growl id="mensagens" showDetail="true" skipDetailIfEqualsSummary="true" style="color:red" />
 	
 	<h:form id="formulario-cadastro-tipo">
-		<p:focus context="panel" />
+		<p:focus context="panel-tipo" />
 	
 			<p:fieldset legend="Problemas">
-				<p:panelGrid columns="2" id="panel">
+				<p:panelGrid columns="2" id="panel-tipo">
 	
 					<p:outputLabel value="Informe o Tipo do Problema" />
 						<p:inputText value="#{problemasBean.problema.tipo}" />
 				</p:panelGrid>
-	
-				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvar}" process="@form" update=":mensagens :formulario-tabela-problemas:tabela-problemas" style="margin-right: 5px; margin-top:10px" />
+
+				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema}" process="@form" update="@form :mensagens :formulario-cadastro-descricao :formulario-tabela-problemas:tabela-problemas" style="margin-right: 5px; margin-top:10px" />
 				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
 				
 			</p:fieldset>
 	</h:form>
 
-	<h:form id="formulario-tabela-problemas" >
+	<h:form id="formulario-cadastro-descricao" rendered="#{not empty problemasBean.problemas}" >
+
+			<p:fieldset legend="Descrição Problema">
+				<p:panelGrid columns="2" id="panel-descricao">
+					<h:outputLabel value="Selecione o Tipo do Problema" for="listBox-tipoProblema" />
+						<p:selectOneMenu id="listBox-tipoProblema" value="#{problemasBean.descricaoProblema.problema}" converter="problemaConverter" >
+							<f:selectItems value="#{problemasBean.problemas}" var="problema" itemValue="#{problema}" itemLabel="#{problema.tipo}" />
+						</p:selectOneMenu>
+					<h:outputLabel value="Informe uma Descrição Resumida do Problema" />
+						<p:inputText value="#{problemasBean.descricaoProblema.descricaoResumida}" />
+					<h:outputLabel value="Informe uma Descrição Detalhada do Problema" />
+						<p:inputTextarea rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" />
+				</p:panelGrid>
+
+				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema}" process="@form" update="@form :mensagens :formulario-tabela-problemas:tabela-problemas" style="margin-right: 5px; margin-top:10px" />
+				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
+
+			</p:fieldset>
+	</h:form>
+
+	<h:form id="formulario-tabela-problemas" rendered="#{not empty problemasBean.descricaoProblemas}" >
 		<p:dataTable id="tabela-problemas" value="#{problemasBean.descricaoProblemas}" var="problema">
 			<p:column headerText="Tipo do Problema" >
 				<p:outputLabel value="#{problema.problema.tipo}" />

@@ -22,7 +22,9 @@ public class ProblemaDao {
 	}
 
 	public List<Problema> findAll() {
-		return entityManager.createQuery("SELECT p FROM Problema p", Problema.class).getResultList();
+		var cq = entityManager.getCriteriaBuilder().createQuery(Problema.class);
+		cq.from(Problema.class);
+		return entityManager.createQuery(cq).getResultList();
 	}
 
 }

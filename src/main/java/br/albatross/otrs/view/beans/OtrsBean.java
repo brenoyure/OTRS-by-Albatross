@@ -73,13 +73,12 @@ public class OtrsBean implements Serializable {
 
 	@Inject @Getter
 	private List<DescricaoProblema> listaDeProblemas;
-	
+
 	public void buscarNumeroDeSeriePeloBm() {
 		service
 			.buscarNumeroDeSeriePorBm(bm)
 			.ifPresent(NdeSerie -> emailGarantia.setNumeroDeSerie(NdeSerie));
 	}
-
 
 	public void validarTicket(FacesContext context, UIComponent componente, Object value) {
 		ticketService.buscarPeloNumeroDoTicket((String) value)
@@ -92,9 +91,11 @@ public class OtrsBean implements Serializable {
 	}
 
 	public void utilizarTextosProntos() {
-		if (emailGarantia.getTicket() != null) {
-			assuntoEmailService.setAssuntoDoEmail(emailGarantia);
+		if (emailGarantia.getTicket() == null) {
+			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Ticket ainda não definido", "Para utilizar melhor a função de gerar os textos, por favor selecione um Ticket válido e tente novamente."));
+			return;
 		}
+		assuntoEmailService.setAssuntoDoEmail(emailGarantia);
 	}
 
 	public void enviarSolicitacaoDeGarantiaPorEmail() throws IOException {
