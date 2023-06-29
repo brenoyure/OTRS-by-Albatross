@@ -87,6 +87,11 @@ public class OtrsBean implements Serializable {
 	}
 
 	public void utilizarTextosProntos() {
+		if (ticketsAbertosNivel1.isEmpty()) {
+			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Não há tickets abertos.", "Não há tickets abertos para a fila do Nível 1, sendo assim, não será possível a abertura de chamados de garantia."));
+			return;
+		}
+
 		if (emailGarantia.getTicket() == null) {
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Ticket ainda não definido", "Para utilizar melhor a função de gerar os textos, por favor selecione um Ticket válido e tente novamente."));
 			return;
