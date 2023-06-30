@@ -5,13 +5,13 @@ import static br.albatross.otrs.domain.models.ticket.Ticket_.queue;
 import static br.albatross.otrs.domain.models.ticket.Ticket_.responsibleUser;
 import static br.albatross.otrs.domain.models.ticket.Ticket_.service;
 import static br.albatross.otrs.domain.models.ticket.Ticket_.ticketState;
-import static br.albatross.otrs.domain.models.ticket.Ticket_.user;
 import static java.util.Optional.empty;
 
 import java.util.List;
 import java.util.Optional;
 
 import br.albatross.otrs.domain.models.queue.Queue_;
+import br.albatross.otrs.domain.models.ticket.Service_;
 import br.albatross.otrs.domain.models.ticket.Ticket;
 import br.albatross.otrs.domain.models.ticket.TicketStateType_;
 import br.albatross.otrs.domain.models.ticket.Ticket_;
@@ -29,11 +29,11 @@ public class TicketDao {
 
 	private static final Integer QUEUE_NIVEL_1 = 5;
 
-	public Optional<Ticket> findById(Long ticketNumber) {
+	public Optional<Ticket> findById(Long id) {
 		try {
-			var cb = entityManager.getCriteriaBuilder();
-			var cq = cb.createQuery(Ticket.class);
-			var ticket = cq.from(Ticket.class);
+			var cb      =  entityManager.getCriteriaBuilder();
+			var cq      =  cb.createQuery(Ticket.class);
+			var ticket  =   cq.from(Ticket.class);
 
 			ticket.fetch(service, JoinType.LEFT);
 
@@ -43,7 +43,7 @@ public class TicketDao {
 
 			ticket.fetch(responsibleUser, JoinType.INNER);
 
-			cq.where(cb.equal(ticket.get(Ticket_.ticketNumber), ticketNumber));
+			cq.where(cb.equal(ticket.get(Ticket_.id), id));
 
 			return Optional.of(entityManager.createQuery(cq).getSingleResult());
 
@@ -74,25 +74,31 @@ public class TicketDao {
 	}
 
 	public List<Ticket> findAllOpenedTicketsForNivel1Queue() {
-		var cb = entityManager.getCriteriaBuilder();
-		var cq = cb.createQuery(Ticket.class);
-		var ticket = cq.from(Ticket.class);
-
-		ticket.fetch(user, JoinType.INNER);
-		ticket.fetch(queue, JoinType.INNER);
-
-		ticket.fetch(service, JoinType.LEFT);
+		var cb      =  entityManager.getCriteriaBuilder();
+		var cq      =  cb.createQuery(Ticket.class);
+		var ticket  =  cq.from(Ticket.class);
 
 		ticket
-		    .fetch(ticketState,     JoinType.INNER)
-		    .fetch(ticketStateType, JoinType.INNER);
+			.fetch(service,          JoinType.INNER);
+
+		ticket
+			.fetch(responsibleUser,  JoinType.INNER);
+
+		ticket
+			.fetch(ticketState,      JoinType.INNER)
+			.fetch(ticketStateType,  JoinType.INNER);
 
 		var predicateQueueEqualsToNivel1 = cb.equal(ticket.get(queue).get(Queue_.id), QUEUE_NIVEL_1);
+
+		var predicateTicketNew  = cb.equal(ticket.get(ticketState).get(ticketStateType).get(TicketStateType_.id), 1);
 		var predicateTicketOpen = cb.equal(ticket.get(ticketState).get(ticketStateType).get(TicketStateType_.id), 2);
 
-		var finalAndPredicateTicketOpenAndQueueNivel1 = cb.and(predicateQueueEqualsToNivel1, predicateTicketOpen);
+		var predicateServicosGarantiaValidos = cb.between(ticket.get(service).get(Service_.id), 220, 225);
 
-		return entityManager.createQuery(cq.where(finalAndPredicateTicketOpenAndQueueNivel1)).getResultList();
+		var predicateTicketNewOrOpen = cb.or(predicateTicketNew, predicateTicketOpen);
+
+		var finalAndPredicateTicketOpenAndServicoValidoAndQueueNivel1 = cb.and(predicateServicosGarantiaValidos, predicateQueueEqualsToNivel1, predicateTicketNewOrOpen);
+		return entityManager.createQuery(cq.where(finalAndPredicateTicketOpenAndServicoValidoAndQueueNivel1)).getResultList();
 
 	}
 

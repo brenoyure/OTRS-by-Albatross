@@ -2,20 +2,23 @@ package br.albatross.otrs.domain.services.beans;
 
 import static java.util.Optional.empty;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 import br.albatross.otrs.domain.services.ConfigItemService;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 
-@RequestScoped
-public class ConfigItemServiceBean {
+@ViewScoped
+public class ConfigItemServiceBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private ConfigItemService service;
-	
+
 	@Inject
 	private FacesContext context;
 
@@ -39,5 +42,5 @@ public class ConfigItemServiceBean {
 		return optional;
 
 	}
-	
+
 }

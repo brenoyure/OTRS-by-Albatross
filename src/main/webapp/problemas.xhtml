@@ -30,8 +30,8 @@
 			<p:fieldset legend="Problemas">
 				<p:panelGrid columns="2" id="panel-tipo">
 	
-					<p:outputLabel value="Informe o Tipo do Problema" />
-						<p:inputText value="#{problemasBean.problema.tipo}" />
+					<p:outputLabel value="Informe o Tipo do Problema" for="@next" />
+						<p:inputText id="inputText-tipoProblema" value="#{problemasBean.problema.tipo}" placeholder="ex. Mouse ou Monitor etc" required="true" requiredMessage="Tipo do Problema Obrigatório" />
 				</p:panelGrid>
 
 				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema}" process="@form" update="@form :mensagens :formulario-cadastro-descricao :formulario-tabela-problemas:tabela-problemas" style="margin-right: 5px; margin-top:10px" />
@@ -44,14 +44,14 @@
 
 			<p:fieldset legend="Descrição Problema">
 				<p:panelGrid columns="2" id="panel-descricao">
-					<h:outputLabel value="Selecione o Tipo do Problema" for="listBox-tipoProblema" />
-						<p:selectOneMenu id="listBox-tipoProblema" value="#{problemasBean.descricaoProblema.problema}" converter="problemaConverter" >
+					<p:outputLabel value="Selecione o Tipo do Problema" for="@next" />
+						<p:selectOneMenu id="listBox-tipoProblema" value="#{problemasBean.descricaoProblema.problema}" converter="problemaConverter" required="true" requiredMessage="Tipo do Problema Obrigatório" >
 							<f:selectItems value="#{problemasBean.problemas}" var="problema" itemValue="#{problema}" itemLabel="#{problema.tipo}" />
 						</p:selectOneMenu>
-					<h:outputLabel value="Informe uma Descrição Resumida do Problema" />
-						<p:inputText value="#{problemasBean.descricaoProblema.descricaoResumida}" />
-					<h:outputLabel value="Informe uma Descrição Detalhada do Problema" />
-						<p:inputTextarea rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" />
+					<p:outputLabel value="Informe uma Descrição Resumida do Problema" for="@next" />
+						<p:inputText id="inputText-DescricaoResumida" placeholder="ex. Mouse - Scroll Ruim" value="#{problemasBean.descricaoProblema.descricaoResumida}" required="true" requiredMessage="Descrição Obrigatória" />
+					<p:outputLabel value="Informe uma Descrição Detalhada do Problema" for="@next" />
+						<p:inputTextarea id="inputTextArea-DescricaoDetalhada" placeholder="Computador está apresentando problema de..." rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Detalhe do Problema Obrigatório" />
 				</p:panelGrid>
 
 				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema}" process="@form" update="@form :mensagens :formulario-tabela-problemas:tabela-problemas" style="margin-right: 5px; margin-top:10px" />

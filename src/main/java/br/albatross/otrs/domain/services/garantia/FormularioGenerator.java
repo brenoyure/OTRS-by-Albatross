@@ -3,21 +3,19 @@ package br.albatross.otrs.domain.services.garantia;
 import static java.io.File.createTempFile;
 import static java.time.LocalDate.now;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import jakarta.enterprise.context.RequestScoped;
 
 @RequestScoped
-public class FormularioGenerator implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class FormularioGenerator {
 
 	private static final int CURRENT_YEAR = now().getYear();
 	private static final String TEMP_FILE_PREFIX = "Abertura de Chamado ";
@@ -42,7 +40,7 @@ public class FormularioGenerator implements Serializable {
 																.append(SPACE)
 																.toString(), TEMP_FILE_SUFFIX);
 
-			try (OutputStream fos = new FileOutputStream(formularioTempFile)) {
+			try (OutputStream fos = new BufferedOutputStream(new FileOutputStream(formularioTempFile))) {
 				doc.write(fos);
 			}
 

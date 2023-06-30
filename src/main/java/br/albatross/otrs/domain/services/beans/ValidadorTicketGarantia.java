@@ -18,10 +18,13 @@ public class ValidadorTicketGarantia implements Validator<Ticket>, Serializable 
 	private static final long serialVersionUID = 1L;
 
 	private static FacesMessage invalidTicketServiceValidatorExceptionMessage;
-	private static FacesMessage validTicketFoundValidatorMessage;
+//	private static FacesMessage validTicketFoundValidatorMessage;
 
 	@Override
 	public void validate(FacesContext context, UIComponent component, Ticket ticket) throws ValidatorException {
+
+		if (ticket == null) 
+			throw new ValidatorException(new FacesMessage(SEVERITY_ERROR, "Ticket Nulo.", null));
 
 		if (ticket.getService() == null) {
 			throw new ValidatorException(new FacesMessage(SEVERITY_ERROR, "O Serviço do Ticket ainda foi não definido.", "Este problema pode ocorrer no caso de um novo chamado aberto, geralmente via e-mail. Atribua um Serviço para este Ticket e tente novamente."));
@@ -56,7 +59,7 @@ public class ValidadorTicketGarantia implements Validator<Ticket>, Serializable 
 	 * @return se o ticket é válido para o serviço de garantia ou não.
 	 */
 	private boolean ticketEstaAberto(Ticket ticket) {
-		return ticket.getTicketState().getTicketStateType().getId().equals(2);
+		return (ticket.getTicketState().getTicketStateType().getId().equals(1) || ticket.getTicketState().getTicketStateType().getId().equals(2));
 	}
 	
 }

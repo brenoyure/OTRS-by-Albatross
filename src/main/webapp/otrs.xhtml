@@ -32,23 +32,25 @@
 				<p:panelGrid columns="3" id="panel">
 
 				    <p:outputLabel for="inputText-BM" value="BM: " />
-				    	<p:inputText id="inputText-BM" value="#{otrsBean.bm}" />
+				    	<p:inputText id="inputText-BM" value="#{otrsBean.bm}" >
+				    		<f:ajax event="blur" execute="@this" render="inputText-NumeroDeSerie :mensagens" listener="#{otrsBean.buscarNumeroDeSeriePeloBm}" />
+				    	</p:inputText>
 				    	<p:commandButton value="Consultar" actionListener="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
-				    				 		process="@this inputText-BM" update="inputText-NumeroDeSerie :mensagens" />
+				    				 		process="inputText-BM" update="inputText-NumeroDeSerie :mensagens" />
 
 				    <p:outputLabel for="inputText-NumeroDeSerie" value="Nº de Série: " />
 				    	<p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.emailGarantia.numeroDeSerie}" />
 				    <br />
 
-   				    <p:outputLabel for="selectOne-Ticket" value="Nº de Ticket: " /> <h:outputText value="Nenhum Chamado aberto na Fila do Nível 1" rendered="#{empty otrsBean.ticketsAbertosNivel1}" />
+   				    <p:outputLabel for="selectOne-Ticket" value="Ticket: " /> <h:outputText value="Não há chamados abertos na Fila do Nível 1 com Serviço relacionado à Garantia, ex. Computador, Monitor... " rendered="#{empty otrsBean.ticketsAbertosNivel1}" />
 					    <h:selectOneMenu id="selectOne-Ticket" value="#{otrsBean.emailGarantia.ticket}" required="true" requiredMessage="Ticket Obrigatório" converter="ticketConverter" validator="#{otrsBean.validarTicket}" rendered="#{not empty otrsBean.ticketsAbertosNivel1}" >
-					    	<f:selectItems value="#{otrsBean.ticketsAbertosNivel1}" var="ticket" itemLabel="Nº: #{ticket.ticketNumber} | Serviço: #{ticket.service.name} | Resp: #{ticket.responsibleUser.login}" itemValue="#{ticket}" />
+					    	<f:selectItems value="#{otrsBean.ticketsAbertosNivel1}" var="ticket" itemLabel="Nº: #{ticket.ticketNumber} | Título: #{ticket.title} | Serviço: #{ticket.service.name} | Usuário: #{ticket.customerUserId}" itemValue="#{ticket}" />
 							<f:ajax event="focus"  execute="@this" render=":mensagens inputText-Assunto" />
 							<f:ajax event="change" execute="@this" render=":mensagens inputText-Assunto" />
 							<f:ajax event="click"  execute="@this" render=":mensagens inputText-Assunto" />
 					    </h:selectOneMenu>
-					    <p:commandButton value="Validar" 
-					    				 process="@this selectOne-Ticket" update=":mensagens inputText-Assunto" disabled="#{empty otrsBean.ticketsAbertosNivel1}" />
+					    <p:commandButton value="Selecionar" 
+					    				 process="selectOne-Ticket" update=":mensagens inputText-Assunto" disabled="#{empty otrsBean.ticketsAbertosNivel1}" />
 
 				    <p:outputLabel value="Utilizar Textos Prontos" for="tipo-garantia" />
 				    <p:outputLabel value="Nenhum Texto Pronto Cadastrado" rendered="#{empty otrsBean.listaDeProblemas}" /> <p:divider rendered="#{empty otrsBean.listaDeProblemas}" />
@@ -70,9 +72,9 @@
 						<p:inputTextarea rows="6" cols="33" id="inputTextArea-DescricaoProblema" value="#{otrsBean.emailGarantia.body}" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
 					<br />
 
-					<p:outputLabel value="Anexar Formulário" for="fileUpload" />
-						<h:inputFile id="fileUpload" value="#{otrsBean.uploadedFile}" required="true" requiredMessage="É Obrigatório submeter o formulário." >
-							<f:ajax execute="@this fileUpload" render=":mensagens" />
+					<p:outputLabel value="Adicionar Vídeo ou Foto do Problema" for="fileUpload" />
+						<h:inputFile id="fileUpload" >
+							<f:ajax execute="fileUpload" render=":mensagens" />
 						</h:inputFile>
 					<br />
 

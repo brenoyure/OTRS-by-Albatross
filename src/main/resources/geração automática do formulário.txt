@@ -1,0 +1,1 @@
+Colocar o formulário na pasta $JBOSS_HOME/bin/arquivos/formularios para que o sistema o gere automaticamente.
