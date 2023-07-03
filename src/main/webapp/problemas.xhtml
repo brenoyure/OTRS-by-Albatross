@@ -40,13 +40,13 @@
 			</p:fieldset>
 	</h:form>
 
-	<h:form id="formulario-cadastro-descricao" rendered="#{not empty problemasBean.problemas}" >
+	<h:form id="formulario-cadastro-descricao" rendered="#{not empty problemasBean.serviceBean.problemas}" >
 
 			<p:fieldset legend="Descrição Problema">
 				<p:panelGrid columns="2" id="panel-descricao">
 					<p:outputLabel value="Selecione o Tipo do Problema" for="@next" />
 						<p:selectOneMenu id="listBox-tipoProblema" value="#{problemasBean.descricaoProblema.problema}" converter="problemaConverter" required="true" requiredMessage="Tipo do Problema Obrigatório" >
-							<f:selectItems value="#{problemasBean.problemas}" var="problema" itemValue="#{problema}" itemLabel="#{problema.tipo}" />
+							<f:selectItems value="#{problemasBean.serviceBean.problemas}" var="problema" itemValue="#{problema}" itemLabel="#{problema.tipo}" />
 						</p:selectOneMenu>
 					<p:outputLabel value="Informe uma Descrição Resumida do Problema" for="@next" />
 						<p:inputText id="inputText-DescricaoResumida" placeholder="ex. Mouse - Scroll Ruim" value="#{problemasBean.descricaoProblema.descricaoResumida}" required="true" requiredMessage="Descrição Obrigatória" />
@@ -60,18 +60,26 @@
 			</p:fieldset>
 	</h:form>
 
-	<h:form id="formulario-tabela-problemas" rendered="#{not empty problemasBean.descricaoProblemas}" >
-		
+	<h:form id="formulario-tabela-problemas" rendered="#{not empty problemasBean.serviceBean.descricaoProblemas}" >
+
 		<p:fieldset legend="Textos Prontos">
-			<p:dataTable id="tabela-problemas" value="#{problemasBean.descricaoProblemas}" var="problema" >
+			<p:dataTable id="tabela-problemas" value="#{problemasBean.serviceBean.descricaoProblemas}" var="problema" >
+
+				<p:column headerText="Editar" >
+					<p:commandLink value="Editar" >
+						<f:setPropertyActionListener value="#{problema}" target="#{problemasBean.descricaoProblema}" />
+						<f:ajax execute="problema" render="formulario-cadastro-descricao" />						
+					</p:commandLink>
+				</p:column>
+
 				<p:column headerText="Tipo do Problema" >
 					<p:outputLabel value="#{problema.problema.tipo}" />
 				</p:column>
-	
+
 				<p:column headerText="Descrição Resumida" >
 					<p:outputLabel value="#{problema.descricaoResumida}" />
 				</p:column>
-				
+
 				<p:column headerText="Descrição Detalhada" >
 					<p:outputLabel value="#{problema.descricaoDetalhada}" />
 				</p:column>

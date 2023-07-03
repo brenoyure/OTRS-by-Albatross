@@ -7,7 +7,6 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
 
-@RequestScoped
 public class TextosProntosService {
 
 	@Inject

@@ -1,7 +1,8 @@
-package br.albatross.otrs.domain.services.beans;
+package br.albatross.otrs.domain.services.beans.converters;
 
 import java.util.Map;
 
+import br.albatross.otrs.domain.services.beans.Problema;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;
