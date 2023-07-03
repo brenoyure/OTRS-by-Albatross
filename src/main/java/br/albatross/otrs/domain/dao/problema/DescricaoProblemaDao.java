@@ -1,5 +1,6 @@
 package br.albatross.otrs.domain.dao.problema;
 
+import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.id;
 import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.problema;
 
 import java.util.List;
@@ -23,6 +24,15 @@ public class DescricaoProblemaDao {
 	public void update(DescricaoProblema descricaoProblema) {
 		entityManager.merge(descricaoProblema);
 	}
+
+	public void remove(DescricaoProblema descricaoProblema) {
+		var cb                     =  entityManager.getCriteriaBuilder();
+		var cq                     =  cb.createCriteriaDelete(DescricaoProblema.class);
+		var descricaoProblemaRoot  =  cq.from(DescricaoProblema.class);
+		var predicateDescricaoProblemaIdEquals = cb.equal(descricaoProblemaRoot.get(id), descricaoProblema.getId());
+
+		entityManager.createQuery(cq.where(predicateDescricaoProblemaIdEquals)).executeUpdate();
+	}	
 
 	public List<DescricaoProblema> findAll() {
 		var cb                 =  entityManager.getCriteriaBuilder();

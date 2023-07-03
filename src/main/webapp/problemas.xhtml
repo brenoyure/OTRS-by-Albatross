@@ -78,11 +78,17 @@
 				</p:column>
 
 				<p:column headerText="Editar" >
-					<p:commandLink >
+					<p:commandLink update="formulario-cadastro-tipo formulario-cadastro-descricao :mensagens" >
 						<h:outputText title="Editar" styleClass="ui-icon pi pi-pencil" />
 						<f:setPropertyActionListener value="#{problema.problema}" target="#{problemasBean.problema}" />
 						<f:setPropertyActionListener value="#{problema}"          target="#{problemasBean.descricaoProblema}" />
-						<f:ajax execute="problema" render="formulario-cadastro-tipo formulario-cadastro-descricao" />						
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="Excluir" >
+					<p:commandLink process="formulario-tabela-problemas:tabela-problemas" actionListener="#{problemasBean.excluirDescricaoProblema}" update="@form :formulario-cadastro-descricao :mensagens" >
+						<h:outputText title="Editar" styleClass="ui-icon pi pi-trash" />
+						<f:setPropertyActionListener value="#{problema}" target="#{problemasBean.descricaoProblema}" />
 					</p:commandLink>
 				</p:column>
 

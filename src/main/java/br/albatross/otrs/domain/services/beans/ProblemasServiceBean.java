@@ -58,6 +58,12 @@ public class ProblemasServiceBean implements Serializable {
 		atualizarListaDescricaoProblemas();
 	}
 
+	public void removerDescricaoProblema(DescricaoProblema descricaoProblema) {
+		descricaoProblemaDao.remove(descricaoProblema);
+		context.addMessage("problemas", new FacesMessage("Descrição removida com sucesso"));
+		atualizarListaDescricaoProblemas();
+	}
+
 	private void atualizarListaProblemas() {
 		problemas = problemasDao.findAll();
 	}

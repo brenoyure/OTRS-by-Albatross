@@ -35,4 +35,10 @@ public class ProblemasBean implements Serializable {
 		descricaoProblema = new DescricaoProblema();
 	}
 
+	public void excluirDescricaoProblema() {
+		System.out.println(descricaoProblema.getId());
+		serviceBean.removerDescricaoProblema(descricaoProblema);
+		descricaoProblema = new DescricaoProblema();
+	}
+
 }
