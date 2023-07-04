@@ -34,7 +34,7 @@
 						<p:inputText id="inputText-tipoProblema" value="#{problemasBean.problema.tipo}" placeholder="ex. Mouse ou Monitor etc" required="true" requiredMessage="Tipo do Problema Obrigatório" />
 				</p:panelGrid>
 
-				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema}" process="@form" update="@form :mensagens :formulario-cadastro-descricao :formulario-descricaoProblema:descricaoProblema" style="margin-right: 5px; margin-top:10px" />
+				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema(problemasBean.problema)}" process="@form" update="@form :mensagens :formulario-cadastro-descricao :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
 				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
 				
 			</p:fieldset>
@@ -54,7 +54,7 @@
 						<p:inputTextarea id="inputTextArea-DescricaoDetalhada" placeholder="Computador está apresentando problema de..." rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Detalhe do Problema Obrigatório" />
 				</p:panelGrid>
 
-				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema}" process="@form" update="@form :mensagens :formulario-descricaoProblema:descricaoProblema" style="margin-right: 5px; margin-top:10px" />
+				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema(problemasBean.descricaoProblema)}" process="@form" update="@form :mensagens :formulario-cadastro-tipo :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
 				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
 
 			</p:fieldset>
@@ -78,7 +78,7 @@
 				</p:column>
 
 				<p:column headerText="Editar" >
-					<p:commandLink update="formulario-cadastro-tipo formulario-cadastro-descricao :mensagens" >
+					<p:commandLink update=":formulario-cadastro-tipo :formulario-cadastro-descricao :mensagens" >
 						<h:outputText title="Editar" styleClass="ui-icon pi pi-pencil" />
 						<f:setPropertyActionListener value="#{descricaoProblema.problema}" target="#{problemasBean.problema}" />
 						<f:setPropertyActionListener value="#{descricaoProblema}"          target="#{problemasBean.descricaoProblema}" />

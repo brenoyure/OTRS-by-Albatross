@@ -1,5 +1,8 @@
 package br.albatross.otrs.domain.dao.problema;
 
+import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.descricaoDetalhada;
+import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.descricaoResumida;
+import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.id;
 import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.problema;
 
 import java.util.List;
@@ -21,21 +24,39 @@ public class DescricaoProblemaDao {
 	}
 
 	public void update(DescricaoProblema descricaoProblema) {
-		entityManager.merge(descricaoProblema);
+		var cb                     =  entityManager.getCriteriaBuilder();
+		var cq                     =  cb.createCriteriaUpdate(DescricaoProblema.class);
+		var rootDescricaoProblema  =  cq.from(DescricaoProblema.class);
+
+		cq
+		  .set(rootDescricaoProblema.get(problema),           descricaoProblema.getProblema())
+		  .set(rootDescricaoProblema.get(descricaoResumida),  descricaoProblema.getDescricaoResumida())
+		  .set(rootDescricaoProblema.get(descricaoDetalhada), descricaoProblema.getDescricaoDetalhada());
+
+		entityManager
+		        .createQuery(cq.where(cb.equal(rootDescricaoProblema.get(id), descricaoProblema.getId())))
+		        .executeUpdate();
 	}
 
 	public void remove(DescricaoProblema descricaoProblema) {
-		entityManager.remove(descricaoProblema);
-	}	
+		var cb = entityManager.getCriteriaBuilder();
+		var cq = cb.createCriteriaDelete(DescricaoProblema.class);
+		entityManager
+				.createQuery(cq.where(cb.equal(cq.from(DescricaoProblema.class).get(id), descricaoProblema.getId())))
+				.executeUpdate();
+	}
 
 	public List<DescricaoProblema> findAll() {
-		var cb                 =  entityManager.getCriteriaBuilder();
-		var cq                 =  cb.createQuery(DescricaoProblema.class);
-		var descricaoProblema  =  cq.from(DescricaoProblema.class);
+		var cb = entityManager.getCriteriaBuilder();
+		var cq = cb.createQuery(DescricaoProblema.class);
 
-		descricaoProblema.fetch(problema, JoinType.INNER);
+		cq
+		  .from(DescricaoProblema.class)
+		  .fetch(problema, JoinType.INNER);
 
-		return entityManager.createQuery(cq).getResultList();
+		return entityManager
+				       .createQuery(cq)
+				       .getResultList();
 
 	}
 

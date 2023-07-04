@@ -25,19 +25,32 @@ public class ProblemasBean implements Serializable {
 	@Getter	@Setter
 	private DescricaoProblema descricaoProblema = new DescricaoProblema();
 
-	public void salvarProblema() {
+	public void salvarProblema(Problema problema) {
 		serviceBean.salvarProblema(problema);
-		problema = new Problema();
+		resetarProblema();
 	}
 
-	public void salvarDescricaoProblema() {
+	public void salvarDescricaoProblema(DescricaoProblema descricaoProblema) {
 		serviceBean.salvarDescricaoProblema(descricaoProblema);
-		descricaoProblema = new DescricaoProblema();
+		resetarAtributos();
 	}
 
 	public void excluirDescricaoProblema(DescricaoProblema descricaoProblema) {
 		serviceBean.removerDescricaoProblema(descricaoProblema);
+		resetarDescricaoProblema();
+	}
+
+	private void resetarProblema() {
+		this.problema = new Problema();
+	}
+
+	private void resetarDescricaoProblema() {
 		this.descricaoProblema = new DescricaoProblema();
+	}
+
+	private void resetarAtributos() {
+		this.descricaoProblema = new DescricaoProblema();
+		this.problema = new Problema();
 	}
 
 }

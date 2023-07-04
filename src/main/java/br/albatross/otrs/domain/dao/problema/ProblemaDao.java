@@ -1,5 +1,8 @@
 package br.albatross.otrs.domain.dao.problema;
 
+import static br.albatross.otrs.domain.services.beans.Problema_.id;
+import static br.albatross.otrs.domain.services.beans.Problema_.tipo;
+
 import java.util.List;
 
 import br.albatross.otrs.domain.services.beans.Problema;
@@ -18,7 +21,17 @@ public class ProblemaDao {
 	}
 
 	public void update(Problema problema) {
-		entityManager.merge(problema);
+		var           cb  =  entityManager.getCriteriaBuilder();
+		var           cq  =  cb.createCriteriaUpdate(Problema.class);
+		var rootProblema  =  cq.from(Problema.class);
+
+		cq
+		  .set(rootProblema.get(tipo), problema.getTipo());
+
+		entityManager
+		        .createQuery(cq.where(cb.equal(rootProblema.get(id), problema.getId())))
+		        .executeUpdate();
+
 	}
 
 	public List<Problema> findAll() {
