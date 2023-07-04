@@ -8,8 +8,8 @@
 	<persistence-unit name="otrsdb">
 		<jta-data-source>java:jboss/datasources/OtrsDS</jta-data-source>
 		<properties>
-			<property name="hibernate.show_sql"      value="true"  />
-			<property name="hibernate.format_sql"    value="true"  />
+			<property name="hibernate.show_sql"      value="false" />
+			<property name="hibernate.format_sql"    value="false" />
 			<property name="hibernate.hbm2ddl.auto"  value="none"  />
 		</properties>
 	</persistence-unit>
@@ -17,8 +17,8 @@
 	<persistence-unit name="otrsdb_textos_prontos">
 		<jta-data-source>java:jboss/datasources/ProblemaDS</jta-data-source>
 		<properties>
-			<property name="hibernate.show_sql"      value="true"  />
-			<property name="hibernate.format_sql"    value="true"  />
+			<property name="hibernate.show_sql"      value="false" />
+			<property name="hibernate.format_sql"    value="false" />
 			<property name="hibernate.hbm2ddl.auto"  value="none"  />
 		</properties>
 	</persistence-unit>
