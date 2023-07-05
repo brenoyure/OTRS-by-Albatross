@@ -1,9 +1,13 @@
 package br.albatross.otrs.domain.services.garantia;
 
-import jakarta.enterprise.context.RequestScoped;
+import java.io.Serializable;
 
-@RequestScoped
-public class AssuntoEmailService {
+import jakarta.faces.view.ViewScoped;
+
+@ViewScoped
+public class AssuntoEmailService implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final int GARANTIA_MOUSE_DATEN    =  221;
 	private static final int GARANTIA_MONITOR_DATEN  =  222;

@@ -16,6 +16,12 @@
 
 <h:body>
 
+	<h:form style="margin:10px 0 10px 0">
+		<p:menuButton value="Navegação" >
+			<p:menuitem value="Problemas - Textos Prontos" action="problemas?faces-redirect=true"  immediate="true" update="@all" />
+		</p:menuButton>
+	</h:form>
+
 	<p:growl id="mensagens" showDetail="true" skipDetailIfEqualsSummary="true" style="color:red" />
 
 	<h:form enctype="multipart/form-data">
@@ -26,28 +32,36 @@
 				<p:panelGrid columns="3" id="panel">
 
 				    <p:outputLabel for="inputText-BM" value="BM: " />
-				    	<p:inputText id="inputText-BM" value="#{otrsBean.bm}" />
-				    	<p:commandButton value="Consultar" action="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
-				    				 		process="@this inputText-BM" update="inputText-NumeroDeSerie :mensagens" />
+				    	<p:inputText id="inputText-BM" value="#{otrsBean.bm}" >
+				    		<f:ajax event="blur" execute="@this" render="inputText-NumeroDeSerie :mensagens" listener="#{otrsBean.buscarNumeroDeSeriePeloBm}" />
+				    	</p:inputText>
+				    	<p:commandButton value="Consultar" actionListener="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
+				    				 		process="inputText-BM" update="inputText-NumeroDeSerie :mensagens" />
 
 				    <p:outputLabel for="inputText-NumeroDeSerie" value="Nº de Série: " />
 				    	<p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.emailGarantia.numeroDeSerie}" />
 				    <br />
 
-   				    <p:outputLabel for="inputText-NumeroDoTicket" value="Nº de Ticket: " />
-				    <p:inputMask id="inputText-NumeroDoTicket" required="true" requiredMessage="Nº de Ticket Obrigatório" validator="#{otrsBean.validarTicket}" mask="9999999999999999" validateMask="true" />
-				    <p:commandButton value="Validar" 
-				    				 process="@this inputText-NumeroDoTicket" update=":mensagens" />
+   				    <p:outputLabel for="selectOne-Ticket" value="Ticket: " /> <h:outputText value="Não há chamados abertos na Fila do Nível 1 com Serviço relacionado à Garantia, ex. Computador, Monitor... " rendered="#{empty otrsBean.ticketsAbertosNivel1}" />
+					    <p:selectOneMenu id="selectOne-Ticket" value="#{otrsBean.emailGarantia.ticket}" required="true" requiredMessage="Ticket Obrigatório" converter="ticketConverter" validator="#{otrsBean.validarTicket}" rendered="#{not empty otrsBean.ticketsAbertosNivel1}" >
+					    	<f:selectItems value="#{otrsBean.ticketsAbertosNivel1}" var="ticket" itemLabel="Nº: #{ticket.ticketNumber} | Título: #{ticket.title} | Serviço: #{ticket.service.name} | Usuário: #{ticket.customerUserId}" itemValue="#{ticket}" />
+							<f:ajax event="focus"  execute="@this" render=":mensagens inputText-Assunto" />
+							<f:ajax event="change" execute="@this" render=":mensagens inputText-Assunto" />
+							<f:ajax event="click"  execute="@this" render=":mensagens inputText-Assunto" />
+					    </p:selectOneMenu>
+					    <p:commandButton value="Selecionar" 
+					    				 process="selectOne-Ticket" update=":mensagens inputText-Assunto" disabled="#{empty otrsBean.ticketsAbertosNivel1}" />
 
 				    <p:outputLabel value="Utilizar Textos Prontos" for="tipo-garantia" />
-				    <p:selectOneRadio id="tipo-garantia" layout="grid" columns="2" value="#{otrsBean.emailGarantia.body}" >
-			    		<f:selectItem itemLabel="Mouse - Problema no Scroll" itemValue="Mouse com problema no Scroll." />
-				    	<f:selectItem itemLabel="Monitor - Tela Piscando"      itemValue="Monitor está apresentando erro de tela piscando." />
-				    	<f:selectItem itemLabel="Gabinete - Problema de Bateria" itemValue="Máquina com problema de bateria, é necessário pressionar F1 sempre ao ligar a máquina." />
-				    	<f:selectItem itemLabel="Gabinete - Máquina não liga nem ascende LED" itemValue="Ao Pressionar o botão de Power a máquina não liga, não acendendo nenhum LED." />
-				    	<f:selectItem itemLabel="Outro" itemValue="Forneça uma Descrição para o Problema." />
-				    </p:selectOneRadio>
-			        <p:commandButton value="Utilizar" 
+				    <p:outputLabel value="Nenhum Texto Pronto Cadastrado" rendered="#{empty otrsBean.listaDeProblemas}" /> <p:divider rendered="#{empty otrsBean.listaDeProblemas}" />
+
+				    <p:selectOneMenu id="tipo-garantia" value="#{otrsBean.emailGarantia.body}" rendered="#{not empty otrsBean.listaDeProblemas}" >
+				    	<f:selectItems var="problema" value="#{otrsBean.listaDeProblemas}" itemLabel="#{problema.descricaoResumida}" itemDescription="#{problema.descricaoDetalhada}" itemValue="#{problema.descricaoDetalhada}" />
+				    	<f:ajax event="focus"  execute="tipo-garantia" listener="#{otrsBean.utilizarTextosProntos()}" render=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />
+				    	<f:ajax event="change" execute="tipo-garantia" listener="#{otrsBean.utilizarTextosProntos()}" render=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />
+				    	<f:ajax event="click"  execute="tipo-garantia" listener="#{otrsBean.utilizarTextosProntos()}" render=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />
+				    </p:selectOneMenu>
+			        <p:commandButton value="Utilizar" rendered="#{not empty otrsBean.listaDeProblemas}"
 				    			 process="@this tipo-garantia" actionListener="#{otrsBean.utilizarTextosProntos}" update=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />				    
 
 				    <p:outputLabel for="inputText-Assunto" value="Informe o Assunto: " />
@@ -58,9 +72,9 @@
 						<p:inputTextarea rows="6" cols="33" id="inputTextArea-DescricaoProblema" value="#{otrsBean.emailGarantia.body}" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
 					<br />
 
-					<p:outputLabel value="Anexar Formulário" for="fileUpload" />
-						<h:inputFile id="fileUpload" value="#{otrsBean.uploadedFile}" required="true" requiredMessage="É Obrigatório submeter o formulário." >
-							<f:ajax execute="@this fileUpload" render=":mensagens" />
+					<p:outputLabel value="Adicionar Vídeo ou Foto do Problema" for="fileUpload" />
+						<h:inputFile id="fileUpload" >
+							<f:ajax execute="fileUpload" render=":mensagens" />
 						</h:inputFile>
 					<br />
 
@@ -75,7 +89,7 @@
 
 				</p:panelGrid>
 
-			<p:commandButton type="submit" value="Enviar" process="@this @form" update=":mensagens" actionListener="#{otrsBean.enviarSolicitacaoDeGarantiaPorEmail}" style="margin-right: 5px; margin-top:10px" />
+			<p:commandButton type="submit" value="Enviar" process="@this @form" update=":mensagens" actionListener="#{otrsBean.enviarSolicitacaoDeGarantiaPorEmail}" style="margin-right: 5px; margin-top:10px" disabled="#{empty otrsBean.ticketsAbertosNivel1}" />
 			<p:commandButton type="reset"  value="Limpar" immediate="true"      update=":mensagens" style="margin-top:10px" />
 
 		</p:fieldset>

@@ -45,19 +45,9 @@ public class GarantiaService {
 
 			email.getUploadedFile().delete();
 
-		}  catch (IOException e) {
-			throw new RuntimeException(e);
-			//TODO Implementar a MSG de Erro no Envio.
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		} 
+		}  
+           catch (IOException e)        { throw new RuntimeException(e); }      // TODO Implementar a MSG de Erro no Envio.  
+           catch (MessagingException e) { throw new RuntimeException(e); }      // TODO Auto-generated catch block
 	}
 	
 }
-
-
-
-
-//private static final String EMAIL_USER      =  "mail.smtp.user";
-//private static final String EMAIL_PASSWORD  =  "mail.smtp.pass";

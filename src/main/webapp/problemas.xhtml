@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>
+		Problemas
+	</title>
+</h:head>
+
+<h:body>
+
+		<h:form style="margin:10px 0 10px 0">
+			<p:menuButton value="Navegação" >
+				<p:menuitem value="OTRS - Serviço Garantia" action="otrs?faces-redirect=true" immediate="true" update="@all" />
+			</p:menuButton>
+		</h:form>
+
+	<p:growl id="mensagens" showDetail="true" skipDetailIfEqualsSummary="true" style="color:red" />
+	
+	<h:form id="formulario-cadastro-tipo">
+		<p:focus context="panel-tipo" />
+	
+			<p:fieldset legend="Problemas">
+				<p:panelGrid columns="2" id="panel-tipo">
+	
+					<p:outputLabel value="Informe o Tipo do Problema" for="@next" />
+						<p:inputText id="inputText-tipoProblema" value="#{problemasBean.problema.tipo}" placeholder="ex. Mouse ou Monitor etc" required="true" requiredMessage="Tipo do Problema Obrigatório" />
+				</p:panelGrid>
+
+				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema(problemasBean.problema)}" process="@form" update="@form :mensagens :formulario-cadastro-descricao :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
+				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
+				
+			</p:fieldset>
+	</h:form>
+
+	<h:form id="formulario-cadastro-descricao" rendered="#{not empty problemasBean.serviceBean.problemas}" >
+
+			<p:fieldset legend="Descrição Problema">
+				<p:panelGrid columns="2" id="panel-descricao">
+					<p:outputLabel value="Selecione o Tipo do Problema" for="@next" />
+						<p:selectOneMenu id="listBox-tipoProblema" value="#{problemasBean.descricaoProblema.problema}" converter="problemaConverter" required="true" requiredMessage="Tipo do Problema Obrigatório" >
+							<f:selectItems value="#{problemasBean.serviceBean.problemas}" var="problema" itemValue="#{problema}" itemLabel="#{problema.tipo}" />
+						</p:selectOneMenu>
+					<p:outputLabel value="Informe uma Descrição Resumida do Problema" for="@next" />
+						<p:inputText id="inputText-DescricaoResumida" placeholder="ex. Mouse - Scroll Ruim" value="#{problemasBean.descricaoProblema.descricaoResumida}" required="true" requiredMessage="Descrição Obrigatória" />
+					<p:outputLabel value="Informe uma Descrição Detalhada do Problema" for="@next" />
+						<p:inputTextarea id="inputTextArea-DescricaoDetalhada" placeholder="Computador está apresentando problema de..." rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Detalhe do Problema Obrigatório" />
+				</p:panelGrid>
+
+				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema(problemasBean.descricaoProblema)}" process="@form" update="@form :mensagens :formulario-cadastro-tipo :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
+				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
+
+			</p:fieldset>
+	</h:form>
+
+	<h:form id="formulario-descricaoProblema" rendered="#{not empty problemasBean.serviceBean.descricaoProblemas}" >
+
+		<p:fieldset legend="Textos Prontos">
+			<p:dataTable id="descricaoProblema" value="#{problemasBean.serviceBean.descricaoProblemas}" var="descricaoProblema" >
+
+				<p:column headerText="Tipo do Problema" >
+					<p:outputLabel value="#{descricaoProblema.problema.tipo}" />
+				</p:column>
+
+				<p:column headerText="Descrição Resumida" >
+					<p:outputLabel value="#{descricaoProblema.descricaoResumida}" />
+				</p:column>
+
+				<p:column headerText="Descrição Detalhada" >
+					<p:outputLabel value="#{descricaoProblema.descricaoDetalhada}" />
+				</p:column>
+
+				<p:column headerText="Editar" >
+					<p:commandLink update=":formulario-cadastro-tipo :formulario-cadastro-descricao :mensagens" >
+						<h:outputText title="Editar" styleClass="ui-icon pi pi-pencil" />
+						<f:setPropertyActionListener value="#{descricaoProblema.problema}" target="#{problemasBean.problema}" />
+						<f:setPropertyActionListener value="#{descricaoProblema}"          target="#{problemasBean.descricaoProblema}" />
+					</p:commandLink>
+				</p:column>
+
+				<p:column headerText="Excluir" >
+					<p:commandLink update="@form :formulario-cadastro-descricao :mensagens" actionListener="#{problemasBean.excluirDescricaoProblema(descricaoProblema)}" >
+						<h:outputText title="Excluir" styleClass="ui-icon pi pi-trash" />
+					</p:commandLink>
+				</p:column>
+
+			</p:dataTable>
+		</p:fieldset>
+	</h:form>
+
+</h:body>
+
+</html>

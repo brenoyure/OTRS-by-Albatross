@@ -12,7 +12,7 @@ import jakarta.persistence.PersistenceContext;
 @Stateless
 public class ServiceDao {
 
-	@PersistenceContext
+	@PersistenceContext(unitName = "otrsdb")
 	private EntityManager entityManager;
 	
 	public List<Service> findAll() {
