@@ -19,7 +19,7 @@ public class AnexoGenerator {
 			String fileName       =  uploadedFile.getSubmittedFileName();
 		    String fileExtension  =  getFileExtension(fileName);
 
-			File anexoTempFile    =  createTempFile(fileName, fileExtension);
+			File anexoTempFile    =  createTempFile(fileName.replace(fileExtension, ""), fileExtension);
 
 			try (OutputStream os = new BufferedOutputStream(new FileOutputStream(anexoTempFile))) {
 				uploadedFile.getInputStream().transferTo(os);
@@ -28,9 +28,9 @@ public class AnexoGenerator {
 			return anexoTempFile;
 
 		} catch (IOException e) { throw new RuntimeException(e); }
-		
+
 	}
-	
+
 	private String getFileExtension(String fileName) {
 		return fileName.substring((fileName.length() - 4));
 	}

@@ -1,5 +1,6 @@
 package br.albatross.otrs.view.beans;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import br.albatross.otrs.domain.services.EmailGarantiaService;
 import br.albatross.otrs.domain.services.TicketService;
 import br.albatross.otrs.domain.services.beans.ConfigItemServiceBean;
 import br.albatross.otrs.domain.services.beans.DescricaoProblema;
+import br.albatross.otrs.domain.services.garantia.AnexoGenerator;
 import br.albatross.otrs.domain.services.garantia.AssinaturaEmailService;
 import br.albatross.otrs.domain.services.garantia.AssuntoEmailService;
 import br.albatross.otrs.domain.services.garantia.EmailGarantia;
@@ -23,6 +25,7 @@ import jakarta.faces.validator.Validator;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.Part;
 import jakarta.validation.ConstraintViolationException;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +50,9 @@ public class OtrsBean implements Serializable {
 	@Getter @Setter
 	private TicketResumidoDto ticketDto = new TicketResumidoDto();
 
+	@Getter @Setter
+	private Part uploadedFile;
+
 	@Inject
 	private Validator<Ticket> validador;
 
@@ -64,6 +70,9 @@ public class OtrsBean implements Serializable {
 
 	@Inject
 	private FormularioInputStreamGenerator formularioFileInputStream;
+	
+	@Inject @Getter
+	private AnexoGenerator anexoGenerator;
 
 	@Inject
 	private AssuntoEmailService assuntoEmailService;
@@ -109,8 +118,22 @@ public class OtrsBean implements Serializable {
 		}
 
 		try {
+
+			File[] vetorAnexos;
+
+			if (uploadedFile == null) {
+				vetorAnexos = new File[1];
+
+			} else {
+				vetorAnexos = new File[2];
+				vetorAnexos[1] = anexoGenerator.getAnexo(uploadedFile);
+			}
+
 			var formulario = geradorFormulario.getFormulario(formularioFileInputStream.getInputStream(), emailGarantia.getNumeroDeSerie(), emailGarantia.getBody());
-			emailGarantia.setUploadedFile(formulario);
+			vetorAnexos[0] = formulario;
+
+			emailGarantia.setUploadedFiles(vetorAnexos);
+
 			emailGarantiaService.enviarSolicitacaoDeGarantiaParaFilaDeEnvios(emailGarantia);
 			solicitacaoGarantiaJaEfetuada = true;
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_INFO, "E-mail despachado para fila de envios", "E-mail despachado para a fila de envios e logo será enviado."));
@@ -118,6 +141,7 @@ public class OtrsBean implements Serializable {
 		}	catch (NotOfficeXmlFileException e) {
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_WARN, "Arquivo Inválido", "Arquivo submetido não é um formulário válido."));
 		}   catch (ConstraintViolationException e) {
+			e.printStackTrace();
 			context.addMessage("otrs", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getLocalizedMessage(), e.getMessage()));
 		}
 

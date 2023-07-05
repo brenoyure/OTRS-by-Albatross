@@ -6,6 +6,7 @@ import java.io.Serializable;
 import br.albatross.otrs.domain.models.ticket.Ticket;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +34,9 @@ public class EmailGarantia implements Serializable {
 	@NotBlank
 	private String to = "suporte.fabricante@empresa.br";
 
-	@NotNull
-	private File uploadedFile;
+	private String cc;
+
+	@NotEmpty
+	private File[] uploadedFiles;
 
 }
