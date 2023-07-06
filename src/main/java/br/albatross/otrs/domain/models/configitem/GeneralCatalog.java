@@ -34,7 +34,7 @@ public class GeneralCatalog {
 	@Id @GeneratedValue(strategy = IDENTITY)
 	private Integer id;
 
-	@Column(length = 100, nullable = false) //TODO Verificar o tipo do Relacionamento.
+	@Column(length = 100, nullable = false)
 	private String generalCatalogClass;
 
 	@Column(length = 100, nullable = false)

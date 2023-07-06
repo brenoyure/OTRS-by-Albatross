@@ -84,9 +84,9 @@ public class GarantiaService {
 				}
 			}
 
-		}  
-           catch (IOException e)        { throw new RuntimeException(e); }      // TODO Implementar a MSG de Erro no Envio.  
-           catch (MessagingException e) { throw new RuntimeException(e); }      // TODO Auto-generated catch block
+		}
+           catch (IOException e)        { throw new RuntimeException(e); }  
+           catch (MessagingException e) { throw new RuntimeException(e); }
 	}
-	
+
 }

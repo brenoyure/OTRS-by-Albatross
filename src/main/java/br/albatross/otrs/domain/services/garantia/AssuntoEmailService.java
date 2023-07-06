@@ -1,6 +1,7 @@
 package br.albatross.otrs.domain.services.garantia;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import jakarta.faces.view.ViewScoped;
 
@@ -14,7 +15,11 @@ public class AssuntoEmailService implements Serializable {
 	private static final int GARANTIA_TECLADO_DATEN  =  223;
 	private static final int GARANTIA_GABINETE_DATEN =  224;
 
-	public void setAssuntoDoEmail(EmailGarantia emailGarantia) {
+	public Optional<String> getEmailSubject(EmailGarantia emailGarantia) {
+		return Optional.ofNullable(emailGarantia.getSubject());
+	}
+
+	public void setEmailSubject(EmailGarantia emailGarantia) {
 
 		switch (emailGarantia.getTicket().getService().getId()) {
 		
