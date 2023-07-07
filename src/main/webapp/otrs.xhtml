@@ -78,7 +78,7 @@
 
 					<p:outputLabel value="Adicionar Vídeo ou Foto do Problema" for="fileUpload" />
 						<h:inputFile id="fileUpload" value="#{otrsBean.uploadedFile}" required="false" >
-							<f:ajax execute="fileUpload" render=":mensagens" />
+							<f:ajax execute="@this" render=":mensagens" />
 						</h:inputFile>
 
 					<br />
