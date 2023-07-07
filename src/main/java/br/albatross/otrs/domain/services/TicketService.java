@@ -25,8 +25,8 @@ public class TicketService {
 	}
 
 	@Produces @ViewScoped
-	public List<Ticket> listarTodosOsChamadosAbertosDaFilaNivel1() {
-		return dao.findAllOpenedTicketsForNivel1Queue();
+	public List<Ticket> listarTodosOsChamadosNovosOuAbertosDaFilaNivel1() {
+		return dao.findAllNewOrOpenedTicketsForNivel1Queue();
 	}
 
 }

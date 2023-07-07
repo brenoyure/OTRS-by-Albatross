@@ -73,7 +73,7 @@ public class TicketDao {
 
 	}
 
-	public List<Ticket> findAllOpenedTicketsForNivel1Queue() {
+	public List<Ticket> findAllNewOrOpenedTicketsForNivel1Queue() {
 		var cb      =  entityManager.getCriteriaBuilder();
 		var cq      =  cb.createQuery(Ticket.class);
 		var ticket  =  cq.from(Ticket.class);
