@@ -1,4 +1,4 @@
-package br.albatross.otrs.domain.services;
+package br.albatross.otrs.domain.services.messages;
 
 import java.io.File;
 import java.io.IOException;

@@ -15,7 +15,7 @@ import jakarta.jms.MessageListener;
 public class EmailMdb implements MessageListener {
 
 	@Inject
-	private GarantiaService garantiaService;
+	private GarantiaService<EmailGarantia> garantiaService;
 
 	@Override
 	public void onMessage(Message message) {

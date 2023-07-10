@@ -29,10 +29,10 @@ public class EmailGarantia implements Serializable {
 	private String body;
 
 	@NotBlank @Email
-	private String from = "breno.brito@albatross.github.br";
+	private String from;
 
 	@NotBlank
-	private String to = "suporte.fabricante@empresa.br";
+	private String to;
 
 	private String cc;
 
