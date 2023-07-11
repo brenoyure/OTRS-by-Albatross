@@ -9,9 +9,11 @@ import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 
-import br.albatross.otrs.domain.models.ticket.Ticket;
+import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
+import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoGarantia;
+import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
+import br.albatross.otrs.domain.models.otrs.ticket.Ticket;
 import br.albatross.otrs.domain.services.garantia.AnexoGenerator;
-import br.albatross.otrs.domain.services.garantia.EmailGarantia;
 import br.albatross.otrs.domain.services.garantia.FormularioGenerator;
 import br.albatross.otrs.domain.services.garantia.FormularioInputStreamGenerator;
 import jakarta.faces.application.FacesMessage;
@@ -51,6 +53,9 @@ public class OtrsServiceBean implements Serializable {
 	private AssuntoEmailServiceBean assuntoEmailServiceBean;
 
 	@Inject
+	private AssinaturaEmailServiceBean assinaturaEmailServiceBean;
+
+	@Inject
 	private FormularioGenerator geradorFormulario;
 
 	@Inject
@@ -61,18 +66,18 @@ public class OtrsServiceBean implements Serializable {
 
 	private boolean solicitacaoGarantiaJaEfetuada = false;
 
-	public void buscarNumeroDeSeriePeloBm(String bm, EmailGarantia emailGarantia) {
+	public void buscarNumeroDeSeriePeloBm(String bm, SolicitacaoGarantia solicitacao) {
 		configItemService
 		                 .buscarNumeroDeSeriePorBm(bm)
-		                 .ifPresentOrElse(NdeSerie -> emailGarantia.setNumeroDeSerie(NdeSerie), 
-		                		 () -> emailGarantia.setNumeroDeSerie(null));
+		                 .ifPresentOrElse(NdeSerie -> solicitacao.setNumeroDeSerie(NdeSerie), 
+		                		 () -> solicitacao.setNumeroDeSerie(null));
 	}
 
 	public void validarTicket(FacesContext context, UIComponent component, Object ticket) {
 		ticketValidator.validate(context, component, (Ticket)ticket);
 	}
 
-	public void definirAssuntoDoEmail(EmailGarantia emailGarantia) {
+	public void definirAssuntoDoEmail(EmailDeGarantia emailGarantia) {
 		if (ticketsAbertosNivel1.isEmpty()) {
 			context.addMessage("otrs", new FacesMessage(SEVERITY_WARN, "Não há tickets abertos.", "Não há tickets abertos para a fila do Nível 1, sendo assim, não será possível a abertura de chamados de garantia."));
 			return;
@@ -82,7 +87,7 @@ public class OtrsServiceBean implements Serializable {
 
 	}
 
-	public void enviarSolicitacaoDeGarantiaPorEmail(EmailGarantia emailGarantia, Part uploadedFile) {
+	public void enviarSolicitacaoDeGarantiaPorEmail(SolicitacaoGarantia solicitacao, Part uploadedFile) {
 
 		if (solicitacaoGarantiaJaEfetuada) {
 			context.addMessage("otrs", new FacesMessage(SEVERITY_WARN, "Solicitação de Garantia Já Realizada.", null));
@@ -101,11 +106,13 @@ public class OtrsServiceBean implements Serializable {
 				vetorAnexos[1] = anexoGenerator.getAnexo(uploadedFile);
 			}
 
-			var formulario = geradorFormulario.getFormulario(formularioFileInputStream.getInputStream(), emailGarantia.getNumeroDeSerie(), emailGarantia.getBody());
+			var formulario = geradorFormulario.getFormulario(formularioFileInputStream.getInputStream(), solicitacao.getNumeroDeSerie(), solicitacao.getDescricaoDoProblema());
 			vetorAnexos[0] = formulario;
 
-			emailGarantia.setUploadedFiles(vetorAnexos);
-			emailGarantiaServiceBean.enviarSolicitacaoDeGarantia(emailGarantia);
+			solicitacao.getEmailDeGarantia().setAnexos(vetorAnexos);
+			assinaturaEmailServiceBean.setCorpoDaMensagemComAssinatura(solicitacao.getEmailDeGarantia());
+			
+			emailGarantiaServiceBean.enviarSolicitacaoDeGarantia(solicitacao.getEmailDeGarantia());
 
 			solicitacaoGarantiaJaEfetuada = true;
 

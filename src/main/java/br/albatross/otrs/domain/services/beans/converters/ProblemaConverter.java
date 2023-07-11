@@ -2,7 +2,7 @@ package br.albatross.otrs.domain.services.beans.converters;
 
 import java.util.Map;
 
-import br.albatross.otrs.domain.services.beans.Problema;
+import br.albatross.otrs.domain.models.garantia.entidades.problemas.Problema;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;

@@ -2,9 +2,12 @@ package br.albatross.otrs.view.beans;
 
 import java.io.Serializable;
 
-import br.albatross.otrs.domain.models.ticket.dto.TicketResumidoDto;
+import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoGarantia;
+import br.albatross.otrs.domain.models.garantia.entidades.email.EmailDeGarantiaDadosDoEnvioImpl;
+import br.albatross.otrs.domain.models.garantia.entidades.email.EmailDeGarantiaImpl;
+import br.albatross.otrs.domain.models.garantia.entidades.solicitacao.SolicitacaoDeGarantiaImpl;
 import br.albatross.otrs.domain.services.beans.OtrsServiceBean;
-import br.albatross.otrs.domain.services.garantia.EmailGarantia;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -23,10 +26,7 @@ public class OtrsBean implements Serializable {
 	private String bm;
 
 	@Getter @Setter
-	private EmailGarantia emailGarantia = new EmailGarantia();
-
-	@Getter @Setter
-	private TicketResumidoDto ticketDto = new TicketResumidoDto();
+	private SolicitacaoGarantia solicitacao;
 
 	@Getter @Setter
 	private Part uploadedFile;
@@ -34,8 +34,16 @@ public class OtrsBean implements Serializable {
 	@Inject @Getter
 	private OtrsServiceBean serviceBean;
 
+	@PostConstruct
+	void init() {
+		solicitacao = new SolicitacaoDeGarantiaImpl();
+		solicitacao.setEmailDeGarantia(new EmailDeGarantiaImpl());
+		solicitacao.getEmailDeGarantia().setDadosDoEnvio(new EmailDeGarantiaDadosDoEnvioImpl());
+		solicitacao.getEmailDeGarantia().setSolicitacaoGarantia(solicitacao);
+	}
+
 	public void buscarNumeroDeSeriePeloBm() {
-		serviceBean.buscarNumeroDeSeriePeloBm(bm, emailGarantia);
+		serviceBean.buscarNumeroDeSeriePeloBm(bm, solicitacao);
 	}
 
 	public void validarTicket(FacesContext context, UIComponent componente, Object ticket) {
@@ -43,11 +51,11 @@ public class OtrsBean implements Serializable {
 	}
 
 	public void definirAssuntoDoEmail() {
-		serviceBean.definirAssuntoDoEmail(emailGarantia);
+		serviceBean.definirAssuntoDoEmail(solicitacao.getEmailDeGarantia());
 	}
 
 	public void enviarSolicitacaoDeGarantiaPorEmail() {
-		serviceBean.enviarSolicitacaoDeGarantiaPorEmail(emailGarantia, uploadedFile);
+		serviceBean.enviarSolicitacaoDeGarantiaPorEmail(solicitacao, uploadedFile);
 	}
 
 }

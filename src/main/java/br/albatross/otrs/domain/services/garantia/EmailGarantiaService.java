@@ -3,7 +3,8 @@ package br.albatross.otrs.domain.services.garantia;
 import java.io.File;
 import java.io.IOException;
 
-import br.albatross.otrs.domain.services.messages.MessageBuilder;
+import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
+import br.albatross.otrs.domain.services.messages.apis.MessageBuilder;
 import jakarta.annotation.Resource;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -15,19 +16,19 @@ import jakarta.mail.internet.AddressException;
 import jakarta.validation.Valid;
 
 @Stateless
-public class EmailGarantiaService implements GarantiaService<EmailGarantia> {
+public class EmailGarantiaService implements GarantiaService<EmailDeGarantia> {
 
 	@Inject
-	private MessageBuilder<EmailGarantia> builder;
+	private MessageBuilder<EmailDeGarantia> builder;
 
 	@Resource(lookup = "java:jboss/mail/OtrsMailSession")
 	private Session sessaoEmail;
 
-	public void enviarEmail(@Valid EmailGarantia email) {
+	public void enviarEmail(@Valid EmailDeGarantia email) {
 		try {
 			Message mensagem = builder.buildMessage(email, sessaoEmail);
 			Transport.send(mensagem);
-			deleteTempFiles(email.getUploadedFiles());
+			deleteTempFiles(email.getAnexos());
 		}
            catch (IOException e)        { throw new RuntimeException(e); }
 		   catch (AddressException e)   { throw new RuntimeException(e); }

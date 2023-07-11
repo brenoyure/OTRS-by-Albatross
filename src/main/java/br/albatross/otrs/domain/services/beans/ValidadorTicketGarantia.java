@@ -4,7 +4,7 @@ import static jakarta.faces.application.FacesMessage.SEVERITY_ERROR;
 
 import java.io.Serializable;
 
-import br.albatross.otrs.domain.models.ticket.Ticket;
+import br.albatross.otrs.domain.models.otrs.ticket.Ticket;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;

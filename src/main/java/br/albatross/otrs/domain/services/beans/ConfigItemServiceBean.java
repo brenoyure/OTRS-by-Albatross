@@ -6,7 +6,7 @@ import static java.util.Optional.empty;
 import java.io.Serializable;
 import java.util.Optional;
 
-import br.albatross.otrs.domain.services.ConfigItemService;
+import br.albatross.otrs.domain.services.otrs.ConfigItemService;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;

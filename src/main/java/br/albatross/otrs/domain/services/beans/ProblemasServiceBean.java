@@ -5,6 +5,8 @@ import java.util.List;
 
 import br.albatross.otrs.domain.dao.problema.DescricaoProblemaDao;
 import br.albatross.otrs.domain.dao.problema.ProblemaDao;
+import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
+import br.albatross.otrs.domain.models.garantia.entidades.problemas.Problema;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;

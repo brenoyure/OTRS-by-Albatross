@@ -2,8 +2,8 @@ package br.albatross.otrs.view.beans;
 
 import java.io.Serializable;
 
-import br.albatross.otrs.domain.services.beans.DescricaoProblema;
-import br.albatross.otrs.domain.services.beans.Problema;
+import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
+import br.albatross.otrs.domain.models.garantia.entidades.problemas.Problema;
 import br.albatross.otrs.domain.services.beans.ProblemasServiceBean;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;

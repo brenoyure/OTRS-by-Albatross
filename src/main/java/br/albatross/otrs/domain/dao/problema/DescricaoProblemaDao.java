@@ -1,13 +1,13 @@
 package br.albatross.otrs.domain.dao.problema;
 
-import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.descricaoDetalhada;
-import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.descricaoResumida;
-import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.id;
-import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.problema;
+import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.descricaoDetalhada;
+import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.descricaoResumida;
+import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.id;
+import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.problema;
 
 import java.util.List;
 
-import br.albatross.otrs.domain.services.beans.DescricaoProblema;
+import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
