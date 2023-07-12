@@ -3,7 +3,7 @@ package br.albatross.otrs.domain.services.otrs;
 import java.util.List;
 
 import br.albatross.otrs.domain.dao.otrs.ServiceDao;
-import br.albatross.otrs.domain.models.otrs.ticket.Service;
+import br.albatross.otrs.domain.models.otrs.service.Service;
 import jakarta.enterprise.inject.Produces;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;

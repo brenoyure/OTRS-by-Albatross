@@ -1,10 +1,10 @@
 package br.albatross.otrs.domain.dao.otrs;
 
-import static br.albatross.otrs.domain.models.otrs.ticket.Service_.id;
+import static br.albatross.otrs.domain.models.otrs.service.Service_.id;
 
 import java.util.List;
 
-import br.albatross.otrs.domain.models.otrs.ticket.Service;
+import br.albatross.otrs.domain.models.otrs.service.Service;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

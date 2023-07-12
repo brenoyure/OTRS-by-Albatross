@@ -10,6 +10,4 @@ public interface DadosDoResponsavelPeloChamado {
 	@NotBlank
 	String getNomeCompleto();
 
-	void setLogin(String login);
-
 }

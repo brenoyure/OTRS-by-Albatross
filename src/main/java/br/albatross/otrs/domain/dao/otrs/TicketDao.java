@@ -1,20 +1,20 @@
 package br.albatross.otrs.domain.dao.otrs;
 
-import static br.albatross.otrs.domain.models.otrs.ticket.TicketState_.ticketStateType;
 import static br.albatross.otrs.domain.models.otrs.ticket.Ticket_.queue;
 import static br.albatross.otrs.domain.models.otrs.ticket.Ticket_.responsibleUser;
 import static br.albatross.otrs.domain.models.otrs.ticket.Ticket_.service;
 import static br.albatross.otrs.domain.models.otrs.ticket.Ticket_.ticketState;
+import static br.albatross.otrs.domain.models.otrs.ticket.state.TicketState_.ticketStateType;
 import static java.util.Optional.empty;
 
 import java.util.List;
 import java.util.Optional;
 
 import br.albatross.otrs.domain.models.otrs.queue.Queue_;
-import br.albatross.otrs.domain.models.otrs.ticket.Service_;
+import br.albatross.otrs.domain.models.otrs.service.Service_;
 import br.albatross.otrs.domain.models.otrs.ticket.Ticket;
-import br.albatross.otrs.domain.models.otrs.ticket.TicketStateType_;
 import br.albatross.otrs.domain.models.otrs.ticket.Ticket_;
+import br.albatross.otrs.domain.models.otrs.ticket.state.TicketStateType_;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;

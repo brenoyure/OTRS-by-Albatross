@@ -1,4 +1,4 @@
-package br.albatross.otrs.domain.models.otrs.ticket;
+package br.albatross.otrs.domain.models.otrs.ticket.type;
 
 import java.time.LocalDateTime;
 

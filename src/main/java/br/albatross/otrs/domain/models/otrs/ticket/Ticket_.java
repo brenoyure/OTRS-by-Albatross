@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 
 import br.albatross.otrs.domain.models.otrs.User;
 import br.albatross.otrs.domain.models.otrs.queue.Queue;
+import br.albatross.otrs.domain.models.otrs.service.Service;
+import br.albatross.otrs.domain.models.otrs.ticket.state.TicketState;
+import br.albatross.otrs.domain.models.otrs.ticket.type.TicketType;
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;
 
