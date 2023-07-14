@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 import br.albatross.otrs.domain.models.garantia.apis.email.DadosDoEnvio;
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
-import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoGarantia;
+import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +22,6 @@ public class EmailDeGarantiaImpl implements Serializable, EmailDeGarantia {
 
 	private DadosDoEnvio dadosDoEnvio;
 
-	private SolicitacaoGarantia solicitacaoGarantia;
+	private SolicitacaoDeGarantia solicitacaoGarantia;
 
 }

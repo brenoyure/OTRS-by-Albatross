@@ -10,7 +10,7 @@ import java.util.List;
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
-import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoGarantia;
+import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
 import br.albatross.otrs.domain.models.otrs.ticket.Ticket;
 import br.albatross.otrs.domain.services.garantia.AnexoGenerator;
@@ -66,7 +66,7 @@ public class OtrsServiceBean implements Serializable {
 
 	private boolean solicitacaoGarantiaJaEfetuada = false;
 
-	public void buscarNumeroDeSeriePeloBm(String bm, SolicitacaoGarantia solicitacao) {
+	public void buscarNumeroDeSeriePeloBm(String bm, SolicitacaoDeGarantia solicitacao) {
 		configItemService
 		                 .buscarNumeroDeSeriePorBm(bm)
 		                 .ifPresentOrElse(NdeSerie -> solicitacao.setNumeroDeSerie(NdeSerie), 
@@ -87,7 +87,7 @@ public class OtrsServiceBean implements Serializable {
 
 	}
 
-	public void enviarSolicitacaoDeGarantiaPorEmail(SolicitacaoGarantia solicitacao, Part uploadedFile) {
+	public void enviarSolicitacaoDeGarantiaPorEmail(SolicitacaoDeGarantia solicitacao, Part uploadedFile) {
 
 		if (solicitacaoGarantiaJaEfetuada) {
 			context.addMessage("otrs", new FacesMessage(SEVERITY_WARN, "Solicitação de Garantia Já Realizada.", null));

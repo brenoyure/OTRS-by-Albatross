@@ -5,7 +5,7 @@ import static jakarta.mail.Message.RecipientType.TO;
 
 import java.io.IOException;
 
-import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
+import br.albatross.otrs.domain.models.garantia.apis.email.Email;
 import br.albatross.otrs.domain.services.garantia.AssinaturaEmailService;
 import br.albatross.otrs.domain.services.messages.apis.MessageBodyPartsBuilder;
 import br.albatross.otrs.domain.services.messages.apis.MessageBuilder;
@@ -20,30 +20,30 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMultipart;
 
 @RequestScoped
-public class EmailGarantiaMessageBuilder implements MessageBuilder<EmailDeGarantia> {
+public class EmailGarantiaMessageBuilder implements MessageBuilder<Email> {
 
 	@Inject
 	private AssinaturaEmailService assinaturaEmailService;
 
 	@Inject
-	private MessageFactory<EmailDeGarantia> messageFactory;
+	private MessageFactory<Email> messageFactory;
 
 	@Inject
-	private MessageBodyPartsBuilder<EmailDeGarantia> bodyPartsBuilder;
+	private MessageBodyPartsBuilder<Email> bodyPartsBuilder;
 
 	@Override
-	public Message buildMessage(EmailDeGarantia emailGarantia, Session session) throws IOException, MessagingException {
+	public Message buildMessage(Email emailDeGarantia, Session session) throws IOException, MessagingException {
 		Message mensagem = messageFactory.createMessage(session);
-		setMessageDeliveryAndRecipientData(mensagem, emailGarantia);
+		setMessageDeliveryAndRecipientData(mensagem, emailDeGarantia);
 
-		mensagem.setSubject(emailGarantia.getAssunto());
-		mensagem.setContent(new MimeMultipart(bodyPartsBuilder.buildBodyParts(emailGarantia)));
+		mensagem.setSubject(emailDeGarantia.getAssunto());
+		mensagem.setContent(new MimeMultipart(bodyPartsBuilder.buildBodyParts(emailDeGarantia)));
 
 		return mensagem;
 
 	}
 
-	private void setMessageDeliveryAndRecipientData(Message message, EmailDeGarantia emailGarantia) throws AddressException, MessagingException {
+	private void setMessageDeliveryAndRecipientData(Message message, Email emailGarantia) throws AddressException, MessagingException {
 		message.setFrom(new InternetAddress(emailGarantia.getDadosDoEnvio().getRemetente()));
 		message.setRecipients(TO, InternetAddress.parse(emailGarantia.getDadosDoEnvio().getDestinatario()));
 

@@ -17,6 +17,9 @@ public interface DadosDoChamado {
 	@NotNull
 	DadosDoResponsavelPeloChamado getDadosDoResponsavelPeloChamado();
 
+	@NotNull
+	DadosDoUsuarioCliente getDadosDoUsuarioCliente();
+
 	void setId(Long id);
 
 	void setNumeroDoChamado(String numeroDoTicket);

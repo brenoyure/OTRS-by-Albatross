@@ -1,7 +1,7 @@
 package br.albatross.otrs.domain.services;
 
-import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
-import br.albatross.otrs.domain.services.garantia.GarantiaService;
+import br.albatross.otrs.domain.models.garantia.apis.email.Email;
+import br.albatross.otrs.domain.services.garantia.ServicoDeEnvioDeEmail;
 import jakarta.ejb.ActivationConfigProperty;
 import jakarta.ejb.MessageDriven;
 import jakarta.inject.Inject;
@@ -15,13 +15,13 @@ import jakarta.jms.MessageListener;
 public class EmailMdb implements MessageListener {
 
 	@Inject
-	private GarantiaService<EmailDeGarantia> garantiaService;
+	private ServicoDeEnvioDeEmail servicoDeEmail;
 
 	@Override
 	public void onMessage(Message message) {
 
 		try {
-			garantiaService.enviarEmail(message.getBody(EmailDeGarantia.class));
+			servicoDeEmail.enviar(message.getBody(Email.class));
 
 		} catch (JMSException e) { throw new RuntimeException(e); }
 

@@ -2,7 +2,7 @@ package br.albatross.otrs.view.beans;
 
 import java.io.Serializable;
 
-import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoGarantia;
+import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import br.albatross.otrs.domain.models.garantia.entidades.email.EmailDeGarantiaDadosDoEnvioImpl;
 import br.albatross.otrs.domain.models.garantia.entidades.email.EmailDeGarantiaImpl;
 import br.albatross.otrs.domain.models.garantia.entidades.solicitacao.SolicitacaoDeGarantiaImpl;
@@ -26,7 +26,7 @@ public class OtrsBean implements Serializable {
 	private String bm;
 
 	@Getter @Setter
-	private SolicitacaoGarantia solicitacao;
+	private SolicitacaoDeGarantia solicitacao;
 
 	@Getter @Setter
 	private Part uploadedFile;

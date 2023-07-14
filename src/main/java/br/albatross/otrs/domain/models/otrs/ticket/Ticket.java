@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoResponsavelPeloChamado;
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoServico;
+import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoUsuarioCliente;
 import br.albatross.otrs.domain.models.otrs.User;
 import br.albatross.otrs.domain.models.otrs.queue.Queue;
 import br.albatross.otrs.domain.models.otrs.service.Service;
@@ -21,7 +22,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -140,6 +140,14 @@ public class Ticket implements Serializable, DadosDoChamado {
 	public void setDadosDoResponsavel(DadosDoResponsavelPeloChamado dadosDoResponsavel) {
 		this.responsibleUser = (User) dadosDoResponsavel;
 		
+	}
+
+	@Override
+	public DadosDoUsuarioCliente getDadosDoUsuarioCliente() {
+		return new DadosDoUsuarioCliente() {
+
+			public String getNomeDoUsuarioCliente() { return customerUserId; }};
+
 	}
 
 }

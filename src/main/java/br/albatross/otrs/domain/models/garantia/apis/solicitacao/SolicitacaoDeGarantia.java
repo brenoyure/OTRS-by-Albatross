@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  * Representa uma Solicitação de Garantia que pode ser aberta para algum fornecedor. 
  */
-public interface SolicitacaoGarantia extends Serializable {
+public interface SolicitacaoDeGarantia extends Serializable {
 
 	/**
 	 * 
