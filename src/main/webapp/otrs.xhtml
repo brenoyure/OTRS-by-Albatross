@@ -24,8 +24,8 @@
 
 	<p:growl id="mensagens" showDetail="true" skipDetailIfEqualsSummary="true" style="color:red" />
 
-	<h:form enctype="multipart/form-data">
-	
+	<h:form id="formulario-email-garantia" enctype="multipart/form-data">
+
 	<p:focus context="panel" />
 
 		<p:fieldset legend="OTRS"> 
@@ -46,12 +46,12 @@
 					    <p:selectOneMenu id="selectOne-Ticket" value="#{otrsBean.solicitacao.chamado}" required="true" requiredMessage="Ticket Obrigatório" converter="ticketConverter" validator="#{otrsBean.validarTicket}" rendered="#{not empty otrsBean.serviceBean.ticketsAbertosNivel1}" >
 					    	<f:selectItem itemLabel="Selecione um Ticket" itemDisabled="true" noSelectionOption="true" />
 					    	<f:selectItems value="#{otrsBean.serviceBean.ticketsAbertosNivel1}" var="ticket" itemLabel="Nº: #{ticket.ticketNumber} | Título: #{ticket.title} | Serviço: #{ticket.service.name} | Usuário: #{ticket.customerUserId}" itemValue="#{ticket}" />
-							<f:ajax event="focus"  execute="@this" listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens inputText-Assunto" />
-							<f:ajax event="change" execute="@this" listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens inputText-Assunto" />
-							<f:ajax event="click"  execute="@this" listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens inputText-Assunto" />
+							<f:ajax event="focus"  execute="@this" listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens outputText-Assunto" />
+							<f:ajax event="change" execute="@this" listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens outputText-Assunto" />
+							<f:ajax event="click"  execute="@this" listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens outputText-Assunto" />
 					    </p:selectOneMenu>
 					    <p:commandButton value="Selecionar" 
-					    				 process="selectOne-Ticket" update=":mensagens inputText-Assunto" disabled="#{empty otrsBean.serviceBean.ticketsAbertosNivel1}" />
+					    				 process="selectOne-Ticket" update=":mensagens outputText-Assunto" disabled="#{empty otrsBean.serviceBean.ticketsAbertosNivel1}" />
 
 				    <p:outputLabel value="Problema: " for="tipo-garantia" />
 				    <p:outputLabel value="Nenhum Texto Pronto Cadastrado" rendered="#{empty otrsBean.serviceBean.listaDeProblemas}" /> <p:divider rendered="#{empty otrsBean.serviceBean.listaDeProblemas}" />
@@ -59,21 +59,21 @@
 				    <p:selectOneMenu id="tipo-garantia" value="#{otrsBean.solicitacao.descricaoDoProblema}" rendered="#{not empty otrsBean.serviceBean.listaDeProblemas}" >
 				    	<f:selectItem itemLabel="Selecione o Problema" itemDisabled="true" noSelectionOption="true" />
 				    	<f:selectItems var="problema" value="#{otrsBean.serviceBean.listaDeProblemas}" itemLabel="#{problema.descricaoResumida}" itemDescription="#{problema.descricaoDetalhada}" itemValue="#{problema.descricaoDetalhada}" />
-				    	<f:ajax event="focus"  execute="tipo-garantia" render=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />
-				    	<f:ajax event="change" execute="tipo-garantia" render=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />
-				    	<f:ajax event="click"  execute="tipo-garantia" render=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />
+				    	<f:ajax event="focus"  execute="@this" render=":mensagens outputText-Assunto textArea-DescricaoProblema" />
+				    	<f:ajax event="change" execute="@this" render=":mensagens outputText-Assunto textArea-DescricaoProblema" />
+				    	<f:ajax event="click"  execute="@this" render=":mensagens outputText-Assunto textArea-DescricaoProblema" />
 				    </p:selectOneMenu>
 			        <p:commandButton value="Utilizar" rendered="#{not empty otrsBean.serviceBean.listaDeProblemas}" >
-			        	<f:ajax execute="tipo-garantia" render=":mensagens inputText-Assunto inputTextArea-DescricaoProblema" />
+			        	<f:ajax execute="tipo-garantia" render=":mensagens outputText-Assunto textArea-DescricaoProblema" />
 			        </p:commandButton>
 
 
-				    <p:outputLabel for="inputText-Assunto" value="Assunto: " />
-						<p:inputText id="inputText-Assunto" value="#{otrsBean.solicitacao.emailDeGarantia.assunto}" size="#{otrsBean.solicitacao.emailDeGarantia.assunto.length()}" />
+				    <p:outputLabel for="outputText-Assunto" value="Assunto: " />
+						<h:outputText id="outputText-Assunto" value="#{otrsBean.solicitacao.emailDeGarantia.assunto}" size="#{otrsBean.solicitacao.emailDeGarantia.assunto.length()}" />
 					<br />
 
-				    <p:outputLabel for="inputTextArea-DescricaoProblema" value="Informe a Descrição do Problema" />
-						<p:inputTextarea readonly="false" rows="6" cols="33" id="inputTextArea-DescricaoProblema" placeholder="Computador/Monitor está apresentando problema de..." value="#{otrsBean.solicitacao.descricaoDoProblema}" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
+				    <p:outputLabel for="textArea-DescricaoProblema" value="Descrição do Problema" />
+						<p:inputTextarea readonly="true" rows="6" cols="33" id="textArea-DescricaoProblema" placeholder="Computador/Monitor está apresentando problema de..." value="#{otrsBean.solicitacao.descricaoDoProblema}" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
 					<br />
 
 					<p:outputLabel value="Adicionar Vídeo ou Foto do Problema" for="fileUpload" />
@@ -99,7 +99,7 @@
 						</p:inputText>
 					</p:outputLabel>
 
-					<p:outputLabel for="inputText-EmailCopia" value="(Opcional) Coṕia para: ">
+					<p:outputLabel for="inputText-EmailCopia" value="(Opcional) Cópia para: ">
 						<p:inputText id="inputText-EmailCopia" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.copiaPara}" size="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.copiaPara.length()/2}" >
 							<f:ajax event="input" execute="@this" render="@this" />
 						</p:inputText>
@@ -114,6 +114,7 @@
 		<br />
 
     </h:form>
+
 </h:body>
 
 

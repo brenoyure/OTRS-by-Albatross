@@ -93,7 +93,7 @@ public class TicketDao {
 		var predicateTicketNew  = cb.equal(ticket.get(ticketState).get(ticketStateType).get(TicketStateType_.id), 1);
 		var predicateTicketOpen = cb.equal(ticket.get(ticketState).get(ticketStateType).get(TicketStateType_.id), 2);
 
-		var predicateServicosGarantiaValidos = cb.between(ticket.get(service).get(Service_.id), 220, 225);
+		var predicateServicosGarantiaValidos = cb.between(ticket.get(service).get(Service_.id), 221, 225);
 
 		var predicateTicketNewOrOpen = cb.or(predicateTicketNew, predicateTicketOpen);
 

@@ -47,12 +47,15 @@ public class DescricaoProblemaDao {
 	}
 
 	public List<DescricaoProblema> findAll() {
-		var cb = entityManager.getCriteriaBuilder();
-		var cq = cb.createQuery(DescricaoProblema.class);
+		var cb                =  entityManager.getCriteriaBuilder();
+		var cq                =  cb.createQuery(DescricaoProblema.class);
+		var descricaoProblema =  cq.from(DescricaoProblema.class); 
+
+		descricaoProblema
+		                 .fetch(problema, JoinType.INNER);
 
 		cq
-		  .from(DescricaoProblema.class)
-		  .fetch(problema, JoinType.INNER);
+		  .orderBy(cb.asc(descricaoProblema.get(descricaoResumida)));
 
 		return entityManager
 				       .createQuery(cq)
