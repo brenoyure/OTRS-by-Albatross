@@ -46,6 +46,7 @@
 				<p:panelGrid columns="2" id="panel-descricao">
 					<p:outputLabel value="Selecione o Tipo do Problema" for="@next" />
 						<p:selectOneMenu id="listBox-tipoProblema" value="#{problemasBean.descricaoProblema.problema}" converter="problemaConverter" required="true" requiredMessage="Tipo do Problema Obrigatório" >
+							<f:selectItem itemLabel="Selecione o Problema" itemDisabled="true" noSelectionOption="true" />
 							<f:selectItems value="#{problemasBean.serviceBean.problemas}" var="problema" itemValue="#{problema}" itemLabel="#{problema.tipo}" />
 						</p:selectOneMenu>
 					<p:outputLabel value="Informe uma Descrição Resumida do Problema" for="@next" />

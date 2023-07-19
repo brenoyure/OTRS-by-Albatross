@@ -2,7 +2,7 @@ package br.albatross.otrs.domain.services.beans.converters;
 
 import java.util.Map;
 
-import br.albatross.otrs.domain.models.ticket.Ticket;
+import br.albatross.otrs.domain.models.otrs.ticket.Ticket;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;

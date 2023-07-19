@@ -1,13 +1,13 @@
 package br.albatross.otrs.domain.dao.problema;
 
-import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.descricaoDetalhada;
-import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.descricaoResumida;
-import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.id;
-import static br.albatross.otrs.domain.services.beans.DescricaoProblema_.problema;
+import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.descricaoDetalhada;
+import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.descricaoResumida;
+import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.id;
+import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.problema;
 
 import java.util.List;
 
-import br.albatross.otrs.domain.services.beans.DescricaoProblema;
+import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -47,12 +47,15 @@ public class DescricaoProblemaDao {
 	}
 
 	public List<DescricaoProblema> findAll() {
-		var cb = entityManager.getCriteriaBuilder();
-		var cq = cb.createQuery(DescricaoProblema.class);
+		var cb                =  entityManager.getCriteriaBuilder();
+		var cq                =  cb.createQuery(DescricaoProblema.class);
+		var descricaoProblema =  cq.from(DescricaoProblema.class); 
+
+		descricaoProblema
+		                 .fetch(problema, JoinType.INNER);
 
 		cq
-		  .from(DescricaoProblema.class)
-		  .fetch(problema, JoinType.INNER);
+		  .orderBy(cb.asc(descricaoProblema.get(descricaoResumida)));
 
 		return entityManager
 				       .createQuery(cq)

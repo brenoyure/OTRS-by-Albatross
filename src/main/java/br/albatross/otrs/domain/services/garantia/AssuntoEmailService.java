@@ -1,7 +1,9 @@
 package br.albatross.otrs.domain.services.garantia;
 
 import java.io.Serializable;
+import java.util.Optional;
 
+import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
 import jakarta.faces.view.ViewScoped;
 
 @ViewScoped
@@ -14,30 +16,37 @@ public class AssuntoEmailService implements Serializable {
 	private static final int GARANTIA_TECLADO_DATEN  =  223;
 	private static final int GARANTIA_GABINETE_DATEN =  224;
 
-	public void setAssuntoDoEmail(EmailGarantia emailGarantia) {
+	public Optional<String> getEmailSubject(EmailDeGarantia emailGarantia) {
+		return Optional.ofNullable(emailGarantia.getAssunto());
+	}
 
-		switch (emailGarantia.getTicket().getService().getId()) {
+	public Optional<String> getAssuntoDoEmailBaseadoNoServicoDoChamado(EmailDeGarantia emailGarantia) {
+
+		if (emailGarantia.getSolicitacaoGarantia().getChamado() == null) {
+			return Optional.empty();
+		}
+
+		switch (emailGarantia.getSolicitacaoGarantia().getChamado().getDadosDoServico().getIdDoServico()) {
 		
 			case GARANTIA_MONITOR_DATEN: {
-				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Monitor Fabricante - Company", emailGarantia.getTicket().getTicketNumber()));
-				break;
+				return Optional.of(String.format("[Ticket#%s] Problema Monitor Fabricante - Company", emailGarantia.getSolicitacaoGarantia().getChamado().getNumeroDoChamado()));
 			}
 
 			case GARANTIA_MOUSE_DATEN: {
-				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Mouse Fabricante - Company", emailGarantia.getTicket().getTicketNumber()));
-				break;
+				return Optional.of(String.format("[Ticket#%s] Problema Mouse Fabricante - Company", emailGarantia.getSolicitacaoGarantia().getChamado().getNumeroDoChamado()));
 			}
 
 			case GARANTIA_GABINETE_DATEN: {
-				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Computador Fabricante - Company", emailGarantia.getTicket().getTicketNumber()));
-				break;
+				return Optional.of(String.format("[Ticket#%s] Problema Computador Fabricante - Company", emailGarantia.getSolicitacaoGarantia().getChamado().getNumeroDoChamado()));
 			}
 
 			case GARANTIA_TECLADO_DATEN: {
-				emailGarantia.setSubject(String.format("[Ticket#%s] Problema Teclado Fabricante - Company", emailGarantia.getTicket().getTicketNumber()));
-				break;
+				return Optional.of(String.format("[Ticket#%s] Problema Teclado Fabricante - Company", emailGarantia.getSolicitacaoGarantia().getChamado().getNumeroDoChamado()));
 			}
-			
+
+			default: 
+				return Optional.empty();
+
 		}
 		
 	}
