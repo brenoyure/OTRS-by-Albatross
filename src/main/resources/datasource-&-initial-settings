@@ -7,3 +7,20 @@ module add --name=com.mysql --dependencies=jakarta.transaction.api,javax.api --r
 ### 2. Adicionando DataSource no Subsystem ####
 
 /subsystem=datasources/jdbc-driver=mysql:add(driver-module-name=com.mysql, driver-xa-datasource-class-name=com.mysql.cj.jdbc.MysqlXADataSource)
+
+### 3.Criando a Fila JMS ###
+
+jms-queue add --queue-address=OtrsEmailQueue --entries=java:/jms/queue/OtrsEmailQueue
+
+### 4. Criando o Mail Session ###
+
+/subsystem=mail/mail-session=otrsMailSession:add(jndi-name=java:jboss/mail/OtrsMailSession)
+
+### 5. Criando o socket binding para o mail-trap ###
+
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-smtp-binding:add(host=smtp.mailtrap.io, port=2525
+
+### 6. Definindo o socket binding do mail-trap para o Session anteriormente criado ###
+
+/subsystem=mail/mail-session=otrsMailSession/server=smtp:add(outbound-socket-binding-ref=my-smtp-binding, username=f5e806989e4750, password=71dace87628272, tls=true
+
