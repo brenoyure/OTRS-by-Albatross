@@ -6,19 +6,19 @@ import static java.util.Optional.empty;
 import java.io.Serializable;
 import java.util.Optional;
 
-import br.albatross.otrs.domain.services.otrs.ConfigItemService;
+import br.albatross.otrs.domain.services.apis.inventario.InventarioService;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 
 @ViewScoped
-public class ConfigItemServiceBean implements Serializable {
+public class InventarioServiceBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private ConfigItemService service;
+	private InventarioService service;
 
 	@Inject
 	private FacesContext context;
@@ -31,7 +31,7 @@ public class ConfigItemServiceBean implements Serializable {
 			return empty();
 		}
 
-		var optional = service.getNumeroDeSerieByBm(bm);
+		var optional = service.buscarNumeroDeSeriePeloBm(bm);
 
 		if (optional.isEmpty()) {
 			context.addMessage("otrs", 

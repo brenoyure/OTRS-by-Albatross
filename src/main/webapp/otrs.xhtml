@@ -10,7 +10,7 @@
 <h:head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>
-		OTRS
+		Serviço de Garantia
 	</title>
 </h:head>
 
@@ -28,11 +28,11 @@
 
 	<p:focus context="panel" />
 
-		<p:fieldset legend="OTRS"> 
+		<p:fieldset legend="Serviço de Garantia"> 
 				<p:panelGrid columns="3" id="panel">
 
 				    <p:outputLabel for="inputText-BM" value="BM: " />
-				    	<p:inputText id="inputText-BM" value="#{otrsBean.bm}" maxlength="6" >
+				    	<p:inputText id="inputText-BM" value="#{otrsBean.bm}" maxlength="10" >
 				    		<f:ajax event="change" execute="@this" render="inputText-NumeroDeSerie :mensagens" listener="#{otrsBean.buscarNumeroDeSeriePeloBm}" />
 				    	</p:inputText>
 				    	<p:commandButton value="Consultar" actionListener="#{otrsBean.buscarNumeroDeSeriePeloBm}" 
@@ -45,27 +45,21 @@
    				    <p:outputLabel for="selectOne-Ticket" value="Ticket: " /> <h:outputText value="Não há chamados abertos na Fila do Nível 1 com Serviço relacionado à Garantia, ex. Computador, Monitor... " rendered="#{empty otrsBean.serviceBean.ticketsAbertosNivel1}" />
 					    <p:selectOneMenu id="selectOne-Ticket" value="#{otrsBean.solicitacao.chamado}" required="true" requiredMessage="Ticket Obrigatório" converter="ticketConverter" validator="#{otrsBean.validarTicket}" rendered="#{not empty otrsBean.serviceBean.ticketsAbertosNivel1}" >
 					    	<f:selectItem itemLabel="Selecione um Ticket" itemDisabled="true" noSelectionOption="true" />
-					    	<f:selectItems value="#{otrsBean.serviceBean.ticketsAbertosNivel1}" var="ticket" itemLabel="Nº: #{ticket.ticketNumber} | Título: #{ticket.title} | Serviço: #{ticket.service.name} | Usuário: #{ticket.customerUserId}" itemValue="#{ticket}" />
-							<f:ajax event="focus"  listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens outputText-Assunto" />
+					    	<f:selectItems value="#{otrsBean.serviceBean.ticketsAbertosNivel1}" var="ticket" itemLabel="Nº: #{ticket.numeroDoChamado} | Título: #{ticket.titulo} | Serviço: #{ticket.dadosDoServico.nomeDoServico} | Usuário: #{ticket.dadosDoUsuarioCliente.nomeDoUsuarioCliente}" itemValue="#{ticket}" />
 							<f:ajax event="change" listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens outputText-Assunto" />
-							<f:ajax event="click"  listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens outputText-Assunto" />
 					    </p:selectOneMenu>
 					    <p:commandButton value="Selecionar" 
 					    				 process="selectOne-Ticket" update=":mensagens outputText-Assunto" disabled="#{empty otrsBean.serviceBean.ticketsAbertosNivel1}" />
 
-				    <p:outputLabel value="Problema: " for="tipo-garantia" />
 				    <p:outputLabel value="Nenhum Texto Pronto Cadastrado" rendered="#{empty otrsBean.serviceBean.listaDeProblemas}" /> <p:divider rendered="#{empty otrsBean.serviceBean.listaDeProblemas}" />
-
-				    <p:selectOneMenu id="tipo-garantia" value="#{otrsBean.solicitacao.descricaoDoProblema}" rendered="#{not empty otrsBean.serviceBean.listaDeProblemas}" required="true" >
-				    	<f:selectItem itemLabel="Selecione o Problema" itemDisabled="true" noSelectionOption="true" />
-				    	<f:selectItems var="problema" value="#{otrsBean.serviceBean.listaDeProblemas}" itemLabel="#{problema.descricaoResumida}" itemDescription="#{problema.descricaoDetalhada}" itemValue="#{problema.descricaoDetalhada}" />
-				    	<f:ajax event="focus"  render=":mensagens textArea-DescricaoProblema" />
-				    	<f:ajax event="change" render=":mensagens textArea-DescricaoProblema" />
-				    	<f:ajax event="click"  render=":mensagens textArea-DescricaoProblema" />
-				    </p:selectOneMenu>
-			        <p:commandButton value="Utilizar" rendered="#{not empty otrsBean.serviceBean.listaDeProblemas}" >
-			        	<f:ajax execute="tipo-garantia" render=":mensagens textArea-DescricaoProblema" />
-			        </p:commandButton>
+				    <p:outputLabel value="Problema: " for="tipo-garantia" />
+					    <p:selectOneMenu id="tipo-garantia" value="#{otrsBean.solicitacao.descricaoDoProblema}" rendered="#{not empty otrsBean.serviceBean.listaDeProblemas}" required="true" >
+					    	<f:selectItem itemLabel="Selecione o Problema" itemDisabled="true" noSelectionOption="true" />
+					    	<f:selectItems var="problema" value="#{otrsBean.serviceBean.listaDeProblemas}" itemLabel="#{problema.descricaoResumida}" itemDescription="#{problema.descricaoDetalhada}" itemValue="#{problema.descricaoDetalhada}" />
+					    	<f:ajax event="change" render=":mensagens textArea-DescricaoProblema" />
+					    </p:selectOneMenu>
+				        <p:commandButton value="Utilizar" rendered="#{not empty otrsBean.serviceBean.listaDeProblemas}"
+				        	process="tipo-garantia" update=":mensagens textArea-DescricaoProblema" />
 
 
 				    <p:outputLabel for="outputText-Assunto" value="Assunto: " />
@@ -106,7 +100,7 @@
 					</p:outputLabel>
 			</p:panelGrid>
 
-			<p:commandButton type="submit" value="Enviar Solicitação" process="@this @form" update=":mensagens @form" actionListener="#{otrsBean.enviarSolicitacaoDeGarantiaPorEmail}" style="margin-right: 5px; margin-top:10px" disabled="#{empty otrsBean.serviceBean.ticketsAbertosNivel1}" />
+			<p:commandButton type="submit" value="Enviar Solicitação" update=":mensagens @form" actionListener="#{otrsBean.enviarSolicitacaoDeGarantiaPorEmail}" style="margin-right: 5px; margin-top:10px" disabled="#{empty otrsBean.serviceBean.ticketsAbertosNivel1}" />
 			<p:commandButton value="Limpar Formulário" action="otrs?faces-redirect=true" immediate="true" update="@all" style="margin-top:10px" />
 
 		</p:fieldset>

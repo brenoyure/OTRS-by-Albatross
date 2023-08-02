@@ -116,6 +116,11 @@ public class Ticket implements Serializable, DadosDoChamado {
 	}
 
 	@Override
+	public String getTitulo() {
+		return title;
+	}
+
+	@Override
 	public DadosDoServico getDadosDoServico() {
 		return service;
 	}
@@ -132,6 +137,11 @@ public class Ticket implements Serializable, DadosDoChamado {
 	}
 
 	@Override
+	public void setTitulo(String titulo) {
+		this.title = titulo;
+	}
+
+	@Override
 	public void setDadosDoServico(DadosDoServico servico) {
 		this.service = (Service) servico;
 	}
@@ -144,9 +154,7 @@ public class Ticket implements Serializable, DadosDoChamado {
 
 	@Override
 	public DadosDoUsuarioCliente getDadosDoUsuarioCliente() {
-		return new DadosDoUsuarioCliente() {
-
-			public String getNomeDoUsuarioCliente() { return customerUserId; }};
+		return () -> customerUserId;
 
 	}
 

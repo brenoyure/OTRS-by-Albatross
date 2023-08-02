@@ -9,13 +9,14 @@ import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 
+import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
-import br.albatross.otrs.domain.models.otrs.ticket.Ticket;
 import br.albatross.otrs.domain.services.garantia.AnexoGenerator;
 import br.albatross.otrs.domain.services.garantia.FormularioGenerator;
 import br.albatross.otrs.domain.services.garantia.FormularioInputStreamGenerator;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -35,16 +36,19 @@ public class OtrsServiceBean implements Serializable {
 	private FacesContext context;
 
 	@Inject
-	private ConfigItemServiceBean configItemService;
-	
-	@Inject @Getter
-	private List<Ticket> ticketsAbertosNivel1;
+	private InventarioServiceBean inventarioService;
 
 	@Inject @Getter
+	private List<DadosDoChamado> ticketsAbertosNivel1;
+
+	@Getter
 	private List<DescricaoProblema> listaDeProblemas;
 
 	@Inject
-	private Validator<Ticket> ticketValidator;
+	private TextosProntosService textosProntosService;
+
+	@Inject
+	private Validator<DadosDoChamado> dadosDoChamadoValidator;
 
 	@Inject
 	private EmailGarantiaServiceBean emailGarantiaServiceBean;
@@ -66,23 +70,23 @@ public class OtrsServiceBean implements Serializable {
 
 	private boolean solicitacaoGarantiaJaEfetuada = false;
 
+	@PostConstruct
+	void init() {
+		listaDeProblemas = textosProntosService.getListaDeProblemas();
+	}
+
 	public void buscarNumeroDeSeriePeloBm(String bm, SolicitacaoDeGarantia solicitacao) {
-		configItemService
+		inventarioService
 		                 .buscarNumeroDeSeriePorBm(bm)
 		                 .ifPresentOrElse(NdeSerie -> solicitacao.setNumeroDeSerie(NdeSerie), 
 		                		 () -> solicitacao.setNumeroDeSerie(null));
 	}
 
 	public void validarTicket(FacesContext context, UIComponent component, Object ticket) {
-		ticketValidator.validate(context, component, (Ticket)ticket);
+		dadosDoChamadoValidator.validate(context, component, (DadosDoChamado)ticket);
 	}
 
 	public void definirAssuntoDoEmail(EmailDeGarantia emailGarantia) {
-		if (ticketsAbertosNivel1.isEmpty()) {
-			context.addMessage("otrs", new FacesMessage(SEVERITY_WARN, "Não há tickets abertos.", "Não há tickets abertos para a fila do Nível 1, sendo assim, não será possível a abertura de chamados de garantia."));
-			return;
-		}
-
 		assuntoEmailServiceBean.setAssuntoDoEmail(emailGarantia);
 
 	}

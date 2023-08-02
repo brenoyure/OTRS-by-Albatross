@@ -11,6 +11,9 @@ public interface DadosDoChamado {
 	@NotBlank
 	String getNumeroDoChamado();
 
+	@NotBlank
+	String getTitulo();	
+
 	@NotNull
 	DadosDoServico getDadosDoServico();
 
@@ -22,7 +25,9 @@ public interface DadosDoChamado {
 
 	void setId(Long id);
 
-	void setNumeroDoChamado(String numeroDoTicket);
+	void setNumeroDoChamado(String numeroDoChamado);
+
+	void setTitulo(String titulo);
 
 	void setDadosDoServico(DadosDoServico servico);
 

@@ -18,7 +18,7 @@
 
 		<h:form style="margin:10px 0 10px 0">
 			<p:menuButton value="Navegação" >
-				<p:menuitem value="OTRS - Serviço Garantia" action="otrs?faces-redirect=true" immediate="true" update="@all" />
+				<p:menuitem value="Serviço Garantia" action="otrs?faces-redirect=true" immediate="true" update="@all" />
 			</p:menuButton>
 		</h:form>
 
@@ -26,17 +26,17 @@
 	
 	<h:form id="formulario-cadastro-tipo">
 		<p:focus context="panel-tipo" />
-	
+
 			<p:fieldset legend="Problemas">
 				<p:panelGrid columns="2" id="panel-tipo">
-	
+
 					<p:outputLabel value="Informe o Tipo do Problema" for="@next" />
 						<p:inputText id="inputText-tipoProblema" value="#{problemasBean.problema.tipo}" placeholder="ex. Mouse ou Monitor etc" required="true" requiredMessage="Tipo do Problema Obrigatório" />
 				</p:panelGrid>
 
 				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema(problemasBean.problema)}" process="@form" update="@form :mensagens :formulario-cadastro-descricao :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
 				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
-				
+
 			</p:fieldset>
 	</h:form>
 
@@ -64,7 +64,7 @@
 	<h:form id="formulario-descricaoProblema" rendered="#{not empty problemasBean.serviceBean.descricaoProblemas}" >
 
 		<p:fieldset legend="Textos Prontos">
-			<p:dataTable id="descricaoProblema" value="#{problemasBean.serviceBean.descricaoProblemas}" var="descricaoProblema" >
+			<p:dataTable id="descricaoProblema" value="#{problemasBean.serviceBean.descricaoProblemas}" var="descricaoProblema" scrollable="true" scrollRows="5" scrollHeight="400" liveScroll="true" >
 
 				<p:column headerText="Tipo do Problema" >
 					<p:outputLabel value="#{descricaoProblema.problema.tipo}" />
