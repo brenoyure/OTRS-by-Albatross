@@ -27,8 +27,8 @@
 	<h:form id="formulario-cadastro-tipo">
 		<p:focus context="panel-tipo" />
 
-			<p:fieldset legend="Problemas">
-				<p:panelGrid columns="2" id="panel-tipo">
+			<p:fieldset legend="Problemas" >
+				<p:panelGrid columns="2" id="panel-tipo" layout="tabular" >
 
 					<p:outputLabel value="Informe o Tipo do Problema" for="@next" />
 						<p:inputText id="inputText-tipoProblema" value="#{problemasBean.problema.tipo}" placeholder="ex. Mouse ou Monitor etc" required="true" requiredMessage="Tipo do Problema Obrigatório" />
@@ -42,8 +42,8 @@
 
 	<h:form id="formulario-cadastro-descricao" rendered="#{not empty problemasBean.serviceBean.problemas}" >
 
-			<p:fieldset legend="Descrição Problema">
-				<p:panelGrid columns="2" id="panel-descricao">
+			<p:fieldset legend="Descrição Problema" >
+				<p:panelGrid columns="2" id="panel-descricao" layout="tabular" >
 					<p:outputLabel value="Selecione o Tipo do Problema" for="@next" />
 						<p:selectOneMenu id="listBox-tipoProblema" value="#{problemasBean.descricaoProblema.problema}" converter="problemaConverter" required="true" requiredMessage="Tipo do Problema Obrigatório" >
 							<f:selectItem itemLabel="Selecione o Problema" itemDisabled="true" noSelectionOption="true" />

@@ -39,7 +39,7 @@
 		<dependency>
 		    <groupId>org.primefaces</groupId>
 		    <artifactId>primefaces</artifactId>
-		    <version>12.0.0</version>
+		    <version>13.0.0</version>
 		    <classifier>jakarta</classifier>
 		</dependency>
 
@@ -49,11 +49,11 @@
 			<version>8.0.33</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.26</version>
+			<version>1.18.28</version>
 		</dependency>
 		
 		<dependency>
