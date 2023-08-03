@@ -28,7 +28,7 @@
 
 	<p:focus context="panel" />
 
-		<p:fieldset legend="Serviço de Garantia"> 
+		<p:fieldset legend="Serviço de Garantia" > 
 				<p:panelGrid columns="3" id="panel">
 
 				    <p:outputLabel for="inputText-BM" value="BM: " />
@@ -51,8 +51,8 @@
 					    <p:commandButton value="Selecionar" 
 					    				 process="selectOne-Ticket" update=":mensagens outputText-Assunto" disabled="#{empty otrsBean.serviceBean.ticketsAbertosNivel1}" />
 
-				    <p:outputLabel value="Nenhum Texto Pronto Cadastrado" rendered="#{empty otrsBean.serviceBean.listaDeProblemas}" /> <p:divider rendered="#{empty otrsBean.serviceBean.listaDeProblemas}" />
 				    <p:outputLabel value="Problema: " for="tipo-garantia" />
+				    <p:outputLabel value="Nenhum Texto Pronto Cadastrado" rendered="#{empty otrsBean.serviceBean.listaDeProblemas}" /> <p:divider rendered="#{empty otrsBean.serviceBean.listaDeProblemas}" />
 					    <p:selectOneMenu id="tipo-garantia" value="#{otrsBean.solicitacao.descricaoDoProblema}" rendered="#{not empty otrsBean.serviceBean.listaDeProblemas}" required="true" >
 					    	<f:selectItem itemLabel="Selecione o Problema" itemDisabled="true" noSelectionOption="true" />
 					    	<f:selectItems var="problema" value="#{otrsBean.serviceBean.listaDeProblemas}" itemLabel="#{problema.descricaoResumida}" itemDescription="#{problema.descricaoDetalhada}" itemValue="#{problema.descricaoDetalhada}" />
@@ -78,8 +78,9 @@
 					<br />
 
 				</p:panelGrid>
+		</p:fieldset>
 
-			<h4>Dados do Envio</h4>			
+		<p:fieldset legend="Dados do Envio" >
 			<p:panelGrid columns="3" layout="flex" >
 					<p:outputLabel for="inputText-EmailRemetente" value="E-mail do Remetente: ">
 						<p:inputText id="inputText-EmailRemetente" placeholder="email.do.atendente@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.remetente}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." size="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.remetente.length()}" >
@@ -99,11 +100,10 @@
 						</p:inputText>
 					</p:outputLabel>
 			</p:panelGrid>
+		</p:fieldset>
 
 			<p:commandButton type="submit" value="Enviar Solicitação" update=":mensagens @form" actionListener="#{otrsBean.enviarSolicitacaoDeGarantiaPorEmail}" style="margin-right: 5px; margin-top:10px" disabled="#{empty otrsBean.serviceBean.ticketsAbertosNivel1}" />
 			<p:commandButton value="Limpar Formulário" action="otrs?faces-redirect=true" immediate="true" update="@all" style="margin-top:10px" />
-
-		</p:fieldset>
 
 		<br />
 

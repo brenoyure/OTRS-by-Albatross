@@ -16,10 +16,6 @@ public class TextosProntosService implements Serializable {
 	@Inject
 	private DescricaoProblemaDao dao;
 
-	public TextosProntosService() {
-		System.out.println("Criando textos prontos");
-	}
-
 	public List<DescricaoProblema> getListaDeProblemas() {
 		return dao.findAll();
 	}
