@@ -13,14 +13,13 @@ import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
+import br.albatross.otrs.domain.services.apis.chamados.ServicoDeChamados;
 import br.albatross.otrs.domain.services.garantia.AnexoGenerator;
 import br.albatross.otrs.domain.services.garantia.FormularioGenerator;
 import br.albatross.otrs.domain.services.garantia.FormularioInputStreamGenerator;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
-import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
-import jakarta.faces.validator.Validator;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.Part;
@@ -38,7 +37,10 @@ public class OtrsServiceBean implements Serializable {
 	@Inject
 	private InventarioServiceBean inventarioService;
 
-	@Inject @Getter
+	@Inject
+	private ServicoDeChamados servicoDeChamados;
+
+	@Getter
 	private List<DadosDoChamado> ticketsAbertosNivel1;
 
 	@Getter
@@ -46,9 +48,6 @@ public class OtrsServiceBean implements Serializable {
 
 	@Inject
 	private TextosProntosService textosProntosService;
-
-	@Inject
-	private Validator<DadosDoChamado> dadosDoChamadoValidator;
 
 	@Inject
 	private EmailGarantiaServiceBean emailGarantiaServiceBean;
@@ -72,6 +71,7 @@ public class OtrsServiceBean implements Serializable {
 
 	@PostConstruct
 	void init() {
+		ticketsAbertosNivel1 = servicoDeChamados.listarTodosOsChamadosAbertos();
 		listaDeProblemas = textosProntosService.getListaDeProblemas();
 	}
 
@@ -80,10 +80,6 @@ public class OtrsServiceBean implements Serializable {
 		                 .buscarNumeroDeSeriePorBm(bm)
 		                 .ifPresentOrElse(NdeSerie -> solicitacao.setNumeroDeSerie(NdeSerie), 
 		                		 () -> solicitacao.setNumeroDeSerie(null));
-	}
-
-	public void validarTicket(FacesContext context, UIComponent component, Object ticket) {
-		dadosDoChamadoValidator.validate(context, component, (DadosDoChamado)ticket);
 	}
 
 	public void definirAssuntoDoEmail(EmailDeGarantia emailGarantia) {

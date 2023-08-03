@@ -1,7 +1,6 @@
 package br.albatross.otrs.domain.models.garantia.entidades.email;
 
 import java.io.File;
-import java.io.Serializable;
 
 import br.albatross.otrs.domain.models.garantia.apis.email.DadosDoEnvio;
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
@@ -10,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class EmailDeGarantiaImpl implements Serializable, EmailDeGarantia {
+public class EmailDeGarantiaImpl implements EmailDeGarantia {
 
 	private static final long serialVersionUID = 1L;
 

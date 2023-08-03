@@ -8,8 +8,6 @@ import br.albatross.otrs.domain.models.garantia.entidades.email.EmailDeGarantiaI
 import br.albatross.otrs.domain.models.garantia.entidades.solicitacao.SolicitacaoDeGarantiaImpl;
 import br.albatross.otrs.domain.services.beans.OtrsServiceBean;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.component.UIComponent;
-import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -44,10 +42,6 @@ public class OtrsBean implements Serializable {
 
 	public void buscarNumeroDeSeriePeloBm() {
 		serviceBean.buscarNumeroDeSeriePeloBm(bm, solicitacao);
-	}
-
-	public void validarTicket(FacesContext context, UIComponent componente, Object ticket) {
-		serviceBean.validarTicket(context, componente, ticket);
 	}
 
 	public void definirAssuntoDoEmail() {

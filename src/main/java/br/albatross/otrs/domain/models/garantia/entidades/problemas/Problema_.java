@@ -6,7 +6,7 @@ import jakarta.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(value = Problema.class)
 public abstract class Problema_ {
 
-	public static volatile SingularAttribute<Problema, Byte> id;
+	public static volatile SingularAttribute<Problema, Short> id;
 
 	/**
 	 * Mouse, Teclado, Gabinete, Monitor
