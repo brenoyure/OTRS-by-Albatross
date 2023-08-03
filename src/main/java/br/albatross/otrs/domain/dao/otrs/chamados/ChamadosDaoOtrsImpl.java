@@ -1,7 +1,6 @@
 package br.albatross.otrs.domain.dao.otrs.chamados;
 
 import static br.albatross.otrs.domain.models.otrs.ticket.Ticket_.queue;
-import static br.albatross.otrs.domain.models.otrs.ticket.Ticket_.responsibleUser;
 import static br.albatross.otrs.domain.models.otrs.ticket.Ticket_.service;
 import static br.albatross.otrs.domain.models.otrs.ticket.Ticket_.ticketState;
 import static br.albatross.otrs.domain.models.otrs.ticket.state.TicketState_.ticketStateType;
@@ -37,9 +36,6 @@ public class ChamadosDaoOtrsImpl implements ChamadosDao {
 
 		ticket
 			.fetch(service,          JoinType.INNER);
-
-		ticket
-			.fetch(responsibleUser,  JoinType.INNER);
 
 		ticket
 			.fetch(ticketState,      JoinType.INNER);

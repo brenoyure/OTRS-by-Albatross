@@ -18,9 +18,6 @@ public interface DadosDoChamado {
 	DadosDoServico getDadosDoServico();
 
 	@NotNull
-	DadosDoResponsavelPeloChamado getDadosDoResponsavelPeloChamado();
-
-	@NotNull
 	DadosDoUsuarioCliente getDadosDoUsuarioCliente();
 
 	void setId(Long id);
@@ -30,7 +27,5 @@ public interface DadosDoChamado {
 	void setTitulo(String titulo);
 
 	void setDadosDoServico(DadosDoServico servico);
-
-	void setDadosDoResponsavel(DadosDoResponsavelPeloChamado dadosDoResponsavel);
 
 }

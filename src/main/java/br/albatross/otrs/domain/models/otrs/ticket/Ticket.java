@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
-import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoResponsavelPeloChamado;
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoServico;
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoUsuarioCliente;
 import br.albatross.otrs.domain.models.otrs.User;
@@ -126,11 +125,6 @@ public class Ticket implements Serializable, DadosDoChamado {
 	}
 
 	@Override
-	public DadosDoResponsavelPeloChamado getDadosDoResponsavelPeloChamado() {
-		return responsibleUser;
-	}
-
-	@Override
 	public void setNumeroDoChamado(String numeroDoTicket) {
 		this.ticketNumber = numeroDoTicket;
 		
@@ -144,12 +138,6 @@ public class Ticket implements Serializable, DadosDoChamado {
 	@Override
 	public void setDadosDoServico(DadosDoServico servico) {
 		this.service = (Service) servico;
-	}
-
-	@Override
-	public void setDadosDoResponsavel(DadosDoResponsavelPeloChamado dadosDoResponsavel) {
-		this.responsibleUser = (User) dadosDoResponsavel;
-		
 	}
 
 	@Override
