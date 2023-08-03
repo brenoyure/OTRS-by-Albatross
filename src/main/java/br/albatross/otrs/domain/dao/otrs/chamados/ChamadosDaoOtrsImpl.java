@@ -42,8 +42,7 @@ public class ChamadosDaoOtrsImpl implements ChamadosDao {
 			.fetch(responsibleUser,  JoinType.INNER);
 
 		ticket
-			.fetch(ticketState,      JoinType.INNER)
-			.fetch(ticketStateType,  JoinType.INNER);
+			.fetch(ticketState,      JoinType.INNER);
 
 		var predicateQueueEqualsToNivel1 = cb.equal(ticket.get(queue).get(Queue_.id), QUEUE_NIVEL_1);
 
