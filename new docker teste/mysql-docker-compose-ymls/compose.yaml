@@ -1,0 +1,29 @@
+services:
+  otrs:
+    image: ${MYSQL_OTRS_DOCKER_IMAGE}
+    container_name: ${MYSQL_OTRS_CONTAINER_NAME}
+    networks:
+      - otrs-network
+    env_file:
+      - ./.otrs-env
+    volumes:
+      - br.albatross.otrsdb-vol:/var/lib/mysql
+
+  textos-prontos:
+    image: ${MYSQL_OTRS_TEXTOS_PRONTOS_DOCKER_IMAGE}
+    container_name: ${MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME}
+    networks:
+      - otrs-network
+    env_file:
+      - ./.otrs_textos_prontos-env
+    volumes:
+      - br.albatross.otrsdb.textos_prontos-vol:/var/lib/mysql
+
+networks:
+  otrs-network:
+    name: ${OTRS_NETWORK_NAME}
+    driver: bridge
+
+volumes:
+  br.albatross.otrsdb-vol:
+  br.albatross.otrsdb.textos_prontos-vol:
