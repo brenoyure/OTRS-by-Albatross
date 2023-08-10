@@ -1,0 +1,15 @@
+embed-server --server-config=standalone-full.xml
+
+module add --name=com.mysql --dependencies=jakarta.transaction.api,javax.api --resources=/opt/jboss/wildfly/modules/mysql/mysql-connector-j-8.0.33.jar
+
+/subsystem=datasources/jdbc-driver=mysql:add(driver-module-name=com.mysql, driver-xa-datasource-class-name=com.mysql.cj.jdbc.MysqlXADataSource)
+
+data-source add --name=OtrsDS --driver-name=mysql --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mysql://br.albatross.otrsdb-dc:3306/otrsdb --user-name=breno --password=Bl@ck0511 --enabled=true
+data-source add --name=ProblemaDS --driver-name=mysql --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mysql://br.albatross.otrsdb_textos_prontos-dc:3306/otrsdb_textos_prontos --user-name=breno --password=Bl@ck0511 --enabled=true
+
+jms-queue add --queue-address=OtrsEmailQueue --entries=java:/jms/queue/OtrsEmailQueue
+
+/subsystem=mail/mail-session=otrsMailSession:add(jndi-name=java:jboss/mail/OtrsMailSession)
+
+stop-embedded-server
+
