@@ -1,23 +1,45 @@
 services:
-  otrs:
+  otrsdb:
     image: ${MYSQL_OTRS_DOCKER_IMAGE}
     container_name: ${MYSQL_OTRS_CONTAINER_NAME}
+    build:
+      context: ./otrs-mysql-dockerfile
     networks:
       - otrs-network
     env_file:
-      - ./.otrs-env
+      - ./.otrsdb-env
     volumes:
       - br.albatross.otrsdb-vol:/var/lib/mysql
 
-  textos-prontos:
+  otrsdb_textos_prontos:
     image: ${MYSQL_OTRS_TEXTOS_PRONTOS_DOCKER_IMAGE}
     container_name: ${MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME}
+    build:
+      context: ./otrs-textos-prontos-mysql-dockerfile
     networks:
       - otrs-network
     env_file:
-      - ./.otrs_textos_prontos-env
+      - ./.otrsdb_textos_prontos-env
     volumes:
       - br.albatross.otrsdb.textos_prontos-vol:/var/lib/mysql
+
+  otrs-app:
+    image: ${OTRS_APP_DOCKER_IMAGE}
+    container_name: ${OTRS_APP_CONTAINER_NAME}
+    build:
+      context: ./otrs-wildfly-docker
+    networks:
+      - otrs-network
+    depends_on:
+      otrsdb:
+        condition: service_started
+      otrsdb_textos_prontos:
+        condition: service_started
+
+    env_file:
+      - ./.otrs-env
+    ports:
+      - 8080:8080
 
 networks:
   otrs-network:

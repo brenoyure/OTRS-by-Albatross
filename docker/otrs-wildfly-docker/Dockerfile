@@ -1,0 +1,21 @@
+FROM quay.io/wildfly/wildfly:28.0.1.Final-jdk17
+
+WORKDIR /opt/jboss/wildfly
+
+ARG MYSQL_OTRS_CONTAINER_NAME
+ARG MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME
+
+COPY mysql-connector-j-8.0.33.jar ./modules/mysql/
+COPY Formulario-Garantia.docx ./bin/arquivos/formularios/
+
+ADD otrs.war ./standalone/deployments/
+
+COPY config.cli ./bin/config.cli
+
+ENV MYSQL_OTRS_CONTAINER_NAME=${MYSQL_OTRS_CONTAINER_NAME}
+ENV MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME=${MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME}
+
+RUN ["/opt/jboss/wildfly/bin/jboss-cli.sh", "--file=/opt/jboss/wildfly/bin/config.cli"]
+
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "--server-config=standalone-full.xml", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+
