@@ -55,7 +55,7 @@
 				    <p:outputLabel value="Nenhum Texto Pronto Cadastrado" rendered="#{empty otrsBean.serviceBean.listaDeProblemas}" /> <p:divider rendered="#{empty otrsBean.serviceBean.listaDeProblemas}" />
 					    <p:selectOneMenu id="tipo-garantia" value="#{otrsBean.solicitacao.descricaoDoProblema}" required="true" rendered="#{not empty otrsBean.serviceBean.listaDeProblemas}" >
 					    	<f:selectItem itemLabel="Selecione o Problema" itemDisabled="true" noSelectionOption="true" />
-					    	<f:selectItems var="problema" value="#{otrsBean.serviceBean.listaDeProblemas}" itemLabel="#{problema.descricaoResumida}" itemDescription="#{problema.descricaoDetalhada}" itemValue="#{problema.descricaoDetalhada}" />
+					    	<f:selectItems var="problema" value="#{otrsBean.serviceBean.listaDeProblemas}" itemLabel="#{problema.problema.tipo} - #{problema.descricaoResumida}" itemDescription="#{problema.descricaoDetalhada}" itemValue="#{problema.descricaoDetalhada}" />
 					    	<f:ajax event="change" render=":mensagens textArea-DescricaoProblema" />
 					    </p:selectOneMenu>
 				        <p:commandButton value="Utilizar" rendered="#{not empty otrsBean.serviceBean.listaDeProblemas}"

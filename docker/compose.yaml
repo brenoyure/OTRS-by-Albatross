@@ -28,6 +28,19 @@ services:
     container_name: ${OTRS_APP_CONTAINER_NAME}
     build:
       context: ./otrs-wildfly-docker
+      args:
+        - MYSQL_OTRS_CONTAINER_NAME=${MYSQL_OTRS_CONTAINER_NAME}
+        - MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME=${MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME}
+        - MYSQL_OTRS_USER=${MYSQL_OTRS_USER}
+        - MYSQL_OTRS_PASSWORD=${MYSQL_OTRS_PASSWORD}
+        - MYSQL_OTRS_DATABASE=${MYSQL_OTRS_DATABASE}
+        - MYSQL_OTRS_DATABASE_HOST=${MYSQL_OTRS_DATABASE_HOST}
+
+        - MYSQL_OTRS_TEXTOS_PRONTOS_USER=${MYSQL_OTRS_TEXTOS_PRONTOS_USER}
+        - MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD=${MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD}
+        - MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST=${MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST}
+        - MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE=${MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE}
+
     networks:
       - otrs-network
     depends_on:
@@ -35,9 +48,6 @@ services:
         condition: service_started
       otrsdb_textos_prontos:
         condition: service_started
-
-    env_file:
-      - ./.otrs-env
     ports:
       - 8080:8080
 
