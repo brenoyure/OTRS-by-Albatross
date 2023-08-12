@@ -34,7 +34,7 @@
 						<p:inputText id="inputText-tipoProblema" value="#{problemasBean.problema.tipo}" placeholder="ex. Mouse ou Monitor etc" required="true" requiredMessage="Tipo do Problema Obrigatório" />
 				</p:panelGrid>
 
-				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema(problemasBean.problema)}" process="@form" update="@form :mensagens :formulario-cadastro-descricao :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
+				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema(problemasBean.problema)}" update="@form :mensagens :formulario-cadastro-descricao :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
 				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
 
 			</p:fieldset>
@@ -55,7 +55,7 @@
 						<p:inputTextarea id="inputTextArea-DescricaoDetalhada" placeholder="Computador está apresentando problema de..." rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Detalhe do Problema Obrigatório" />
 				</p:panelGrid>
 
-				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema(problemasBean.descricaoProblema)}" process="@form" update="@form :mensagens :formulario-cadastro-tipo :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
+				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema(problemasBean.descricaoProblema)}" update="@form :mensagens :formulario-cadastro-tipo :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
 				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
 
 			</p:fieldset>

@@ -36,6 +36,11 @@ services:
         - MYSQL_OTRS_DATABASE=${MYSQL_OTRS_DATABASE}
         - MYSQL_OTRS_DATABASE_HOST=${MYSQL_OTRS_DATABASE_HOST}
 
+        - OTRS_MAIL_SESSION_USER=${OTRS_MAIL_SESSION_USER}
+        - OTRS_MAIL_SESSION_PASSWORD=${OTRS_MAIL_SESSION_PASSWORD}
+        - OTRS_MAIL_SMTP_HOST=${OTRS_MAIL_SMTP_HOST}
+        - OTRS_MAIL_SMTP_PORT=${OTRS_MAIL_SMTP_PORT}
+
         - MYSQL_OTRS_TEXTOS_PRONTOS_USER=${MYSQL_OTRS_TEXTOS_PRONTOS_USER}
         - MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD=${MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD}
         - MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST=${MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST}
@@ -43,6 +48,8 @@ services:
 
     networks:
       - otrs-network
+    volumes:
+      - br.albatross.otrs-app-vol:/opt/jboss/wildfly/standalone/:rw
     depends_on:
       otrsdb:
         condition: service_started
@@ -58,4 +65,5 @@ networks:
 
 volumes:
   br.albatross.otrsdb-vol:
+  br.albatross.otrs-app-vol:
   br.albatross.otrsdb.textos_prontos-vol:

@@ -55,7 +55,7 @@ public class DescricaoProblemaDao {
 		                 .fetch(problema, JoinType.INNER);
 
 		cq
-		  .orderBy(cb.asc(descricaoProblema.get(descricaoResumida)));
+		  .orderBy(cb.asc(descricaoProblema.get(id)));
 
 		return entityManager
 				       .createQuery(cq)

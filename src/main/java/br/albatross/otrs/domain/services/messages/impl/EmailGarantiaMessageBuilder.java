@@ -6,7 +6,6 @@ import static jakarta.mail.Message.RecipientType.TO;
 import java.io.IOException;
 
 import br.albatross.otrs.domain.models.garantia.apis.email.Email;
-import br.albatross.otrs.domain.services.garantia.AssinaturaEmailService;
 import br.albatross.otrs.domain.services.messages.apis.MessageBodyPartsBuilder;
 import br.albatross.otrs.domain.services.messages.apis.MessageBuilder;
 import br.albatross.otrs.domain.services.messages.apis.MessageFactory;
@@ -21,9 +20,6 @@ import jakarta.mail.internet.MimeMultipart;
 
 @RequestScoped
 public class EmailGarantiaMessageBuilder implements MessageBuilder<Email> {
-
-	@Inject
-	private AssinaturaEmailService assinaturaEmailService;
 
 	@Inject
 	private MessageFactory<Email> messageFactory;

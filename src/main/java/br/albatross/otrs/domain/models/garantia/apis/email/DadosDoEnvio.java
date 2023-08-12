@@ -1,12 +1,14 @@
 package br.albatross.otrs.domain.models.garantia.apis.email;
 
+import java.io.Serializable;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 /**
  * Representa os dados de envio de um e-mail.
  */
-public interface DadosDoEnvio {
+public interface DadosDoEnvio extends Serializable {
 
 	/**
 	 * 
