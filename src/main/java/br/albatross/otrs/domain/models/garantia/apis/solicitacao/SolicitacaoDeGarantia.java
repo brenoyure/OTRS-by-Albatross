@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
+import br.albatross.otrs.domain.models.garantia.apis.problemas.DescricaoProblema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,8 +24,8 @@ public interface SolicitacaoDeGarantia extends Serializable {
 	 * 
 	 * @return A Descrição do Problema (<strong>Não</strong> podendo ficar em branco).
 	 */
-	@NotBlank
-	String getDescricaoDoProblema();
+	@NotNull
+	DescricaoProblema getDescricaoDoProblema();
 
 	/**
 	 * 
@@ -50,7 +51,7 @@ public interface SolicitacaoDeGarantia extends Serializable {
 	 * 
 	 * Define a Descrição do Problema (<strong>Não</strong> podendo ficar em branco).
 	 */
-	void setDescricaoDoProblema(String descricaoDoProblema);
+	void setDescricaoDoProblema(DescricaoProblema descricaoDoProblema);
 
 	/**
 	 * 

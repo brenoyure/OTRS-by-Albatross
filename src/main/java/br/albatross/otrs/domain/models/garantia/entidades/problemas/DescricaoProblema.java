@@ -3,8 +3,6 @@ package br.albatross.otrs.domain.models.garantia.entidades.problemas;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import java.io.Serializable;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +17,7 @@ import lombok.Setter;
 @Entity @Table(name = "descricao_problema")
 @Getter @Setter
 @EqualsAndHashCode(of = "id")
-public class DescricaoProblema implements Serializable {
+public class DescricaoProblema implements br.albatross.otrs.domain.models.garantia.apis.problemas.DescricaoProblema {
 
 	private static final long serialVersionUID = 1L;
 

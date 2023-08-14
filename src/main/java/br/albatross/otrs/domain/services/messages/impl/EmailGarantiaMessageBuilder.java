@@ -43,8 +43,10 @@ public class EmailGarantiaMessageBuilder implements MessageBuilder<Email> {
 		message.setFrom(new InternetAddress(emailGarantia.getDadosDoEnvio().getRemetente()));
 		message.setRecipients(TO, InternetAddress.parse(emailGarantia.getDadosDoEnvio().getDestinatario()));
 
-		if ((emailGarantia.getDadosDoEnvio().getCopiaPara() != null) || (!emailGarantia.getDadosDoEnvio().getCopiaPara().isBlank())) {
-			message.setRecipients(CC, InternetAddress.parse(emailGarantia.getDadosDoEnvio().getCopiaPara()));
+		if (emailGarantia.getDadosDoEnvio().getCopiaPara() != null) {
+			if (!emailGarantia.getDadosDoEnvio().getCopiaPara().isBlank()) {
+				message.setRecipients(CC, InternetAddress.parse(emailGarantia.getDadosDoEnvio().getCopiaPara()));
+			}
 		}
 	}
 

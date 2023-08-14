@@ -106,7 +106,7 @@ public class OtrsServiceBean implements Serializable {
 				vetorAnexos[1] = anexoGenerator.getAnexo(uploadedFile);
 			}
 
-			var formulario = geradorFormulario.getFormulario(formularioFileInputStream.getInputStream(), solicitacao.getNumeroDeSerie(), solicitacao.getDescricaoDoProblema());
+			var formulario = geradorFormulario.getFormulario(formularioFileInputStream.getInputStream(), solicitacao.getNumeroDeSerie(), solicitacao.getDescricaoDoProblema().getDescricaoDetalhada());
 			vetorAnexos[0] = formulario;
 
 			solicitacao.getEmailDeGarantia().setAnexos(vetorAnexos);
