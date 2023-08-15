@@ -3,7 +3,6 @@ package br.albatross.otrs.domain.models.otrs.ticket;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
@@ -28,7 +27,7 @@ import lombok.Setter;
 @Entity @Table(name = "ticket")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
-public class Ticket implements Serializable, DadosDoChamado {
+public class Ticket implements DadosDoChamado {
 
 	private static final long serialVersionUID = 1L;
 
@@ -122,22 +121,6 @@ public class Ticket implements Serializable, DadosDoChamado {
 	@Override
 	public DadosDoServico getDadosDoServico() {
 		return service;
-	}
-
-	@Override
-	public void setNumeroDoChamado(String numeroDoTicket) {
-		this.ticketNumber = numeroDoTicket;
-		
-	}
-
-	@Override
-	public void setTitulo(String titulo) {
-		this.title = titulo;
-	}
-
-	@Override
-	public void setDadosDoServico(DadosDoServico servico) {
-		this.service = (Service) servico;
 	}
 
 	@Override

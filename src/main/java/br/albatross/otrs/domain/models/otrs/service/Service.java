@@ -3,7 +3,6 @@ package br.albatross.otrs.domain.models.otrs.service;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoServico;
@@ -15,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +28,7 @@ import lombok.Setter;
 @Entity @Table(name = "service")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
-public class Service implements Serializable, DadosDoServico {
+public class Service implements DadosDoServico {
 
 	private static final long serialVersionUID = 1L;
 
@@ -63,14 +61,4 @@ public class Service implements Serializable, DadosDoServico {
 		return this.name;
 	}
 
-	@Override
-	public void setIdDoServico(Integer id) {
-		this.id = id;
-	}
-
-	@Override
-	public void setNomeDoServico(String nomeDoServico) {
-		this.name = nomeDoServico;
-	}
-	
 }

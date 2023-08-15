@@ -1,9 +1,11 @@
 package br.albatross.otrs.domain.models.garantia.apis.chamado;
 
+import java.io.Serializable;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public interface DadosDoChamado {
+public interface DadosDoChamado extends Serializable {
 
 	@NotNull
 	Long getId();
@@ -19,13 +21,5 @@ public interface DadosDoChamado {
 
 	@NotNull
 	DadosDoUsuarioCliente getDadosDoUsuarioCliente();
-
-	void setId(Long id);
-
-	void setNumeroDoChamado(String numeroDoChamado);
-
-	void setTitulo(String titulo);
-
-	void setDadosDoServico(DadosDoServico servico);
 
 }
