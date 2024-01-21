@@ -1,7 +1,7 @@
 embed-server --server-config=standalone-full.xml
 
 ### 1. Adicionando Módulo do MySQL ####
-module add --name=com.mysql --dependencies=jakarta.transaction.api,javax.api --resources=/opt/jboss/wildfly/modules/mysql/mysql-connector-j-8.0.33.jar
+module add --name=com.mysql --dependencies=jakarta.transaction.api,javax.api --resources=/tmp/mysql-connector-j.jar
 
 ### 2. Adicionando DataSource no Subsystem ####
 /subsystem=datasources/jdbc-driver=mysql:add(driver-module-name=com.mysql, driver-xa-datasource-class-name=com.mysql.cj.jdbc.MysqlXADataSource)

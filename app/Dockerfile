@@ -1,8 +1,7 @@
-FROM quay.io/wildfly/wildfly:28.0.1.Final-jdk17
+FROM quay.io/wildfly/wildfly:30.0.1.Final-jdk17
 
 WORKDIR /opt/jboss/wildfly
 
-ARG MYSQL_OTRS_CONTAINER_NAME=${MYSQL_OTRS_CONTAINER_NAME}
 ARG MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME=${MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME}
 
 ARG MYSQL_OTRS_DATABASE=${MYSQL_OTRS_DATABASE}
@@ -20,12 +19,11 @@ ARG OTRS_MAIL_SESSION_PASSWORD=${OTRS_MAIL_SESSION_PASSWORD}
 ARG OTRS_MAIL_SMTP_HOST=${OTRS_MAIL_SMTP_HOST}
 ARG OTRS_MAIL_SMTP_PORT=${OTRS_MAIL_SMTP_PORT}
 
-ADD mysql-connector-j-8.0.33.jar ./modules/mysql/
 COPY Formulario-Garantia.docx ./bin/arquivos/formularios/
-
-ADD otrs.war ./standalone/deployments/
-
+COPY mysql-connector-j.jar /tmp/
 COPY config.cli ./bin/config.cli
+
+COPY ./target/otrs.war ./standalone/deployments/
 
 RUN ["/opt/jboss/wildfly/bin/jboss-cli.sh", "--file=/opt/jboss/wildfly/bin/config.cli", "--resolve-parameter-values"]
 

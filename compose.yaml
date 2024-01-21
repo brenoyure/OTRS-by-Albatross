@@ -3,11 +3,9 @@ services:
     image: ${MYSQL_OTRS_DOCKER_IMAGE}
     container_name: ${MYSQL_OTRS_CONTAINER_NAME}
     build:
-      context: ./otrs-mysql-dockerfile
+      context: ./db/otrs-mysql-dockerfile
     networks:
       - otrs-network
-    env_file:
-      - ./.otrsdb-env
     volumes:
       - br.albatross.otrsdb-vol:/var/lib/mysql
     restart: always
@@ -16,11 +14,9 @@ services:
     image: ${MYSQL_OTRS_TEXTOS_PRONTOS_DOCKER_IMAGE}
     container_name: ${MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME}
     build:
-      context: ./otrs-textos-prontos-mysql-dockerfile
+      context: ./db/otrs-textos-prontos-mysql-dockerfile
     networks:
       - otrs-network
-    env_file:
-      - ./.otrsdb_textos_prontos-env
     volumes:
       - br.albatross.otrsdb.textos_prontos-vol:/var/lib/mysql
     restart: always
@@ -29,9 +25,8 @@ services:
     image: ${OTRS_APP_DOCKER_IMAGE}
     container_name: ${OTRS_APP_CONTAINER_NAME}
     build:
-      context: ./otrs-wildfly-docker
+      context: ./app
       args:
-        - MYSQL_OTRS_CONTAINER_NAME=${MYSQL_OTRS_CONTAINER_NAME}
         - MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME=${MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME}
         - MYSQL_OTRS_USER=${MYSQL_OTRS_USER}
         - MYSQL_OTRS_PASSWORD=${MYSQL_OTRS_PASSWORD}
@@ -51,7 +46,9 @@ services:
     networks:
       - otrs-network
     volumes:
-      - br.albatross.otrs-app-vol:/opt/jboss/wildfly/standalone/:rw
+      - br.albatross.otrs-app-logs-vol:/opt/jboss/wildfly/standalone/log:rw
+      - br.albatross.otrs-app-configuration-history-vol:/opt/jboss/wildfly/standalone/configuration/standalone_xml_history:rw
+      
     depends_on:
       otrsdb:
         condition: service_started
@@ -68,5 +65,6 @@ networks:
 
 volumes:
   br.albatross.otrsdb-vol:
-  br.albatross.otrs-app-vol:
+  br.albatross.otrs-app-logs-vol:
+  br.albatross.otrs-app-configuration-history-vol:
   br.albatross.otrsdb.textos_prontos-vol:
