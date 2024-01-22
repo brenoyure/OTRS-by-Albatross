@@ -1,2 +1,2 @@
-otrs-mysql-dockerfile/sql/**
-otrs-mysql-dockerfile/sql/*
+otrs-mysql-dockerfile/sql/**.sql
+otrs-mysql-dockerfile/sql/*.sql

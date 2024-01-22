@@ -15,13 +15,25 @@
 
    <security-constraint>
       <web-resource-collection>
-          <web-resource-name>Crud de Contatos</web-resource-name>
-          <description>Crud de Contatos</description>
-          <url-pattern>/problemas.xhtml</url-pattern>
+          <web-resource-name>Acesso Básico ao Sistema</web-resource-name>
+          <description>Acesso Básico ao Sistema</description>
+          <url-pattern>/*</url-pattern>
       </web-resource-collection>
       <auth-constraint>
-          <role-name>ADMIN</role-name>
+          <role-name>USER</role-name>
       </auth-constraint>
+   </security-constraint>
+
+   <security-constraint>
+    <web-resource-collection>
+        <web-resource-name>Acesso ao CRUD da Administração</web-resource-name>
+        <description>CRUD de Textos Prontos de Problemas e Administração de Usuários</description>
+        <url-pattern>/administracao/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+        <description>Acesso apenas para usuários como permissões Administrativas</description>
+        <role-name>ADMIN</role-name>
+    </auth-constraint>
    </security-constraint>
 
     <security-role>
@@ -36,10 +48,9 @@
 
 	<login-config>
 	   <auth-method>BASIC</auth-method>
-	   <realm-name>otrsHttpSD</realm-name>
 	   <form-login-config>
-	       <form-login-page>/login.html</form-login-page>
-	       <form-error-page>/login.html</form-error-page>
+	       <form-login-page>/login.xhtml</form-login-page>
+	       <form-error-page>/login.xhtml</form-error-page>
 	   </form-login-config>
 	</login-config>
 

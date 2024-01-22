@@ -33,6 +33,7 @@ public class InventarioDaoOtrsImpl implements InventarioDao {
 
 	}
 
+//  TODO Faltando corrigir a Native Query
 	private String getNativeQuery(String bm) {
 		return String.format("""
 
