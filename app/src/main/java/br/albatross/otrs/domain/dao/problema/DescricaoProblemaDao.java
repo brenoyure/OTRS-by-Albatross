@@ -4,6 +4,7 @@ import static br.albatross.otrs.domain.models.garantia.entidades.problemas.Descr
 import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.descricaoResumida;
 import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.id;
 import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.problema;
+import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 
 import java.util.List;
 
@@ -59,6 +60,7 @@ public class DescricaoProblemaDao {
 
 		return entityManager
 				       .createQuery(cq)
+				       .setHint(HINT_CACHEABLE, true)
 				       .getResultList();
 
 	}

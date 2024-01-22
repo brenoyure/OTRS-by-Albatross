@@ -4,6 +4,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Entity @Table(name = "problema")
 @Getter @Setter
 @EqualsAndHashCode(of = "id")
+@Cacheable
 public class Problema implements Serializable {
 
 	private static final long serialVersionUID = 1L;
