@@ -32,7 +32,7 @@ jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue
 /subsystem=elytron/simple-role-decoder=attribute-to-roles:add(attribute=roles)
 
 ### 7.3 Definindo o Realm criado como padrão do ApplicationDomain padrão do Wildfly ###
-### Insto é necessário pelo fato do sistema fazer uso de EJBs ###
+### Isto é necessário pelo fato do sistema fazer uso de EJBs ###
 batch
 /subsystem=elytron/security-domain=ApplicationDomain:write-attribute(name=realms, value=[{realm=otrs-jdbc-realm, role-decoder=attribute-to-roles}])
 /subsystem=elytron/security-domain=ApplicationDomain:write-attribute(name=default-realm,value=otrs-jdbc-realm)

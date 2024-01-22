@@ -34,6 +34,9 @@ public class ChamadosDaoOtrsImpl implements ChamadosDao {
 	private static final byte TICKET_STATE_AS_NEW  = 1;
 	private static final byte TICKET_STATE_AS_OPEN = 2;
 
+	private static final int TICKET_VALID_SERVICE_MIN_THRESHOLD = 221;
+	private static final int TICKET_VALID_SERVICE_MAX_THRESHOLD = 224;
+
 	public List<DadosDoChamado> findAllOpened() {
 		var cb      =  entityManager.getCriteriaBuilder();
 		var cq      =  cb.createQuery(DadosDoChamado.class);
@@ -52,7 +55,7 @@ public class ChamadosDaoOtrsImpl implements ChamadosDao {
 		var predicateTicketNew  = cb.equal(ticket.get(ticketState).get(ticketStateType).get(TicketStateType_.id), TICKET_STATE_AS_NEW);
 		var predicateTicketOpen = cb.equal(ticket.get(ticketState).get(ticketStateType).get(TicketStateType_.id), TICKET_STATE_AS_OPEN);
 
-		var predicateServicosGarantiaValidos = cb.between(ticket.get(service).get(Service_.id), 221, 225);
+		var predicateServicosGarantiaValidos = cb.between(ticket.get(service).get(Service_.id), TICKET_VALID_SERVICE_MIN_THRESHOLD, TICKET_VALID_SERVICE_MAX_THRESHOLD);
 
 		var predicateTicketNewOrOpen = cb.or(predicateTicketNew, predicateTicketOpen);
 

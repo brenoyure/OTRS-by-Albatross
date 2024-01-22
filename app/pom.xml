@@ -77,6 +77,21 @@
                 </configuration>
             </plugin>
 
+            <!-- Execute 'mvn clean package wildfly:dev' to run the application. -->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>4.2.0.Final</version>
+                <configuration>
+                    <version>${wildfly.version}</version>
+                    <server-config>standalone-full.xml</server-config>
+                    <resolveExpressions>true</resolveExpressions>
+                    <scripts>
+                        <script>${project.basedir}/config-maven-plugin-http-basic-auth.cli</script>
+                    </scripts>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>
