@@ -28,9 +28,6 @@ jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue
 ### 7.1 Criando o Realm JDBC (Plain Text Password) ###
 /subsystem=elytron/jdbc-realm=otrs-jdbc-realm:add(principal-query=[{data-source=ProblemaDS,clear-password-mapper={password-index=1},sql="SELECT u.password FROM users u WHERE u.username = ?"},{data-source=ProblemaDS,attribute-mapping=[{index=1,to=roles}],sql="SELECT r.name FROM users_roles ur INNER JOIN roles r ON ur.fk_role_id = r.id INNER JOIN users u ON u.id=ur.fk_user_id WHERE u.username = ?"}]
 
-### 7.1.2 Criando o Role Decoder
-/subsystem=elytron/simple-role-decoder=attribute-to-roles:add(attribute=roles)
-
 ## 7.2 Criando o Security Domain ####
 /subsystem=elytron/security-domain=otrsSD:add(role-decoder=attribute-to-roles, realms=[{realm=otrs-jdbc-realm,role-decoder=attribute-to-roles}],permission-mapper=default-permission-mapper)
 
@@ -42,22 +39,6 @@ jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue
 
 ## 7.5 Criando o Subsytem ejb3
 /subsystem=ejb3/application-security-domain=otrs-ejb-sd:add(security-domain=otrsSD)
-
-
-## Security Logging ###
-#/subsystem=logging/logger=org.jboss.security:add(level=ALL)
-
-#/subsystem=logging/logger=org.jboss.as.security:add(level=ALL)
-
-#/subsystem=logging/logger=org.picketbox:add(level=ALL)
-
-#/subsystem=logging/logger=org.jboss.as.domain.management.security:add(level=ALL)
-
-#/subsystem=logging/logger=org.wildfly.security:add(level=ALL)
-
-#/subsystem=logging/logger=org.wildfly.elytron:add(level=ALL)
-
-#/subsystem=logging/console-handler=CONSOLE:write-attribute(name=level, value=ALL)
 
 
 stop-embedded-server

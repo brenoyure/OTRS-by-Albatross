@@ -1,4 +1,3 @@
-embed-server --server-config=standalone-full.xml
 
 ### 1. Adicionando Módulo do MySQL ####
 module add --name=com.mysql --dependencies=jakarta.transaction.api,javax.api --resources=/tmp/mysql-connector-j.jar
@@ -7,20 +6,20 @@ module add --name=com.mysql --dependencies=jakarta.transaction.api,javax.api --r
 /subsystem=datasources/jdbc-driver=mysql:add(driver-module-name=com.mysql, driver-xa-datasource-class-name=com.mysql.cj.jdbc.MysqlXADataSource)
 
 ## 2.1 Adicionando os DataSources do sistema de chamados e dos textos prontos ####
-data-source add --name=OtrsDS --driver-name=mysql --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mysql://${env.MYSQL_OTRS_DATABASE_HOST}:3306/${env.MYSQL_OTRS_DATABASE} --user-name=${env.MYSQL_OTRS_USER} --password=${env.MYSQL_OTRS_PASSWORD} --enabled=true
-data-source add --name=ProblemaDS --driver-name=mysql --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mysql://${env.MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST}:3306/${env.MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE} --user-name=${env.MYSQL_OTRS_TEXTOS_PRONTOS_USER} --password=${env.MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD} --enabled=true
+data-source add --name=OtrsDS --driver-name=mysql --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mysql://localhost:3306/otrsdb --user-name=root --password=Bl@ck0511 --enabled=true
+data-source add --name=ProblemaDS --driver-name=mysql --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mysql://localhost:3306/otrsdb_textos_prontos --user-name=root --password=Bl@ck0511 --enabled=true
 
 ### 3.Criando a Fila JMS ###
 jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue/OtrsEmailQueue
 
 ### 4. Criando o socket Binding ###
-/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-smtp-binding:add(host=${env.OTRS_MAIL_SMTP_HOST}, port=${env.OTRS_MAIL_SMTP_PORT})
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-smtp-binding:add(host=sandbox.smtp.mailtrap.io, port=587
 
 ### 5. Criando o Mail Session ###
 /subsystem=mail/mail-session=otrsMailSession:add(jndi-name=java:jboss/mail/OtrsMailSession)
 
 ### 6. Definindo o socket binding criado para o Session anteriormente criado ###
-/subsystem=mail/mail-session=otrsMailSession/server=smtp:add(outbound-socket-binding-ref=my-smtp-binding, username=${env.OTRS_MAIL_SESSION_USER}, password=${env.OTRS_MAIL_SESSION_PASSWORD}, tls=true)
+/subsystem=mail/mail-session=otrsMailSession/server=smtp:add(outbound-socket-binding-ref=my-smtp-binding, username=905f2dd9fbc8bb, password=45f40d644a1897, tls=true)
 
 
 ### Autenticação ###
@@ -45,19 +44,16 @@ jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue
 
 
 ## Security Logging ###
-#/subsystem=logging/logger=org.jboss.security:add(level=ALL)
+/subsystem=logging/logger=org.jboss.security:add(level=ALL)
 
-#/subsystem=logging/logger=org.jboss.as.security:add(level=ALL)
+/subsystem=logging/logger=org.jboss.as.security:add(level=ALL)
 
-#/subsystem=logging/logger=org.picketbox:add(level=ALL)
+/subsystem=logging/logger=org.picketbox:add(level=ALL)
 
-#/subsystem=logging/logger=org.jboss.as.domain.management.security:add(level=ALL)
+/subsystem=logging/logger=org.jboss.as.domain.management.security:add(level=ALL)
 
-#/subsystem=logging/logger=org.wildfly.security:add(level=ALL)
+/subsystem=logging/logger=org.wildfly.security:add(level=ALL)
 
-#/subsystem=logging/logger=org.wildfly.elytron:add(level=ALL)
+/subsystem=logging/logger=org.wildfly.elytron:add(level=ALL)
 
-#/subsystem=logging/console-handler=CONSOLE:write-attribute(name=level, value=ALL)
-
-
-stop-embedded-server
+/subsystem=logging/console-handler=CONSOLE:write-attribute(name=level, value=ALL)
