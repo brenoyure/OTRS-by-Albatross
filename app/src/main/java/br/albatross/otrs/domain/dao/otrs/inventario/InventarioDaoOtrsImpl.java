@@ -15,7 +15,7 @@ public class InventarioDaoOtrsImpl implements InventarioDao {
 	private EntityManager entityManager;
 
 	/**
-	 * Busca o número de série pelo BM do equipamento utilizando a API de Criteria da JPA.
+	 * Busca o número de série pelo BM do equipamento utilizando a NativeQuery JPA.
 	 * 
 	 * @param bm
 	 * @return optional contendo ou não o número de série.
@@ -25,18 +25,7 @@ public class InventarioDaoOtrsImpl implements InventarioDao {
 		try {
 			return Optional.of(
 					(String) entityManager
-								.createNativeQuery(getNativeQuery(bm), String.class)
-								.setMaxResults(1)
-								.getSingleResult());
-
-		} catch (NoResultException e) {	return Optional.empty(); }
-
-	}
-
-//  TODO Faltando corrigir a Native Query
-	private String getNativeQuery(String bm) {
-		return String.format("""
-
+								.createNativeQuery("""
 SELECT 
     x.xml_content_value
 FROM
@@ -53,9 +42,15 @@ WHERE
 			NOT x.xml_type = 'ITSM::ConfigItem::Archiv::22'
 
 		AND
-			civ.name = '%s';
+			civ.name = ?1 ;
 					
-					""", bm);
+					""", String.class)
+								.setParameter(1, bm)
+								.setMaxResults(1)
+								.getSingleResult());
+
+		} catch (NoResultException e) {	return Optional.empty(); }
+
 	}
 
 }
