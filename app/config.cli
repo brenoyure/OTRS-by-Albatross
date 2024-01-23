@@ -26,7 +26,7 @@ jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue
 ### Autenticação ###
 
 ### 7.1 Criando o Realm JDBC (Plain Text Password) ###
-/subsystem=elytron/jdbc-realm=otrs-jdbc-realm:add(principal-query=[{data-source=ProblemaDS,clear-password-mapper={password-index=1},sql="SELECT u.password FROM users u WHERE u.username = ?"},{data-source=ProblemaDS,attribute-mapping=[{index=1,to=roles}],sql="SELECT r.name FROM users_roles ur INNER JOIN roles r ON ur.fk_role_id = r.id INNER JOIN users u ON u.id=ur.fk_user_id WHERE u.username = ?"}]
+/subsystem=elytron/jdbc-realm=otrs-jdbc-realm:add(principal-query=[{data-source=ProblemaDS,simple-digest-mapper={password-index=1, algorithm=simple-digest-sha-512, hash-encoding=base64},sql="SELECT u.password FROM users u WHERE u.username = ?"},{data-source=ProblemaDS,attribute-mapping=[{index=1,to=roles}],sql="SELECT r.name FROM users_roles ur INNER JOIN roles r ON ur.fk_role_id = r.id INNER JOIN users u ON u.id=ur.fk_user_id WHERE u.username = ?"}]
 
 ### 7.2 Criando o Role Decoder
 /subsystem=elytron/simple-role-decoder=attribute-to-roles:add(attribute=roles)
