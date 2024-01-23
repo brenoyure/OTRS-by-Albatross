@@ -47,7 +47,11 @@
     </security-role>
 
 	<login-config>
-	   <auth-method>BASIC</auth-method>
+	   <auth-method>FORM</auth-method>
+	   <form-login-config>
+	       <form-login-page>/login.xhtml</form-login-page>
+	       <form-error-page>/login.xhtml</form-error-page>
+	   </form-login-config>
 	</login-config>
 
 </web-app>

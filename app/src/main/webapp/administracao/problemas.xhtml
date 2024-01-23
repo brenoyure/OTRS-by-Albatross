@@ -18,6 +18,7 @@
 		<h:form style="margin:10px 0 10px 0">
 			<p:menuButton value="Navegação" >
 				<p:menuitem value="Serviço Garantia" action="/otrs?faces-redirect=true" immediate="true" update="@all" />
+				<p:menuitem value="Sair" action="#{logoutBean.logout}" immediate="true" update="@all" />
 			</p:menuButton>
 		</h:form>
 

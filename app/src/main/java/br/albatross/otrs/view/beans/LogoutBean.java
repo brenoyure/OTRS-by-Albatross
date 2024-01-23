@@ -1,7 +1,5 @@
 package br.albatross.otrs.view.beans;
 
-import javax.security.auth.login.LoginException;
-
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
@@ -13,7 +11,7 @@ public class LogoutBean {
 	@Inject
 	private FacesContext facesContext;
 
-	public String logout() throws LoginException {
+	public String logout() {
 		facesContext.getExternalContext().invalidateSession();
 		return facesContext.getViewRoot().getViewId().concat("?faces-redirect=true");
 	}
