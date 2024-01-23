@@ -17,8 +17,8 @@
 
 		<h:form style="margin:10px 0 10px 0">
 			<p:menuButton value="Navegação" >
-				<p:menuitem value="Serviço Garantia" action="/otrs?faces-redirect=true" immediate="true" update="@all" />
-				<p:menuitem value="Sair" action="#{logoutBean.logout}" immediate="true" update="@all" />
+                <p:menuitem value="Serviço Garantia" action="/otrs?faces-redirect=true" />
+				<p:menuitem value="Sair" action="#{logoutBean.logout}" icon="pi pi-fw pi-sign-out" />
 			</p:menuButton>
 		</h:form>
 
@@ -27,7 +27,7 @@
 	<h:form id="formulario-cadastro-tipo">
 		<p:focus context="panel-tipo" />
 
-			<p:fieldset legend="Problemas" >
+			<p:fieldset legend="Problemas" collapsed="true" toggleable="true" >
 				<p:panelGrid columns="2" id="panel-tipo" layout="tabular" >
 
 					<p:outputLabel value="Informe o Tipo do Problema" for="@next" />
@@ -35,14 +35,16 @@
 				</p:panelGrid>
 
 				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema(problemasBean.problema)}" update="@form :mensagens :formulario-cadastro-descricao :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
-				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
+				<p:commandButton value="Limpar" style="margin-top:10px" >
+				    <p:ajax update="inputText-tipoProblema" resetValues="true" />
+				</p:commandButton>
 
 			</p:fieldset>
 	</h:form>
 
 	<h:form id="formulario-cadastro-descricao" rendered="#{not empty problemasBean.serviceBean.problemas}" >
 
-			<p:fieldset legend="Descrição Problema" >
+			<p:fieldset legend="Descrição Problema" collapsed="false" toggleable="true" >
 				<p:panelGrid columns="2" id="panel-descricao" layout="tabular" >
 					<p:outputLabel value="Selecione o Tipo do Problema" for="@next" />
 						<p:selectOneMenu id="listBox-tipoProblema" value="#{problemasBean.descricaoProblema.problema}" converter="problemaConverter" required="true" requiredMessage="Tipo do Problema Obrigatório" >
@@ -56,7 +58,9 @@
 				</p:panelGrid>
 
 				<p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema(problemasBean.descricaoProblema)}" update="@form :mensagens :formulario-cadastro-tipo :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
-				<p:commandButton value="Limpar" type="reset" immediate="true" style="margin-top:10px" />
+				<p:commandButton value="Limpar" style="margin-top:10px" >
+                    <p:ajax update="@form" resetValues="true" />
+                </p:commandButton>
 
 			</p:fieldset>
 	</h:form>

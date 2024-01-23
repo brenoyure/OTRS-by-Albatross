@@ -17,8 +17,8 @@
 
 	<h:form style="margin:10px 0 10px 0">
 		<p:menuButton value="Navegação" >
-			<p:menuitem value="Problemas - Textos Prontos" action="administracao/problemas?faces-redirect=true" immediate="true" update="@all" rendered="#{request.isUserInRole('ADMIN')}" />
-			<p:menuitem value="Sair" action="#{logoutBean.logout}" immediate="true" update="@all" />
+			<p:menuitem value="Problemas - Textos Prontos" action="administracao/problemas?faces-redirect=true" rendered="#{request.isUserInRole('ADMIN')}" />
+            <p:menuitem value="Sair" action="#{logoutBean.logout}" icon="pi pi-fw pi-sign-out" />
 		</p:menuButton>
 	</h:form>
 
