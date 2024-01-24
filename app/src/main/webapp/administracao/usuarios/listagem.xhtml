@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/_template.xhtml">
+
+	<ui:define name="titulo">Listagem de Usuários</ui:define>
+
+	<ui:define name="conteudo">
+
+		<div style="width: 50vw">
+			<ui:include	src="/administracao/usuarios/_dataTableUsuariosTemplate.xhtml" />
+		</div>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

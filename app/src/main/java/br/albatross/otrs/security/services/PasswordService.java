@@ -1,4 +1,4 @@
-package br.albatross.otrs.security;
+package br.albatross.otrs.security.services;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

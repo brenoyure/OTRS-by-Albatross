@@ -6,8 +6,8 @@ module add --name=com.mysql --dependencies=jakarta.transaction.api,javax.api --r
 /subsystem=datasources/jdbc-driver=mysql:add(driver-module-name=com.mysql, driver-xa-datasource-class-name=com.mysql.cj.jdbc.MysqlXADataSource)
 
 ## 2.1 Adicionando os DataSources do sistema de chamados e dos textos prontos ####
-data-source add --name=OtrsDS --driver-name=mysql --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mysql://172.18.0.2:3306/otrsdb --user-name=albatross18 --password=pass123 --enabled=true
-data-source add --name=ProblemaDS --driver-name=mysql --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mysql://172.18.0.3:3306/otrsdb_textos_prontos --user-name=albatross18 --password=pass123 --enabled=true
+data-source add --name=OtrsDS --driver-name=mysql --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mysql://localhost:3306/otrsdb --user-name=root --password=Bl@ck0511 --enabled=true
+data-source add --name=ProblemaDS --driver-name=mysql --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mysql://localhost:3306/otrsdb_textos_prontos --user-name=root --password=Bl@ck0511 --enabled=true
 
 ### 3.Criando a Fila JMS ###
 jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue/OtrsEmailQueue

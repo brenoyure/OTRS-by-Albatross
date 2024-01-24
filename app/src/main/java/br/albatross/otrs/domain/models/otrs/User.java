@@ -26,7 +26,7 @@ import lombok.Setter;
  * @author breno.brito
  *
  */
-@Entity @Table(name = "users")
+@Entity(name = "OtrsUser") @Table(name = "users")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
 public class User implements Serializable, DadosDoResponsavelPeloChamado {

@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity @Table(name = "roles")
+@Entity(name = "OtrsRole") @Table(name = "roles")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
 public class Role {

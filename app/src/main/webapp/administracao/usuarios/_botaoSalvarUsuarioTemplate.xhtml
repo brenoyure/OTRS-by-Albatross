@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition>
+
+	<p:commandButton id="commandButton-cadastrarUsuario" value="Salvar" rendered="#{cadastroUsuariosBean.user.id == 0}" >
+		<p:ajax listener="#{cadastroUsuariosBean.cadastrarUsuario}"	event="click" process="@form" update="@form :mensagens" />
+	</p:commandButton>
+
+    <p:commandButton id="commandButton-atualizarUsuario" value="Atualizar" rendered="#{cadastroUsuariosBean.user.id > 0}" >
+        <p:ajax listener="#{cadastroUsuariosBean.atualizarCadastro}" event="click" process="@form" update="@form :mensagens" />
+    </p:commandButton>	
+
+</ui:composition>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/_template.xhtml">
+    <ui:define name="titulo">Cadastro de Usuário</ui:define>
+    <ui:define name="conteudo">
+
+	    <f:metadata>
+	        <f:viewParam  name="usuarioId" value="#{cadastroUsuariosBean.id}" />
+	        <f:viewAction action="#{cadastroUsuariosBean.carregarUsuarioPeloId}" if="#{param.usuarioId != null}" />
+	    </f:metadata>
+	
+	    <div style="width: 50vw; display: flex;">
+	        <h:form id="form-cadastroUsuario">
+	            <p:focus context="panel" />
+	            <p:fieldset legend="Administração / Usuários / Cadastro">
+	
+	                <p:panelGrid columns="2" id="panel" layout="tabular">
+	
+	                    <p:outputLabel for="@next" value="Nome do Usuário: " />
+	                    <p:inputText id="inputText-username"
+	                        value="#{cadastroUsuariosBean.user.username}" required="true"
+	                        requiredMessage="Nome de Usuário é Obrigatório" maxlength="55">
+	                    </p:inputText>
+	
+	                    <p:outputLabel for="@next" value="Nova Senha: " />
+	                    <p:password 
+	                        id="inputText-password"
+	                        value="#{cadastroUsuariosBean.user.password}" 
+	                        match="inputText-password-confirm"
+	                        validatorMessage="Senhas não conferem, tente novamente"
+	                        required="true" requiredMessage="Digite novamente a Senha para confirmar" 
+	                        maxlength="100">
+	                    </p:password>
+	
+	                    <p:outputLabel for="@next" value="Confirme a Senha: " />
+	                    <p:password 
+	                        id="inputText-password-confirm"
+	                        value="#{cadastroUsuariosBean.user.password}" 
+	                        required="true" requiredMessage="Senha do Usuário é Obrigatório" 
+	                        maxlength="100">
+	                    </p:password>
+	
+	                    <p:outputLabel for="@next" value="Selecione a ou as permissões do usuário: " />
+	                    <p:selectManyCheckbox required="true" value="#{cadastroUsuariosBean.user.roles}" converter="rolesConverter" requiredMessage="Usuário deve possuir pelo menos a Role: USER">
+	                        <f:selectItems value="#{listaRolesBean.roles}" var="role" itemLabel="#{role.name}" />
+	                    </p:selectManyCheckbox>
+	
+	                </p:panelGrid>
+
+	                <ui:include src="/administracao/usuarios/_botaoSalvarUsuarioTemplate.xhtml" />
+	
+	            </p:fieldset>
+	        </h:form>
+	    </div>
+    </ui:define>
+</ui:composition>
+
+</html>

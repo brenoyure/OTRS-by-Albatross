@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition>
+
+    <nav>
+        <h:form style="margin:10px 0 10px 0">
+            <p:menubar autoDisplay="true">
+                <p:menuitem  value="Serviço de Garantia"                                            outcome="/otrs"                                                                          />
+                <p:menuitem  value="Textos Prontos"                 icon="pi pi-book"               outcome="/administracao/problemas"          rendered="#{request.isUserInRole('ADMIN')}"  />
+
+	            <p:submenu label="Usuários"                         icon="pi pi-fw pi-user"                                                     rendered="#{request.isUserInRole('ADMIN')}"   >
+	                <p:menuitem value="Novo"                        icon="pi pi-fw pi-user-plus"    outcome="/administracao/usuarios/cadastro"                                               />
+	                <p:menuitem value="Listagem"                    icon="pi pi-fw pi-users"        outcome="/administracao/usuarios/listagem"                                               />
+	            </p:submenu>
+
+	            <f:facet name="options">
+	                <p:commandButton value="Sair"                   icon="pi pi-power-off"          action="#{logoutBean.logout}" />
+	            </f:facet>
+            </p:menubar>
+        </h:form>
+    </nav>
+
+</ui:composition>
+
+</html>
