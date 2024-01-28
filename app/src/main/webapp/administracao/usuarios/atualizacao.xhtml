@@ -10,23 +10,28 @@
     <ui:define name="titulo">Cadastro de Usuário</ui:define>
     <ui:define name="conteudo">
 
+	    <f:metadata>
+	        <f:viewParam  name="usuarioId" />
+	        <f:viewAction action="#{atualizacaoUsuarioBean.carregarUsuarioPeloId(param.usuarioId)}" if="#{param.usuarioId != null}" />
+	    </f:metadata>
+
 	    <div style="width: 50vw; display: flex;">
 	        <h:form id="form-cadastroUsuario">
 	            <p:focus context="panel" />
-	            <p:fieldset legend="Administração / Usuários / Cadastro">
+	            <p:fieldset legend="Administração / Usuários / Atualização de Cadastro">
 
 	                <p:panelGrid columns="2" id="panel" layout="tabular">
 
 	                    <p:outputLabel for="@next" value="Nome do Usuário: " />
 	                    <p:inputText id="inputText-username"
-	                        value="#{cadastroUsuariosBean.dadosDeCadastro.username}" required="true"
+	                        value="#{atualizacaoUsuarioBean.dados.username}" required="true"
 	                        requiredMessage="Nome de Usuário é Obrigatório" maxlength="55">
 	                    </p:inputText>
 
 	                    <p:outputLabel for="@next" value="Nova Senha: " />
 	                    <p:password 
 	                        id="inputText-password"
-	                        value="#{cadastroUsuariosBean.dadosDeCadastro.password}" 
+	                        value="#{atualizacaoUsuarioBean.dados.password}" 
 	                        match="inputText-password-confirm"
 	                        validatorMessage="Senhas não conferem, tente novamente"
 	                        required="true" requiredMessage="Digite novamente a Senha para confirmar" 
@@ -36,19 +41,19 @@
 	                    <p:outputLabel for="@next" value="Confirme a Senha: " />
 	                    <p:password 
 	                        id="inputText-password-confirm"
-	                        value="#{cadastroUsuariosBean.dadosDeCadastro.password}" 
+	                        value="#{atualizacaoUsuarioBean.dados.password}" 
 	                        required="true" requiredMessage="Senha do Usuário é Obrigatório" 
 	                        maxlength="100">
 	                    </p:password>
 
 	                    <p:outputLabel for="@next" value="Selecione a ou as permissões do usuário: " />
-	                    <p:selectManyCheckbox required="true" value="#{cadastroUsuariosBean.dadosDeCadastro.rolesIds}" converter="jakarta.faces.Integer" requiredMessage="Usuário deve possuir pelo menos a Role: USER">
+	                    <p:selectManyCheckbox required="true" value="#{atualizacaoUsuarioBean.dados.rolesIds}" converter="jakarta.faces.Integer" requiredMessage="Usuário deve possuir pelo menos a Role: USER">
 	                        <f:selectItems value="#{listaRolesBean.roles}" var="role" itemLabel="#{role.name}" itemValue="#{role.id}" />
 	                    </p:selectManyCheckbox>
 	
 	                </p:panelGrid>
 
-				    <p:commandButton id="commandButton-cadastrarUsuario" value="Salvar" actionListener="#{cadastroUsuariosBean.cadastrarUsuario}" process="@form" update="@form :mensagens" />
+	                <p:commandButton id="commandButton-cadastrarUsuario" value="Atualizar" actionListener="#{atualizacaoUsuarioBean.atualizarCadastro}" process="@form" update="@form :mensagens" />
 
 	            </p:fieldset>
 	        </h:form>

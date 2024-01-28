@@ -3,47 +3,42 @@ package br.albatross.otrs.security.services;
 import java.util.List;
 import java.util.Optional;
 
-import br.albatross.otrs.security.daos.UsersDao;
-import br.albatross.otrs.security.exceptions.CadastroException;
-import br.albatross.otrs.security.models.User;
+import br.albatross.otrs.security.models.DadosParaAtualizacaoDeUsuarioDto;
+import br.albatross.otrs.security.models.DadosParaCadastroDeUsuarioDto;
+import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 
 @ApplicationScoped
 public class UsuarioService {
-
+	
 	@Inject
-	private UsersDao dao;
-
+	private CadastroUsuarioService cadastroService;
+	
 	@Inject
-	private PasswordService passwordService;
+	private UsuarioListagemService listagemService;
 
-	public void cadastrarNovoUsuario(User user) {
-		if (dao.existsByUsername(user.getUsername())) {
-			throw new CadastroException("Usuário já existente", "Já existe um usuário com o nome informado, cadastro não realizado.");			
-		}
+	public DadosParaListagemDoUsuarioDto cadastrarNovoUsuario(@Valid DadosParaCadastroDeUsuarioDto novosDados) {
+		return cadastroService
+				.cadastrarNovoUsuario(novosDados);
 
-		final String hashedPassword = passwordService.generateHashing(user.getPassword());
-		user.setPassword(hashedPassword);
-		dao.persist(user);
 	}
 
-	@Transactional
-	public void atualizarCadastro(User user) {
-		System.out.println("At C");
-		final String hashedPassword = passwordService.generateHashing(user.getPassword());
-		System.out.println("Dp C");
-		user.setPassword(hashedPassword);		
-		dao.atualizar(user);
-	}	
-
-	public List<User> getUsuarios() {
-		return dao.findAll();
+	public DadosParaListagemDoUsuarioDto atualizarCadastro(@Valid DadosParaAtualizacaoDeUsuarioDto dadosAtualizados) {
+		return cadastroService
+				.atualizarCadastro(dadosAtualizados);
 	}
 
-	public Optional<User> carregarPorId(int id) {
-		return dao.findById(id);
+	public List<DadosParaListagemDoUsuarioDto> getUsuarios() {
+		return listagemService
+				.listar();
+	}
+
+	public Optional<DadosParaListagemDoUsuarioDto> carregarPorId(@Positive int id) {
+		return listagemService
+				.buscarPorId(id);
 	}
 
 }

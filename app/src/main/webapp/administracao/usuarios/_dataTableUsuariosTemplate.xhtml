@@ -23,7 +23,7 @@
 
                 <p:column headerText="Permissões" >
                     <ui:repeat var="role" value="#{usuario.roles}">
-                        <p:outputLabel value="#{role.name} " />
+                        <p:outputLabel value="#{role.name}" />
                     </ui:repeat>
                 </p:column>
 
@@ -32,7 +32,7 @@
                         <h:outputLabel value="Editar" />
                         <h:outputLabel style="margin-left: 5px" styleClass="pi pi-user-edit" />
                     </f:facet>
-                    <p:link outcome="/administracao/usuarios/cadastro" includeViewParams="true">
+                    <p:link outcome="/administracao/usuarios/atualizacao" includeViewParams="true">
                         <h:outputText title="Editar" styleClass="ui-icon pi pi-pencil" />
                         <f:param name="usuarioId" value="#{usuario.id}" />
                     </p:link>

@@ -11,16 +11,18 @@
     <nav>
         <h:form style="margin:10px 0 10px 0">
             <p:menubar autoDisplay="true">
-                <p:menuitem  value="Serviço de Garantia"                                            outcome="/otrs"                                                                          />
-                <p:menuitem  value="Textos Prontos"                 icon="pi pi-book"               outcome="/administracao/problemas"          rendered="#{request.isUserInRole('ADMIN')}"  />
+                <p:menuitem  value="Serviço de Garantia"                                            outcome="/otrs"                                                                               />
+                <p:menuitem  value="Textos Prontos"                 icon="pi pi-book"               outcome="/administracao/problemas"           disabled="#{not request.isUserInRole('ADMIN')}"  />
 
-	            <p:submenu label="Usuários"                         icon="pi pi-fw pi-user"                                                     rendered="#{request.isUserInRole('ADMIN')}"   >
-	                <p:menuitem value="Novo"                        icon="pi pi-fw pi-user-plus"    outcome="/administracao/usuarios/cadastro"                                               />
-	                <p:menuitem value="Listagem"                    icon="pi pi-fw pi-users"        outcome="/administracao/usuarios/listagem"                                               />
+	            <p:submenu label="Usuários"                         icon="pi pi-fw pi-user"                                                      disabled="#{not request.isUserInRole('ADMIN')}"   >
+	                <p:menuitem value="Novo"                        icon="pi pi-fw pi-user-plus"    outcome="/administracao/usuarios/cadastro"                                                    />
+	                <p:menuitem value="Listagem"                    icon="pi pi-fw pi-users"        outcome="/administracao/usuarios/listagem"                                                    />
 	            </p:submenu>
 
 	            <f:facet name="options">
-	                <p:commandButton value="Sair"                   icon="pi pi-power-off"          action="#{logoutBean.logout}" />
+                    <h:outputLabel value="Olá #{navBarBean.formatUserName(request.userPrincipal.name)}, você está logado como Administrador"   style="margin-right: 10px;"  rendered="#{request.isUserInRole('ADMIN')}" />
+                    <h:outputLabel value="Olá #{navBarBean.formatUserName(request.userPrincipal.name)}"                                        style="margin-right: 10px;"  rendered="#{not request.isUserInRole('ADMIN')}" />
+                    <p:commandButton value="Sair"                   icon="pi pi-power-off"          action="#{logoutBean.logout}" />
 	            </f:facet>
             </p:menubar>
         </h:form>

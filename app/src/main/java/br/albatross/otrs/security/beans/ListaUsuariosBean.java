@@ -3,7 +3,7 @@ package br.albatross.otrs.security.beans;
 import java.io.Serializable;
 import java.util.List;
 
-import br.albatross.otrs.security.models.User;
+import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
 import br.albatross.otrs.security.services.UsuarioService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
@@ -20,7 +20,7 @@ public class ListaUsuariosBean implements Serializable {
 	private UsuarioService service;
 
 	@Getter
-	private List<User> usuarios;
+	private List<DadosParaListagemDoUsuarioDto> usuarios;
 
 	@PostConstruct
 	void init() {

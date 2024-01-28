@@ -1,10 +1,10 @@
 package br.albatross.otrs.security.models;
 
-import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
@@ -39,11 +39,11 @@ public class User {
 	@Column(length = 100 ,unique = false, nullable = false)
 	private String password;
 
-	@ManyToMany(fetch = EAGER)
+	@ManyToMany(fetch = LAZY)
 	@JoinTable(
 			name = "users_roles", 
 			joinColumns =         @JoinColumn(name = "fk_user_id", referencedColumnName = "id"), 
 			inverseJoinColumns =  @JoinColumn(name = "fk_role_id", referencedColumnName = "id"))
-	private List<Role> roles = new ArrayList<>();
-	
+	private Collection<Role> roles = new HashSet<>();
+
 }

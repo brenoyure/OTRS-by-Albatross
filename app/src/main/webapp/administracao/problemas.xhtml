@@ -79,13 +79,28 @@
 	                            <f:setPropertyActionListener value="#{descricaoProblema}"          target="#{problemasBean.descricaoProblema}" />
 	                        </p:commandLink>
 	                    </p:column>
-	    
+
 	                    <p:column headerText="Excluir" >
-	                        <p:commandLink update="@form :formulario-cadastro-descricao :mensagens" actionListener="#{problemasBean.excluirDescricaoProblema(descricaoProblema)}" >
-	                            <h:outputText title="Excluir" styleClass="ui-icon pi pi-trash" />
-	                        </p:commandLink>
+		                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#descricaoProblemaModal#{descricaoProblema.id}">Excluir</button>
+		                    <div class="modal fade" id="descricaoProblemaModal#{descricaoProblema.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		                      <div class="modal-dialog">
+		                        <div class="modal-content">
+		                          <div class="modal-header">
+		                            <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmação de Exclusão</h1>
+		                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		                          </div>
+		                          <div class="modal-body">
+		                            <h:outputText value="Confirmar Exclusão de: #{descricaoProblema.problema.tipo} - #{descricaoProblema.descricaoResumida} ?" />
+		                          </div>
+		                          <div class="modal-footer">
+		                            <h:commandButton styleClass="btn btn-danger" actionListener="#{problemasBean.excluirDescricaoProblema(descricaoProblema)}" value="Confirmar Exclusão" update="@form :formulario-cadastro-descricao :mensagens" />
+		                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+		                          </div>
+		                        </div>
+		                      </div>
+		                    </div>
 	                    </p:column>
-	    
+
 	                </p:dataTable>
 	            </p:fieldset>
 	        </h:form>
@@ -93,5 +108,10 @@
     
     </ui:define>
 </ui:composition>
+
+
+
+
+
 	
 </html>

@@ -11,7 +11,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
 
-@Named @ViewScoped @Getter
+@Named @ViewScoped
 public class ListaRolesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -19,6 +19,7 @@ public class ListaRolesBean implements Serializable {
 	@Inject
 	private RolesDao dao;
 
+	@Getter
 	private List<Role> roles;
 
 	@PostConstruct

@@ -3,7 +3,7 @@ package br.albatross.otrs.security.beans;
 import java.io.Serializable;
 
 import br.albatross.otrs.security.exceptions.CadastroException;
-import br.albatross.otrs.security.models.User;
+import br.albatross.otrs.security.models.DadosParaCadastroDeUsuarioDto;
 import br.albatross.otrs.security.services.UsuarioService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -27,38 +27,31 @@ public class CadastroUsuariosBean implements Serializable {
 	private UsuarioService usuarioService;
 
 	@Getter @Setter
-	private User user;
-
-	@Getter @Setter
-	private int id;
+	private DadosParaCadastroDeUsuarioDto dadosDeCadastro;
 
 	@PostConstruct
 	void init() {
-		user = new User();
+		dadosDeCadastro = new DadosParaCadastroDeUsuarioDto();
 	}
 
 	@Transactional
 	public void cadastrarUsuario() {
+
 		try {
-			usuarioService.cadastrarNovoUsuario(user);
-			facesContext.addMessage(null, new FacesMessage(String.format("Usuário %s cadastrado com sucesso.", user.getUsername())));
+
+			usuarioService.cadastrarNovoUsuario(dadosDeCadastro);
+			facesContext.addMessage(null, new FacesMessage(String.format("Usuário %s cadastrado com sucesso.", dadosDeCadastro.getUsername())));
+
 		} catch (CadastroException e) {
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMensagem(), e.getMensagemDetalhada()));
+
 		}
+
 		finally {
-			user = new User();
+			dadosDeCadastro = new DadosParaCadastroDeUsuarioDto();
 		}
+
 	}
 
-	@Transactional
-	public void atualizarCadastro() {
-		usuarioService.atualizarCadastro(user);
-		facesContext.addMessage(null, new FacesMessage(String.format("Cadastro do Usuário %s atualizado com sucesso.", user.getUsername())));
-	}
-
-	@Transactional
-	public void carregarUsuarioPeloId() {
-		usuarioService.carregarPorId(id).ifPresent(this::setUser);
-	}
 
 }
