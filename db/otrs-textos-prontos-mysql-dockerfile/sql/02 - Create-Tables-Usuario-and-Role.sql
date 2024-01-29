@@ -19,3 +19,4 @@ ALTER TABLE users_roles ADD FOREIGN KEY(fk_role_id) REFERENCES roles(id);
 
 DESC roles;
 DESC users;
+

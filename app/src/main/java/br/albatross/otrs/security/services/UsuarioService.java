@@ -6,12 +6,12 @@ import java.util.Optional;
 import br.albatross.otrs.security.models.DadosParaAtualizacaoDeUsuarioDto;
 import br.albatross.otrs.security.models.DadosParaCadastroDeUsuarioDto;
 import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 
-@ApplicationScoped
+@RequestScoped
 public class UsuarioService {
 	
 	@Inject

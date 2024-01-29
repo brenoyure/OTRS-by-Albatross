@@ -46,8 +46,9 @@
 	                        maxlength="100">
 	                    </p:password>
 
-	                    <p:outputLabel for="@next" value="Selecione a ou as permissões do usuário: " />
-	                    <p:selectManyCheckbox required="true" value="#{atualizacaoUsuarioBean.dados.rolesIds}" converter="jakarta.faces.Integer" requiredMessage="Usuário deve possuir pelo menos a Role: USER">
+	                    <p:outputLabel for="@next" value="Selecione a ou as permissões para o usuário: " rendered="#{not atualizacaoUsuarioBean.dados.username == 'Administrador'}" />
+	                    <p:outputLabel for="@next" style="color: red;" value="Para manter a integridade do sistema, não será possível alterar as permissões do usuário atual, visto que, é necessário pelo menos um usuário com privilégios administrativos." rendered="#{atualizacaoUsuarioBean.dados.username == 'Administrador'}" />
+	                    <p:selectManyCheckbox required="true" value="#{atualizacaoUsuarioBean.dados.rolesIds}" converter="jakarta.faces.Integer" requiredMessage="Usuário deve possuir pelo menos a Role: USER" disabled="#{atualizacaoUsuarioBean.dados.username == 'Administrador'}" >
 	                        <f:selectItems value="#{listaRolesBean.roles}" var="role" itemLabel="#{role.name}" itemValue="#{role.id}" />
 	                    </p:selectManyCheckbox>
 	

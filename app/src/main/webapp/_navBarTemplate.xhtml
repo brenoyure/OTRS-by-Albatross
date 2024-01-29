@@ -20,9 +20,9 @@
 	            </p:submenu>
 
 	            <f:facet name="options">
-                    <h:outputLabel value="Olá #{navBarBean.formatUserName(request.userPrincipal.name)}, você está logado como Administrador"   style="margin-right: 10px;"  rendered="#{request.isUserInRole('ADMIN')}" />
-                    <h:outputLabel value="Olá #{navBarBean.formatUserName(request.userPrincipal.name)}"                                        style="margin-right: 10px;"  rendered="#{not request.isUserInRole('ADMIN')}" />
-                    <p:commandButton value="Sair"                   icon="pi pi-power-off"          action="#{logoutBean.logout}" />
+                    <h:outputLabel   value="Olá, você está logado como Administrador"  style="margin-right: 10px;"                             rendered="#{request.userPrincipal.name.equals('Administrador')}" />
+                    <h:outputLabel   value="Olá #{request.userPrincipal.name}"         style="text-transform:capitalize ;margin-right: 10px;"  rendered="#{not request.userPrincipal.name.equals('Administrador')}" />
+                    <p:commandButton value="Sair" icon="pi pi-power-off" action="#{logoutBean.logout}" />
 	            </f:facet>
             </p:menubar>
         </h:form>

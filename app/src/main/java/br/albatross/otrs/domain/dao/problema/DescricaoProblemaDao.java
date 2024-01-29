@@ -9,6 +9,7 @@ import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 import java.util.List;
 
 import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
+import br.albatross.otrs.domain.models.garantia.entidades.problemas.Problema_;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -56,7 +57,7 @@ public class DescricaoProblemaDao {
 		                 .fetch(problema, JoinType.INNER);
 
 		cq
-		  .orderBy(cb.asc(descricaoProblema.get(id)));
+		  .orderBy(cb.asc(descricaoProblema.get(problema).get(Problema_.id)));
 
 		return entityManager
 				       .createQuery(cq)

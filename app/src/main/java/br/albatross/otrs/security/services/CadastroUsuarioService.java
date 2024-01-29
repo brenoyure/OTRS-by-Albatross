@@ -7,11 +7,11 @@ import br.albatross.otrs.security.models.DadosParaAtualizacaoDeUsuarioDto;
 import br.albatross.otrs.security.models.DadosParaCadastroDeUsuarioDto;
 import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
 import br.albatross.otrs.security.models.User;
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 
-@ApplicationScoped
+@RequestScoped
 public class CadastroUsuarioService {
 
 	@Inject

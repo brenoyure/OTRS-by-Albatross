@@ -7,12 +7,12 @@ import org.hibernate.jpa.AvailableHints;
 
 import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
 import br.albatross.otrs.security.models.User;
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 
-@ApplicationScoped
+@RequestScoped
 public class UsersDao {
 
 	@PersistenceContext(unitName = "otrsdb_textos_prontos")
@@ -35,7 +35,7 @@ public class UsersDao {
 
 	public List<DadosParaListagemDoUsuarioDto> findAll() {
 		return entityManager
-				.createQuery("SELECT new br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto(u) FROM User u", DadosParaListagemDoUsuarioDto.class)
+				.createQuery("SELECT new br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto(u) FROM User u ORDER BY u.username", DadosParaListagemDoUsuarioDto.class)
 				.setHint(AvailableHints.HINT_CACHEABLE, true)
 				.getResultList();
 	}

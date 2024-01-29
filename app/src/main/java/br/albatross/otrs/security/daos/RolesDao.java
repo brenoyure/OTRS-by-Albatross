@@ -5,11 +5,11 @@ import java.util.List;
 import org.hibernate.jpa.AvailableHints;
 
 import br.albatross.otrs.security.models.Role;
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-@ApplicationScoped
+@RequestScoped
 public class RolesDao {
 
 	@PersistenceContext(unitName = "otrsdb_textos_prontos")

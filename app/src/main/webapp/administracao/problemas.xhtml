@@ -11,29 +11,29 @@
     <ui:define name="titulo">Textos Prontos</ui:define>
 
     <ui:define name="conteudo">
-    
+
 	    <p:fieldset legend="Administração / Textos Prontos">
-	    
+
 	        <h:form id="formulario-cadastro-tipo">
 	            <p:focus context="panel-tipo" />
-	    
+
 	                <p:fieldset legend="Problemas" collapsed="true" toggleable="true" >
 	                    <p:panelGrid columns="2" id="panel-tipo" layout="tabular" >
-	    
+
 	                        <p:outputLabel value="Informe o Tipo do Problema" for="@next" />
 	                            <p:inputText id="inputText-tipoProblema" value="#{problemasBean.problema.tipo}" placeholder="ex. Mouse ou Monitor etc" required="true" requiredMessage="Tipo do Problema Obrigatório" />
 	                    </p:panelGrid>
-	    
+
 	                    <p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema(problemasBean.problema)}" update="@form :mensagens :formulario-cadastro-descricao :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
 	                    <p:commandButton value="Limpar" style="margin-top:10px" >
 	                        <p:ajax update="inputText-tipoProblema" resetValues="true" />
 	                    </p:commandButton>
-	    
+
 	                </p:fieldset>
 	        </h:form>
-	    
+
 	        <h:form id="formulario-cadastro-descricao" rendered="#{not empty problemasBean.serviceBean.problemas}" >
-	    
+
 	                <p:fieldset legend="Descrição Problema" collapsed="false" toggleable="true" >
 	                    <p:panelGrid columns="2" id="panel-descricao" layout="tabular" >
 	                        <p:outputLabel value="Selecione o Tipo do Problema" for="@next" />
@@ -46,15 +46,15 @@
 	                        <p:outputLabel value="Informe uma Descrição Detalhada do Problema" for="@next" />
 	                            <p:inputTextarea id="inputTextArea-DescricaoDetalhada" placeholder="Computador está apresentando problema de..." rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Detalhe do Problema Obrigatório" />
 	                    </p:panelGrid>
-	    
+
 	                    <p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema(problemasBean.descricaoProblema)}" update="@form :mensagens :formulario-cadastro-tipo :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
 	                    <p:commandButton value="Limpar" style="margin-top:10px" >
 	                        <p:ajax update="@form" resetValues="true" />
 	                    </p:commandButton>
-	    
+
 	                </p:fieldset>
 	        </h:form>
-	    
+
 	        <h:form id="formulario-descricaoProblema" rendered="#{not empty problemasBean.serviceBean.descricaoProblemas}" >
 	    
 	            <p:fieldset legend="Textos Prontos">
@@ -71,13 +71,12 @@
 	                    <p:column headerText="Descrição Detalhada" >
 	                        <p:outputLabel value="#{descricaoProblema.descricaoDetalhada}" />
 	                    </p:column>
-	    
+
 	                    <p:column headerText="Editar" >
-	                        <p:commandLink update=":formulario-cadastro-tipo :formulario-cadastro-descricao :mensagens" >
-	                            <h:outputText title="Editar" styleClass="ui-icon pi pi-pencil" />
+	                        <h:commandButton value="Editar"  styleClass="btn btn-primary" update=":formulario-cadastro-tipo :formulario-cadastro-descricao :mensagens" >
 	                            <f:setPropertyActionListener value="#{descricaoProblema.problema}" target="#{problemasBean.problema}" />
 	                            <f:setPropertyActionListener value="#{descricaoProblema}"          target="#{problemasBean.descricaoProblema}" />
-	                        </p:commandLink>
+	                        </h:commandButton>
 	                    </p:column>
 
 	                    <p:column headerText="Excluir" >

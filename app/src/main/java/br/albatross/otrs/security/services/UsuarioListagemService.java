@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import br.albatross.otrs.security.daos.UsersDao;
 import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
-@ApplicationScoped
+@RequestScoped
 public class UsuarioListagemService {
 
 	@Inject
