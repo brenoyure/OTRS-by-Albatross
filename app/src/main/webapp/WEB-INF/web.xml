@@ -17,7 +17,7 @@
       <web-resource-collection>
           <web-resource-name>Acesso Básico ao Sistema</web-resource-name>
           <description>Acesso Básico ao Sistema</description>
-          <url-pattern>/*</url-pattern>
+          <url-pattern>*.xhtml</url-pattern>
       </web-resource-collection>
       <auth-constraint>
           <role-name>USER</role-name>

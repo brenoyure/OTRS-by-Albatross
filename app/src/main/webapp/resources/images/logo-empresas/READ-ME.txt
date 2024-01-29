@@ -1,0 +1,6 @@
+Coloque nesta pasta os arquivos dos logos das empresas com os nomes.
+
+Logo da empresa solicitante do serviço de garantia: logo-empresa-cliente.png
+
+Logo da empresa fornecedora do serviço de garantia: logo-empresa-fornecedora.png
+
