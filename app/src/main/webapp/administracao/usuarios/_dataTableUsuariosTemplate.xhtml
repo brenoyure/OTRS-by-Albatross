@@ -11,7 +11,7 @@
 
         <p:fieldset legend="Administração / Usuários / Listagem" >
 
-            <p:dataTable id="usuarios" value="#{listaUsuariosBean.usuarios}" var="usuario" scrollable="true" scrollRows="5" scrollHeight="400" liveScroll="true" >
+            <p:dataTable id="usuarios" value="#{listaUsuariosBean.usuarios}" var="usuario" scrollable="true" scrollRows="10" scrollHeight="400" liveScroll="false" >
 
                 <p:column>
                     <f:facet name="header">
@@ -22,9 +22,7 @@
                 </p:column>
 
                 <p:column headerText="Permissões" >
-                    <ui:repeat var="role" value="#{usuario.roles}">
-                        <p:outputLabel value="#{role.name}" />
-                    </ui:repeat>
+                    <p:outputLabel value="#{usuario.roles}" />
                 </p:column>
 
                 <p:column>

@@ -1,6 +1,5 @@
 package br.albatross.otrs.security.models;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import lombok.EqualsAndHashCode;
@@ -13,13 +12,13 @@ public final class DadosParaListagemDoUsuarioDto {
 
 	private final int id;
 	private final String username;
-	private final Collection<RoleDto> roles = new ArrayList<>();
+	private final Collection<RoleDto> roles;
 
 	public DadosParaListagemDoUsuarioDto(User userEntity) {
 
 		this.id = userEntity.getId();
 		this.username = userEntity.getUsername();
-		this.roles.addAll(userEntity.getRoles().stream().map(RoleDto::new).toList());
+		this.roles = userEntity.getRoles().stream().map(RoleDto::new).toList();
 
 	}
 
