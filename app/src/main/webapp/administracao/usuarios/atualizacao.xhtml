@@ -23,9 +23,11 @@
 	                <p:panelGrid columns="2" id="panel" layout="tabular">
 
 	                    <p:outputLabel for="@next" value="Nome do Usuário: " />
+	                    <p:outputLabel value="Administrador" rendered="#{atualizacaoUsuarioBean.dados.username == 'Administrador'}" />
 	                    <p:inputText id="inputText-username"
 	                        value="#{atualizacaoUsuarioBean.dados.username}" required="true"
-	                        requiredMessage="Nome de Usuário é Obrigatório" maxlength="55">
+	                        requiredMessage="Nome de Usuário é Obrigatório" maxlength="55" 
+	                        rendered="#{atualizacaoUsuarioBean.dados.username != 'Administrador'}">
 	                    </p:inputText>
 
 	                    <p:outputLabel for="@next" value="Nova Senha: " />
@@ -46,15 +48,16 @@
 	                        maxlength="100">
 	                    </p:password>
 
-	                    <p:outputLabel for="@next" value="Selecione a ou as permissões para o usuário: " rendered="#{not atualizacaoUsuarioBean.dados.username == 'Administrador'}" />
-	                    <p:outputLabel for="@next" style="color: red;" value="Para manter a integridade do sistema, não será possível alterar as permissões do usuário atual, visto que, é necessário pelo menos um usuário com privilégios administrativos." rendered="#{atualizacaoUsuarioBean.dados.username == 'Administrador'}" />
+	                    <p:outputLabel for="@next" value="Selecione a ou as permissões para o usuário: " rendered="#{atualizacaoUsuarioBean.dados.username != 'Administrador'}" />
+	                    <p:outputLabel for="@next" style="color: red;" value="Para manter a integridade do sistema, não será possível alterar o nome ou permissões do usuário atual, visto que, é necessário pelo menos um usuário com privilégios administrativos." rendered="#{atualizacaoUsuarioBean.dados.username == 'Administrador'}" />
 	                    <p:selectManyCheckbox required="true" value="#{atualizacaoUsuarioBean.dados.rolesIds}" converter="jakarta.faces.Integer" requiredMessage="Usuário deve possuir pelo menos a Role: USER" disabled="#{atualizacaoUsuarioBean.dados.username == 'Administrador'}" >
 	                        <f:selectItems value="#{listaRolesBean.roles}" var="role" itemLabel="#{role.name}" itemValue="#{role.id}" />
 	                    </p:selectManyCheckbox>
 	
 	                </p:panelGrid>
 
-	                <p:commandButton id="commandButton-cadastrarUsuario" value="Atualizar" actionListener="#{atualizacaoUsuarioBean.atualizarCadastro}" process="@form" update="@form :mensagens" />
+	                <p:commandButton id="commandButton-atualizarUsuario" value="Atualizar"      actionListener="#{atualizacaoUsuarioBean.atualizarCadastro}" process="@form" update="@form :mensagens" rendered="#{atualizacaoUsuarioBean.dados.username != 'Administrador'}" />
+	                <p:commandButton id="commandButton-alterarSenha"     value="Alterar Senha"  actionListener="#{atualizacaoUsuarioBean.atualizarCadastro}" process="@form" update="@form :mensagens" rendered="#{atualizacaoUsuarioBean.dados.username == 'Administrador'}" />
 
 	            </p:fieldset>
 	        </h:form>
