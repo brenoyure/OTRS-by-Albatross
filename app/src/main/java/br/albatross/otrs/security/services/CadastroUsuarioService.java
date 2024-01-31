@@ -43,6 +43,10 @@ public class CadastroUsuarioService {
 
 	public DadosParaListagemDoUsuarioDto atualizarCadastro(@Valid DadosParaAtualizacaoDeUsuarioDto dadosAtualizados) {
 
+		if (dao.existsByUsernameForMerge(dadosAtualizados.getId(), dadosAtualizados.getUsername())) {
+			throw new CadastroException("Usuário já existente", "Já existe um usuário com o nome informado, atualização de cadastro não realizado.");
+		}
+
 		final String hashedPassword = passwordService.generateHashing(dadosAtualizados.getPassword());
 
 		var usuarioAtualizado = new User();

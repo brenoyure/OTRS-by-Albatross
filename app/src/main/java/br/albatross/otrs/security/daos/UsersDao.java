@@ -33,6 +33,17 @@ public class UsersDao {
 		} catch (NoResultException e) {	return false; }
 	}
 
+	public boolean existsByUsernameForMerge(int id, String newUsername) {
+		try {
+			return entityManager
+					.createQuery("SELECT EXISTS(SELECT u FROM User u WHERE u.id != ?1 AND u.username = ?2)", Boolean.class)
+					.setParameter(1, id)
+					.setParameter(2, newUsername)
+					.setHint(AvailableHints.HINT_CACHEABLE, true)
+					.getSingleResult();
+		} catch (NoResultException e) {	return false; }
+	}	
+
 	public List<DadosParaListagemDoUsuarioDto> findAll() {
 		return entityManager
 				.createQuery("SELECT new br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto(u) FROM User u ORDER BY u.username", DadosParaListagemDoUsuarioDto.class)
