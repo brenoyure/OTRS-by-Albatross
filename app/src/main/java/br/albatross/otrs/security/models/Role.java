@@ -1,17 +1,12 @@
 package br.albatross.otrs.security.models;
 
-import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,8 +26,5 @@ public class Role {
 
 	@Column(length = 55, unique = true, nullable = false)
 	private String name;
-
-	@ManyToMany(mappedBy = "roles", fetch = LAZY)
-	private Collection<User> roles = new HashSet<>();
 
 }

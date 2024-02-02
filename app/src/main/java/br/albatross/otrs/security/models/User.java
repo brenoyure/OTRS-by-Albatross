@@ -3,8 +3,8 @@ package br.albatross.otrs.security.models;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
@@ -44,6 +44,10 @@ public class User {
 			name = "users_roles", 
 			joinColumns =         @JoinColumn(name = "fk_user_id", referencedColumnName = "id"), 
 			inverseJoinColumns =  @JoinColumn(name = "fk_role_id", referencedColumnName = "id"))
-	private Collection<Role> roles = new HashSet<>();
+	private Set<Role> roles = new HashSet<>();
+
+	public void addRole(Role role) {
+		this.roles.add(role);
+	}
 
 }

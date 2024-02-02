@@ -44,12 +44,10 @@ public class CadastroUsuariosBean implements Serializable {
 
 		} catch (CadastroException e) {
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMensagem(), e.getMensagemDetalhada()));
-
-		}
-
-		finally {
 			dadosDeCadastro = new DadosParaCadastroDeUsuarioDto();
+
 		}
+
 
 	}
 

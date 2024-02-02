@@ -1,5 +1,6 @@
 package br.albatross.otrs.security.daos;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,23 +46,40 @@ public class UsersDao {
 	}	
 
 	public List<DadosParaListagemDoUsuarioDto> findAll() {
-		return entityManager
-				.createQuery("SELECT new br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto(u) FROM User u ORDER BY u.username", DadosParaListagemDoUsuarioDto.class)
-				.setHint(AvailableHints.HINT_CACHEABLE, true)
-				.getResultList();
+		var usersResultStream = entityManager
+									.createQuery("SELECT u FROM User u INNER JOIN FETCH u.roles ORDER BY u.username", User.class)
+									.setHint(AvailableHints.HINT_CACHEABLE, true)
+									.getResultStream();
+
+		List<DadosParaListagemDoUsuarioDto> dtoResultList = new ArrayList<>();
+
+		usersResultStream
+			.map(DadosParaListagemDoUsuarioDto::new)
+			.forEach(dtoResultList::add);
+
+		return dtoResultList;
+
 	}
 
 	public Optional<DadosParaListagemDoUsuarioDto> findById(int id) {
 
 		try {
 
-			return Optional.of(entityManager
-								.createQuery("SELECT new br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto(u) FROM User u WHERE u.id = ?1", DadosParaListagemDoUsuarioDto.class)
-								.setParameter(1, id)
-								.setHint(AvailableHints.HINT_CACHEABLE, true)
-								.getSingleResult());
+			User userEntityResult = entityManager
+										.createQuery("SELECT u FROM User u INNER JOIN FETCH u.roles WHERE u.id = ?1", User.class)
+										.setParameter(1, id)
+										.setHint(AvailableHints.HINT_CACHEABLE, true)
+										.getSingleResult();
+	
+			return Optional
+					.of(new DadosParaListagemDoUsuarioDto(userEntityResult));
 
-		} catch (NoResultException e) { return Optional.empty(); }
+
+		} catch (NoResultException e) {
+
+			return Optional.empty();
+		
+		}
 
 	}
 

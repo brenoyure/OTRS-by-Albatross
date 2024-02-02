@@ -34,7 +34,8 @@ public class CadastroUsuarioService {
 		var novoUsuario = new User();
 		novoUsuario.setUsername(dados.getUsername());
 		novoUsuario.setPassword(hashedPassword);
-		novoUsuario.setRoles(rolesDao.getRoles(dados.getRolesIds()));
+		
+		rolesDao.getRoles(dados.getRolesIds()).stream().forEach(novoUsuario::addRole);
 
 		return dao
 				.persist(novoUsuario);
@@ -53,7 +54,8 @@ public class CadastroUsuarioService {
 		usuarioAtualizado.setId(dadosAtualizados.getId());
 		usuarioAtualizado.setUsername(dadosAtualizados.getUsername());
 		usuarioAtualizado.setPassword(hashedPassword);
-		usuarioAtualizado.setRoles(rolesDao.getRoles(dadosAtualizados.getRolesIds()));
+
+		rolesDao.getRoles(dadosAtualizados.getRolesIds()).stream().forEach(usuarioAtualizado::addRole);
 
 		return dao
 				.atualizar(usuarioAtualizado);
