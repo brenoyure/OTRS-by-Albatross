@@ -41,4 +41,8 @@ public class UsuarioService {
 				.buscarPorId(id);
 	}
 
+	public void excluir(int id) {
+		cadastroService.excluirPorId(id);
+	}
+
 }

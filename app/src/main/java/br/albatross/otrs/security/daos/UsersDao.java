@@ -10,6 +10,7 @@ import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
 import br.albatross.otrs.security.models.User;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 
@@ -83,9 +84,32 @@ public class UsersDao {
 
 	}
 
+	public Optional<User> getReference(int id) {
+
+		try {
+
+			return Optional.ofNullable(entityManager.getReference(User.class, id));
+
+		}
+
+		catch(EntityNotFoundException e) {
+
+			return Optional.empty();
+
+		}
+
+	}
+
 	public DadosParaListagemDoUsuarioDto atualizar(User user) {
+
 		user = entityManager.merge(user);
 		return new DadosParaListagemDoUsuarioDto(user);
+
+	}
+
+	public void remover(User userReference) {
+
+		entityManager.remove(userReference);
 
 	}
 

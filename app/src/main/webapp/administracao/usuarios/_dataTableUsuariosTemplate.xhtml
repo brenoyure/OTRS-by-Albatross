@@ -21,7 +21,11 @@
                     <p:outputLabel value="#{usuario.username}" />
                 </p:column>
 
-                <p:column headerText="Permissões" >
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Permissões" />
+                        <h:outputLabel style="margin-left: 5px" styleClass="pi pi-shield" />
+                    </f:facet>
                     <p:outputLabel value="#{usuario.roles}" />
                 </p:column>
 
@@ -34,6 +38,16 @@
                         <h:outputText title="Editar" value="Editar" styleClass="btn btn-primary" />
                         <f:param name="usuarioId" value="#{usuario.id}" />
                     </p:link>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Excluir" />
+                        <h:outputLabel style="margin-left: 5px" styleClass="pi pi-user-minus" />
+                    </f:facet>
+                    <p:commandLink actionListener="#{listaUsuariosBean.excluirUsuario(usuario)}" update="usuarios :mensagens" disabled="#{usuario.id == 1}" >
+                        <h:outputText title="Excluir Usuário #{usuario.username}" value="Excluir" styleClass="btn btn-danger" />
+                    </p:commandLink>
                 </p:column>
 
             </p:dataTable>

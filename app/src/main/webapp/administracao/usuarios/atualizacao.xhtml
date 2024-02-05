@@ -56,8 +56,8 @@
 	
 	                </p:panelGrid>
 
-	                <p:commandButton id="commandButton-atualizarUsuario" value="Atualizar"      actionListener="#{atualizacaoUsuarioBean.atualizarCadastro}" process="@form" update="@form :mensagens" rendered="#{atualizacaoUsuarioBean.dadosNovos.id != 1}" />
-	                <p:commandButton id="commandButton-alterarSenha"     value="Alterar Senha"  actionListener="#{atualizacaoUsuarioBean.atualizarCadastro}" process="@form" update="@form :mensagens" rendered="#{atualizacaoUsuarioBean.dadosNovos.id == 1}" />
+	                <p:commandButton id="commandButton-atualizarUsuario" value="Atualizar"      actionListener="#{atualizacaoUsuarioBean.atualizarCadastro}" update="@form :mensagens" rendered="#{atualizacaoUsuarioBean.dadosNovos.id != 1}" />
+	                <p:commandButton id="commandButton-alterarSenha"     value="Alterar Senha"  actionListener="#{atualizacaoUsuarioBean.atualizarCadastro}" update="@form :mensagens" rendered="#{atualizacaoUsuarioBean.dadosNovos.id == 1}" />
 
 	            </p:fieldset>
 	        </h:form>

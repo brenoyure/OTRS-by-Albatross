@@ -3,6 +3,7 @@ package br.albatross.otrs.security.services;
 import br.albatross.otrs.security.daos.RolesDao;
 import br.albatross.otrs.security.daos.UsersDao;
 import br.albatross.otrs.security.exceptions.CadastroException;
+import br.albatross.otrs.security.exceptions.ListagemException;
 import br.albatross.otrs.security.models.DadosParaAtualizacaoDeUsuarioDto;
 import br.albatross.otrs.security.models.DadosParaCadastroDeUsuarioDto;
 import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
@@ -59,6 +60,21 @@ public class CadastroUsuarioService {
 
 		return dao
 				.atualizar(usuarioAtualizado);
+
+	}
+
+	public void excluirPorId(int id) {
+
+		if (id == 1) {
+			throw new CadastroException("Impossível Excluir Usuário", "Exclusão do Usuário Administrador não permitida.");
+		}
+
+		dao
+			.getReference(id)
+			.ifPresentOrElse(dao::remover, () -> {
+				throw new ListagemException("Usuário Não Encontrado", "Usuário com o ID informado não encontrado, exclusão não realizada");
+
+			});
 
 	}
 
