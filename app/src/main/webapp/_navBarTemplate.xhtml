@@ -19,8 +19,10 @@
 	                <p:menuitem value="Listagem"                    icon="pi pi-fw pi-users"        outcome="/administracao/usuarios/listagem"                                                    />
 	            </p:submenu>
 
+                <p:menuitem  value="Solicitações Realizadas"        outcome="/administracao/solicitacoes/listagem"                               disabled="#{not request.isUserInRole('ADMIN')}"  />
+
 	            <f:facet name="options">
-                    <h:outputLabel   value="Olá, você está logado como Administrador"  style="margin-right: 10px;"                             rendered="#{request.userPrincipal.name.equals('Administrador')}" />
+                    <h:outputLabel   value="Olá, você está logado como Administrador"  style="margin-right: 10px;"                             rendered="#{request.userPrincipal.name.equals('Administrador')}"     />
                     <h:outputLabel   value="Olá #{request.userPrincipal.name}"         style="text-transform:capitalize ;margin-right: 10px;"  rendered="#{not request.userPrincipal.name.equals('Administrador')}" />
                     <p:commandButton value="Sair" icon="pi pi-power-off" action="#{logoutBean.logout}" />
 	            </f:facet>

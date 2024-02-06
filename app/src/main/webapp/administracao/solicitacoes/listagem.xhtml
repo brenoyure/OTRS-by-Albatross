@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/_template.xhtml">
+
+	<ui:define name="titulo">Solicitações de Garantia</ui:define>
+
+	<ui:define name="conteudo">
+
+		<div>
+            <p:fieldset legend="Administração / Solicitações / Listagem" >
+
+                <div style="margin-bottom: 1rem">
+	                <h3>Relatório Geral</h3>
+	                <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioGeral}" >
+	                    <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioGeral}" var="relatorio" >
+	                        <li>Serviço: #{relatorio.dadosDoServico.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
+	                            <h:outputText value="#{relatorio.dataEHoraDaUltimaSolicitacao}" >
+	                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime" />
+	                            </h:outputText>
+	                        </li>
+	                    </ui:repeat>
+	                </ul>
+                    <h:outputText rendered="#{empty relatorioServicoDeGarantiaBean.relatorioGeral}" value="Nenhuma Solicitação de Garantia efetuada" />
+                </div>
+
+                <div style="margin-bottom: 1rem">
+                    <h3>Relatório Mensal</h3>
+                    <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioMensal}" >
+                        <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioMensal}" var="relatorio" >
+                            <li>Serviço: #{relatorio.dadosDoServico.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
+                                <h:outputText value="#{relatorio.dataEHoraDaUltimaSolicitacao}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime" />
+                                </h:outputText>
+                            </li>
+                        </ui:repeat>
+                    </ul>
+                    <h:outputText rendered="#{empty relatorioServicoDeGarantiaBean.relatorioMensal}" value="Nenhuma Solicitação de Garantia efetuada no Mês Atual" />
+                </div>
+
+                <div style="margin-bottom: 1rem">
+                    <h3>Relatório Anual</h3>
+                    <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioAnual}" >
+                        <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioAnual}" var="relatorio" >
+                            <li>Serviço: #{relatorio.dadosDoServico.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
+                                <h:outputText value="#{relatorio.dataEHoraDaUltimaSolicitacao}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime" />
+                                </h:outputText>
+                            </li>
+                        </ui:repeat>
+                    </ul>
+                    <h:outputText rendered="#{empty relatorioServicoDeGarantiaBean.relatorioAnual}" value="Nenhuma Solicitação de Garantia efetuada no Ano Atual" />
+                </div>
+
+                <div>
+                    <span>* Os resultados nesta tela podem apresentadar um atraso de até 5 minutos, pois as consultas são <i>cacheados</i>.</span>
+                </div>
+
+            </p:fieldset>
+		</div>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>
