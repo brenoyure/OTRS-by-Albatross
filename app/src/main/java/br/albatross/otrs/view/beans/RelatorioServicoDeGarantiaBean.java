@@ -44,8 +44,8 @@ public class RelatorioServicoDeGarantiaBean {
 		relatorioAnual  = servicoDeRelatorio.getRelatorioAnual();
 
 		totalGeral  = relatorioGeral.stream().mapToLong(RelatorioServicoDeGarantia::getTotal).sum();
-		totalMensal = relatorioGeral.stream().mapToLong(RelatorioServicoDeGarantia::getTotal).sum();
-		totalAnual  = relatorioGeral.stream().mapToLong(RelatorioServicoDeGarantia::getTotal).sum();
+		totalMensal = relatorioMensal.stream().mapToLong(RelatorioServicoDeGarantia::getTotal).sum();
+		totalAnual  = relatorioAnual.stream().mapToLong(RelatorioServicoDeGarantia::getTotal).sum();
 
 	}
 

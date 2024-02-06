@@ -18,6 +18,7 @@
 
                 <div style="margin-bottom: 1rem">
 	                <h3>Relatório Geral</h3>
+	                <h6 jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioGeral}">Total: #{relatorioServicoDeGarantiaBean.totalGeral}</h6>
 	                <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioGeral}" >
 	                    <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioGeral}" var="relatorio" >
 	                        <li>Serviço: #{relatorio.dadosDoServico.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
@@ -32,6 +33,7 @@
 
                 <div style="margin-bottom: 1rem">
                     <h3>Relatório Mensal</h3>
+                    <h6 jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioMensal}">Total: #{relatorioServicoDeGarantiaBean.totalMensal}</h6>
                     <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioMensal}" >
                         <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioMensal}" var="relatorio" >
                             <li>Serviço: #{relatorio.dadosDoServico.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
@@ -46,6 +48,7 @@
 
                 <div style="margin-bottom: 1rem">
                     <h3>Relatório Anual</h3>
+                    <h6 jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioAnual}">Total: #{relatorioServicoDeGarantiaBean.totalAnual}</h6>
                     <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioAnual}" >
                         <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioAnual}" var="relatorio" >
                             <li>Serviço: #{relatorio.dadosDoServico.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
@@ -59,7 +62,7 @@
                 </div>
 
                 <div>
-                    <span>* Os resultados nesta tela podem apresentadar um atraso de até 5 minutos, pois as consultas são <i>cacheados</i>.</span>
+                    <span>* Os resultados nesta tela podem apresentar um atraso de até 5 minutos</span>
                 </div>
 
             </p:fieldset>

@@ -11,15 +11,15 @@
     <nav>
         <h:form style="margin:10px 0 10px 0">
             <p:menubar autoDisplay="true">
-                <p:menuitem  value="Serviço de Garantia"                                            outcome="/otrs"                                                                               />
-                <p:menuitem  value="Textos Prontos"                 icon="pi pi-book"               outcome="/administracao/problemas"           disabled="#{not request.isUserInRole('ADMIN')}"  />
+                <p:menuitem  value="Serviço de Garantia"            icon="pi pi-wrench"             outcome="/otrs"                                                                               />
+                <p:menuitem  value="Textos Prontos"                 icon="pi pi-align-left"         outcome="/administracao/problemas"           disabled="#{not request.isUserInRole('ADMIN')}"  />
 
 	            <p:submenu label="Usuários"                         icon="pi pi-fw pi-user"                                                      disabled="#{not request.isUserInRole('ADMIN')}"   >
 	                <p:menuitem value="Novo"                        icon="pi pi-fw pi-user-plus"    outcome="/administracao/usuarios/cadastro"                                                    />
 	                <p:menuitem value="Listagem"                    icon="pi pi-fw pi-users"        outcome="/administracao/usuarios/listagem"                                                    />
 	            </p:submenu>
 
-                <p:menuitem  value="Solicitações Realizadas"        outcome="/administracao/solicitacoes/listagem"                               disabled="#{not request.isUserInRole('ADMIN')}"  />
+                <p:menuitem  value="Relatórios dos Serviços"        icon="pi pi-history"            outcome="/administracao/solicitacoes/listagem"                               disabled="#{not request.isUserInRole('ADMIN')}"  />
 
 	            <f:facet name="options">
                     <h:outputLabel   value="Olá, você está logado como Administrador"  style="margin-right: 10px;"                             rendered="#{request.userPrincipal.name.equals('Administrador')}"     />
