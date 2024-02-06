@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/_template.xhtml">
+
+    <ui:define name="titulo">Textos Prontos</ui:define>
+
+    <ui:define name="conteudo">
+
+	    <p:fieldset legend="Administração / Textos Prontos">
+
+	        <h:form id="formulario-cadastro-tipo">
+	            <p:focus context="panel-tipo" />
+
+	                <p:fieldset legend="Problemas" collapsed="true" toggleable="true" >
+	                    <p:panelGrid columns="2" id="panel-tipo" layout="tabular" >
+
+	                        <p:outputLabel value="Informe o Tipo do Problema" for="@next" />
+	                            <p:inputText id="inputText-tipoProblema" value="#{problemasBean.problema.tipo}" placeholder="ex. Mouse ou Monitor etc" required="true" requiredMessage="Tipo do Problema Obrigatório" />
+	                    </p:panelGrid>
+
+	                    <p:commandButton value="Salvar" actionListener="#{problemasBean.salvarProblema(problemasBean.problema)}" update="@form :mensagens :formulario-cadastro-descricao :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
+	                    <p:commandButton value="Limpar" style="margin-top:10px" >
+	                        <p:ajax update="inputText-tipoProblema" resetValues="true" />
+	                    </p:commandButton>
+
+	                </p:fieldset>
+	        </h:form>
+
+	        <h:form id="formulario-cadastro-descricao" rendered="#{not empty problemasBean.serviceBean.problemas}" >
+
+	                <p:fieldset legend="Descrição Problema" collapsed="false" toggleable="true" >
+	                    <p:panelGrid columns="2" id="panel-descricao" layout="tabular" >
+	                        <p:outputLabel value="Selecione o Tipo do Problema" for="@next" />
+	                            <p:selectOneMenu id="listBox-tipoProblema" value="#{problemasBean.descricaoProblema.problema}" converter="problemaConverter" required="true" requiredMessage="Tipo do Problema Obrigatório" >
+	                                <f:selectItem itemLabel="Selecione o Problema" itemDisabled="true" noSelectionOption="true" />
+	                                <f:selectItems value="#{problemasBean.serviceBean.problemas}" var="problema" itemValue="#{problema}" itemLabel="#{problema.tipo}" />
+	                            </p:selectOneMenu>
+	                        <p:outputLabel value="Informe uma Descrição Resumida do Problema" for="@next" />
+	                            <p:inputText id="inputText-DescricaoResumida" placeholder="ex. Mouse - Scroll Ruim" value="#{problemasBean.descricaoProblema.descricaoResumida}" required="true" requiredMessage="Descrição Obrigatória" />
+	                        <p:outputLabel value="Informe uma Descrição Detalhada do Problema" for="@next" />
+	                            <p:inputTextarea id="inputTextArea-DescricaoDetalhada" placeholder="Computador está apresentando problema de..." rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Detalhe do Problema Obrigatório" />
+	                    </p:panelGrid>
+
+	                    <p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema(problemasBean.descricaoProblema)}" update="@form :mensagens :formulario-cadastro-tipo :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
+	                    <p:commandButton value="Limpar" style="margin-top:10px" >
+	                        <p:ajax update="@form" resetValues="true" />
+	                    </p:commandButton>
+
+	                </p:fieldset>
+	        </h:form>
+
+	        <h:form id="formulario-descricaoProblema" rendered="#{not empty problemasBean.serviceBean.descricaoProblemas}" >
+	    
+	            <p:fieldset legend="Textos Prontos">
+	                <p:dataTable id="descricaoProblema" value="#{problemasBean.serviceBean.descricaoProblemas}" var="descricaoProblema" scrollable="true" scrollRows="5" scrollHeight="400" liveScroll="true" >
+	    
+	                    <p:column headerText="Tipo do Problema" >
+	                        <p:outputLabel value="#{descricaoProblema.problema.tipo}" />
+	                    </p:column>
+	    
+	                    <p:column headerText="Descrição Resumida" >
+	                        <p:outputLabel value="#{descricaoProblema.descricaoResumida}" />
+	                    </p:column>
+	    
+	                    <p:column headerText="Descrição Detalhada" >
+	                        <p:outputLabel value="#{descricaoProblema.descricaoDetalhada}" />
+	                    </p:column>
+
+	                    <p:column headerText="Editar" >
+	                        <h:commandButton value="Editar"  styleClass="btn btn-primary" update=":formulario-cadastro-tipo :formulario-cadastro-descricao :mensagens" >
+	                            <f:setPropertyActionListener value="#{descricaoProblema.problema}" target="#{problemasBean.problema}" />
+	                            <f:setPropertyActionListener value="#{descricaoProblema}"          target="#{problemasBean.descricaoProblema}" />
+	                        </h:commandButton>
+	                    </p:column>
+
+	                    <p:column headerText="Excluir" >
+		                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#descricaoProblemaModal#{descricaoProblema.id}">Excluir</button>
+		                    <div class="modal fade" id="descricaoProblemaModal#{descricaoProblema.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		                      <div class="modal-dialog">
+		                        <div class="modal-content">
+		                          <div class="modal-header">
+		                            <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmação de Exclusão</h1>
+		                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		                          </div>
+		                          <div class="modal-body">
+		                            <h:outputText value="Confirmar Exclusão de: #{descricaoProblema.problema.tipo} - #{descricaoProblema.descricaoResumida} ?" />
+		                          </div>
+		                          <div class="modal-footer">
+		                            <h:commandButton styleClass="btn btn-danger" actionListener="#{problemasBean.excluirDescricaoProblema(descricaoProblema)}" value="Confirmar Exclusão" update="@form :formulario-cadastro-descricao :mensagens" />
+		                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+		                          </div>
+		                        </div>
+		                      </div>
+		                    </div>
+	                    </p:column>
+
+	                </p:dataTable>
+	            </p:fieldset>
+	        </h:form>
+	    </p:fieldset>    
+    
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+	
+</html>

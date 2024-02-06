@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition>
+
+    <nav>
+        <h:form style="margin:10px 0 10px 0">
+            <p:menubar autoDisplay="true">
+                <p:menuitem  value="Serviço de Garantia"            icon="pi pi-wrench"             outcome="/otrs"                                                                               />
+                <p:menuitem  value="Textos Prontos"                 icon="pi pi-align-left"         outcome="/administracao/problemas"           disabled="#{not request.isUserInRole('ADMIN')}"  />
+
+	            <p:submenu label="Usuários"                         icon="pi pi-fw pi-user"                                                      disabled="#{not request.isUserInRole('ADMIN')}"   >
+	                <p:menuitem value="Novo"                        icon="pi pi-fw pi-user-plus"    outcome="/administracao/usuarios/cadastro"                                                    />
+	                <p:menuitem value="Listagem"                    icon="pi pi-fw pi-users"        outcome="/administracao/usuarios/listagem"                                                    />
+	            </p:submenu>
+
+                <p:menuitem  value="Relatórios dos Serviços"        icon="pi pi-history"            outcome="/administracao/solicitacoes/listagem"                               disabled="#{not request.isUserInRole('ADMIN')}"  />
+
+	            <f:facet name="options">
+                    <h:outputLabel   value="Olá, você está logado como Administrador"  style="margin-right: 10px;"                             rendered="#{request.userPrincipal.name.equals('Administrador')}"     />
+                    <h:outputLabel   value="Olá #{request.userPrincipal.name}"         style="text-transform:capitalize ;margin-right: 10px;"  rendered="#{not request.userPrincipal.name.equals('Administrador')}" />
+                    <p:commandButton value="Sair" icon="pi pi-power-off" action="#{logoutBean.logout}" />
+	            </f:facet>
+            </p:menubar>
+        </h:form>
+    </nav>
+
+</ui:composition>
+
+</html>

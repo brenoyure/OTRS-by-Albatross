@@ -1,0 +1,70 @@
+services:
+  otrsdb:
+    image: ${MYSQL_OTRS_DOCKER_IMAGE}
+    container_name: ${MYSQL_OTRS_CONTAINER_NAME}
+    build:
+      context: ./db/otrs-mysql-dockerfile
+    networks:
+      - otrs-network
+    volumes:
+      - br.albatross.otrsdb-vol:/var/lib/mysql
+    restart: always
+
+  otrsdb_textos_prontos:
+    image: ${MYSQL_OTRS_TEXTOS_PRONTOS_DOCKER_IMAGE}
+    container_name: ${MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME}
+    build:
+      context: ./db/otrs-textos-prontos-mysql-dockerfile
+    networks:
+      - otrs-network
+    volumes:
+      - br.albatross.otrsdb.textos_prontos-vol:/var/lib/mysql
+    restart: always
+
+  otrs-app:
+    image: ${OTRS_APP_DOCKER_IMAGE}
+    container_name: ${OTRS_APP_CONTAINER_NAME}
+    build:
+      context: ./app
+      args:
+        - MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME=${MYSQL_OTRS_TEXTOS_PRONTOS_CONTAINER_NAME}
+        - MYSQL_OTRS_USER=${MYSQL_OTRS_USER}
+        - MYSQL_OTRS_PASSWORD=${MYSQL_OTRS_PASSWORD}
+        - MYSQL_OTRS_DATABASE=${MYSQL_OTRS_DATABASE}
+        - MYSQL_OTRS_DATABASE_HOST=${MYSQL_OTRS_DATABASE_HOST}
+
+        - OTRS_MAIL_SESSION_USER=${OTRS_MAIL_SESSION_USER}
+        - OTRS_MAIL_SESSION_PASSWORD=${OTRS_MAIL_SESSION_PASSWORD}
+        - OTRS_MAIL_SMTP_HOST=${OTRS_MAIL_SMTP_HOST}
+        - OTRS_MAIL_SMTP_PORT=${OTRS_MAIL_SMTP_PORT}
+
+        - MYSQL_OTRS_TEXTOS_PRONTOS_USER=${MYSQL_OTRS_TEXTOS_PRONTOS_USER}
+        - MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD=${MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD}
+        - MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST=${MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST}
+        - MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE=${MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE}
+
+    networks:
+      - otrs-network
+    volumes:
+      - br.albatross.otrs-app-logs-vol:/opt/jboss/wildfly/standalone/log:rw
+      - br.albatross.otrs-app-configuration-history-vol:/opt/jboss/wildfly/standalone/configuration/standalone_xml_history:rw
+      
+    depends_on:
+      otrsdb:
+        condition: service_started
+      otrsdb_textos_prontos:
+        condition: service_started
+    ports:
+      - 8080:8080
+    restart: always
+
+networks:
+  otrs-network:
+    name: ${OTRS_NETWORK_NAME}
+    driver: bridge
+
+volumes:
+  br.albatross.otrsdb-vol:
+  br.albatross.otrs-app-logs-vol:
+  br.albatross.otrs-app-configuration-history-vol:
+  br.albatross.otrsdb.textos_prontos-vol:

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition>
+
+
+        <p:fieldset legend="Administração / Usuários / Listagem" >
+
+            <p:dataTable id="usuarios" value="#{listaUsuariosBean.usuarios}" var="usuario" scrollable="true" scrollRows="10" scrollHeight="400" liveScroll="false" >
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Usuário" />
+                        <h:outputLabel style="margin-left: 5px" styleClass="pi pi-user" />
+                    </f:facet>
+                    <p:outputLabel value="#{usuario.username}" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Permissões" />
+                        <h:outputLabel style="margin-left: 5px" styleClass="pi pi-shield" />
+                    </f:facet>
+                    <p:outputLabel value="#{usuario.roles}" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputLabel value="Editar" />
+                        <h:outputLabel style="margin-left: 5px" styleClass="pi pi-user-edit" />
+                    </f:facet>
+                    <p:link outcome="/administracao/usuarios/atualizacao" includeViewParams="true">
+                        <h:outputText title="Editar" value="Editar" styleClass="btn btn-primary" />
+                        <f:param name="usuarioId" value="#{usuario.id}" />
+                    </p:link>
+                </p:column>
+
+                <p:column>
+	                <f:facet name="header">
+	                  <h:outputLabel value="Excluir" />
+	                  <h:outputLabel style="margin-left: 5px" styleClass="pi pi-user-minus" />
+	                </f:facet>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#usuarioModal#{usuario.id}" jsf:disabled="#{usuario.id == 1}">Excluir</button>
+                    <div class="modal fade" id="usuarioModal#{usuario.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmação de Exclusão</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <label>Confirmar Exclusão do Usuário: <span style="text-transform: capitalize; font-weight: bold;">#{usuario.username}</span> ?</label>
+                          </div>
+                          <div class="modal-footer">
+                            <h:commandButton value="Confirmar Exclusão" actionListener="#{listaUsuariosBean.excluirUsuario(usuario)}" update="usuarios :mensagens" disabled="#{usuario.id == 1}" styleClass="btn btn-danger" />
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </p:column>
+
+            </p:dataTable>
+
+        </p:fieldset>
+
+
+</ui:composition>
+
+      
+</html>

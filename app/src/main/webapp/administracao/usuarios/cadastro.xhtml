@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/_template.xhtml">
+    <ui:define name="titulo">Cadastro de Usuário</ui:define>
+    <ui:define name="conteudo">
+
+	    <div>
+	        <h:form id="form-cadastroUsuario">
+	            <p:focus context="panel" />
+	            <p:fieldset legend="Administração / Usuários / Cadastro">
+
+	                <p:panelGrid columns="2" id="panel" layout="tabular">
+
+	                    <p:outputLabel for="@next" value="Nome do Usuário: " />
+	                    <p:inputText id="inputText-username"
+	                        value="#{cadastroUsuariosBean.dadosDeCadastro.username}" required="true"
+	                        requiredMessage="Nome de Usuário é Obrigatório" maxlength="55">
+	                    </p:inputText>
+
+	                    <p:outputLabel for="@next" value="Nova Senha: " />
+	                    <p:password 
+	                        id="inputText-password"
+	                        value="#{cadastroUsuariosBean.dadosDeCadastro.password}" 
+	                        match="inputText-password-confirm"
+	                        validatorMessage="Senhas não conferem, tente novamente"
+	                        required="true" requiredMessage="Digite novamente a Senha para confirmar" 
+	                        maxlength="100">
+	                    </p:password>
+
+	                    <p:outputLabel for="@next" value="Confirme a Senha: " />
+	                    <p:password 
+	                        id="inputText-password-confirm"
+	                        value="#{cadastroUsuariosBean.dadosDeCadastro.password}" 
+	                        required="true" requiredMessage="Senha do Usuário é Obrigatório" 
+	                        maxlength="100">
+	                    </p:password>
+
+	                    <p:outputLabel for="@next" value="Selecione a ou as permissões do usuário: " />
+	                    <p:selectManyCheckbox required="true" value="#{cadastroUsuariosBean.dadosDeCadastro.rolesIds}" converter="jakarta.faces.Integer" requiredMessage="Usuário deve possuir pelo menos a Role: USER">
+	                        <f:selectItems value="#{listaRolesBean.roles}" var="role" itemLabel="#{role.name}" itemValue="#{role.id}" />
+	                    </p:selectManyCheckbox>
+	
+	                </p:panelGrid>
+
+				    <p:commandButton id="commandButton-cadastrarUsuario" value="Salvar" actionListener="#{cadastroUsuariosBean.cadastrarUsuario}" update="@form :mensagens" />
+
+	            </p:fieldset>
+	        </h:form>
+	    </div>
+    </ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,57 @@
+<web-app version="6.0"
+	xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+
+   <security-constraint>
+      <web-resource-collection>
+          <web-resource-name>Acesso Básico ao Sistema</web-resource-name>
+          <description>Acesso Básico ao Sistema</description>
+          <url-pattern>*.xhtml</url-pattern>
+      </web-resource-collection>
+      <auth-constraint>
+          <role-name>USER</role-name>
+      </auth-constraint>
+   </security-constraint>
+
+   <security-constraint>
+    <web-resource-collection>
+        <web-resource-name>Acesso ao CRUD da Administração</web-resource-name>
+        <description>CRUD de Textos Prontos de Problemas e Administração de Usuários</description>
+        <url-pattern>/administracao/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+        <description>Acesso apenas para usuários como permissões Administrativas</description>
+        <role-name>ADMIN</role-name>
+    </auth-constraint>
+   </security-constraint>
+
+    <security-role>
+       <description>Usuários da Administração</description>
+       <role-name>ADMIN</role-name>
+    </security-role>
+
+    <security-role>
+       <description>Usuários Comuns</description>
+       <role-name>USER</role-name>
+    </security-role>
+
+	<login-config>
+	   <auth-method>FORM</auth-method>
+	   <form-login-config>
+	       <form-login-page>/login.xhtml</form-login-page>
+	       <form-error-page>/login.xhtml</form-error-page>
+	   </form-login-config>
+	</login-config>
+
+</web-app>
