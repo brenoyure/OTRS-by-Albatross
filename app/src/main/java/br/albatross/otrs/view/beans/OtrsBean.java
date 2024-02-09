@@ -11,7 +11,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.servlet.http.Part;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,9 +24,6 @@ public class OtrsBean implements Serializable {
 
 	@Getter @Setter
 	private SolicitacaoDeGarantia solicitacao;
-
-	@Getter @Setter
-	private Part uploadedFile;
 
 	@Inject @Getter
 	private OtrsServiceBean serviceBean;
@@ -49,7 +45,7 @@ public class OtrsBean implements Serializable {
 	}
 
 	public void enviarSolicitacaoDeGarantiaPorEmail() {
-		serviceBean.enviarSolicitacaoDeGarantiaPorEmail(solicitacao, uploadedFile);
+		serviceBean.enviarSolicitacaoDeGarantiaPorEmail(solicitacao);
 	}
 
 }

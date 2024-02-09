@@ -16,7 +16,7 @@
     <ui:define name="conteudo">
 
 
-	    <h:form id="formulario-email-garantia" enctype="multipart/form-data">
+	    <h:form id="formulario-email-garantia">
 
 	    <p:focus context="panel" />
 
@@ -61,13 +61,8 @@
 	                    <br />
 
 	                    <p:outputLabel for="textArea-DescricaoProblema" value="Descrição do Problema" />
-	                        <p:inputTextarea readonly="true" rows="6" cols="33" id="textArea-DescricaoProblema" placeholder="Computador/Monitor está apresentando problema de..." value="#{otrsBean.solicitacao.descricaoDoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
+	                        <p:inputTextarea readonly="true" rows="6" cols="50" id="textArea-DescricaoProblema" placeholder="Computador/Monitor está apresentando problema de..." value="#{otrsBean.solicitacao.descricaoDoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
 	                    <br />
-
-	                    <p:outputLabel value="Adicionar Vídeo ou Foto do Problema (Máx: 10MB)" for="fileUpload" />
-	                        <h:inputFile id="fileUpload" styleClass="form-control" value="#{otrsBean.uploadedFile}" required="false" >
-	                            <f:ajax execute="@this" render=":mensagens" />
-	                        </h:inputFile>
 
 	                    <br />
 

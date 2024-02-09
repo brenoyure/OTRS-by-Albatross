@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
@@ -41,5 +42,11 @@ public class DescricaoProblema implements br.albatross.otrs.domain.models.garant
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "fk_problema_id")
 	private Problema problema;
+
+	@Lob
+	private byte[] anexo;
+
+	@Column(name="anexo_nome", length = 100, unique = false, nullable = true)
+	private String anexoNome;
 
 }

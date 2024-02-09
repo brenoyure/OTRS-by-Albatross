@@ -1,8 +1,5 @@
 package br.albatross.otrs.domain.dao.problema;
 
-import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.descricaoDetalhada;
-import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.descricaoResumida;
-import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.id;
 import static br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema_.problema;
 import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 
@@ -26,26 +23,11 @@ public class DescricaoProblemaDao {
 	}
 
 	public void update(DescricaoProblema descricaoProblema) {
-		var cb                     =  entityManager.getCriteriaBuilder();
-		var cq                     =  cb.createCriteriaUpdate(DescricaoProblema.class);
-		var rootDescricaoProblema  =  cq.from(DescricaoProblema.class);
-
-		cq
-		  .set(rootDescricaoProblema.get(problema),           descricaoProblema.getProblema())
-		  .set(rootDescricaoProblema.get(descricaoResumida),  descricaoProblema.getDescricaoResumida())
-		  .set(rootDescricaoProblema.get(descricaoDetalhada), descricaoProblema.getDescricaoDetalhada());
-
-		entityManager
-		        .createQuery(cq.where(cb.equal(rootDescricaoProblema.get(id), descricaoProblema.getId())))
-		        .executeUpdate();
+		descricaoProblema = entityManager.merge(descricaoProblema);
 	}
 
 	public void remove(DescricaoProblema descricaoProblema) {
-		var cb = entityManager.getCriteriaBuilder();
-		var cq = cb.createCriteriaDelete(DescricaoProblema.class);
-		entityManager
-				.createQuery(cq.where(cb.equal(cq.from(DescricaoProblema.class).get(id), descricaoProblema.getId())))
-				.executeUpdate();
+		entityManager.remove(entityManager.getReference(DescricaoProblema.class, descricaoProblema.getId()));
 	}
 
 	public List<DescricaoProblema> findAll() {

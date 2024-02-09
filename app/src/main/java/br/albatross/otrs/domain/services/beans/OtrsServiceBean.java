@@ -22,7 +22,6 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
-import jakarta.servlet.http.Part;
 import jakarta.validation.ConstraintViolationException;
 import lombok.Getter;
 
@@ -50,7 +49,7 @@ public class OtrsServiceBean implements Serializable {
 	private TextosProntosService textosProntosService;
 
 	@Inject
-	private EmailGarantiaServiceBean emailGarantiaServiceBean;
+	private SolicitacaoDeGarantiaServiceBean solicitacaoDeGarantiaServiceBean;
 
 	@Inject
 	private AssuntoEmailServiceBean assuntoEmailServiceBean;
@@ -87,32 +86,34 @@ public class OtrsServiceBean implements Serializable {
 
 	}
 
-	public void enviarSolicitacaoDeGarantiaPorEmail(SolicitacaoDeGarantia solicitacao, Part uploadedFile) {
+	public void enviarSolicitacaoDeGarantiaPorEmail(SolicitacaoDeGarantia solicitacao) {
 
 		if (solicitacaoGarantiaJaEfetuada) {
 			context.addMessage("otrs", new FacesMessage(SEVERITY_WARN, "Solicitação de Garantia Já Realizada.", null));
 			return;
 		}
 
+		assinaturaEmailServiceBean.setCorpoDaMensagemComAssinatura(solicitacao.getEmailDeGarantia());
+
 		try {
 
 			File[] vetorAnexos;
 
-			if (uploadedFile == null) {
+			if (solicitacao.getDescricaoDoProblema().getAnexo() == null) {
 				vetorAnexos = new File[1];
 
 			} else {
 				vetorAnexos = new File[2];
-				vetorAnexos[1] = anexoGenerator.getAnexo(uploadedFile);
+				vetorAnexos[1] = anexoGenerator.getAnexo(solicitacao.getDescricaoDoProblema().getAnexoNome(), solicitacao.getDescricaoDoProblema().getAnexo());
 			}
 
 			var formulario = geradorFormulario.getFormulario(formularioFileInputStream.getInputStream(), solicitacao.getNumeroDeSerie(), solicitacao.getDescricaoDoProblema().getDescricaoDetalhada());
 			vetorAnexos[0] = formulario;
 
 			solicitacao.getEmailDeGarantia().setAnexos(vetorAnexos);
-			assinaturaEmailServiceBean.setCorpoDaMensagemComAssinatura(solicitacao.getEmailDeGarantia());
-			
-			emailGarantiaServiceBean.enviarSolicitacaoDeGarantia(solicitacao.getEmailDeGarantia());
+
+
+			solicitacaoDeGarantiaServiceBean.enviarSolicitacao(solicitacao);
 
 			solicitacaoGarantiaJaEfetuada = true;
 

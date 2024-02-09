@@ -32,7 +32,7 @@
 	                </p:fieldset>
 	        </h:form>
 
-	        <h:form id="formulario-cadastro-descricao" rendered="#{not empty problemasBean.serviceBean.problemas}" >
+	        <h:form id="formulario-cadastro-descricao" rendered="#{not empty problemasBean.serviceBean.problemas}" enctype="multipart/form-data" >
 
 	                <p:fieldset legend="Descrição Problema" collapsed="false" toggleable="true" >
 	                    <p:panelGrid columns="2" id="panel-descricao" layout="tabular" >
@@ -45,6 +45,12 @@
 	                            <p:inputText id="inputText-DescricaoResumida" placeholder="ex. Mouse - Scroll Ruim" value="#{problemasBean.descricaoProblema.descricaoResumida}" required="true" requiredMessage="Descrição Obrigatória" />
 	                        <p:outputLabel value="Informe uma Descrição Detalhada do Problema" for="@next" />
 	                            <p:inputTextarea id="inputTextArea-DescricaoDetalhada" placeholder="Computador está apresentando problema de..." rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Detalhe do Problema Obrigatório" />
+
+                        <p:outputLabel value="Adicionar Vídeo ou Foto do Problema (Máx: 10MB)" for="fileUpload" />
+                            <h:inputFile id="fileUpload" styleClass="form-control" value="#{problemasBean.uploadedFile}" required="false" >
+                                <f:ajax execute="@this" render=":mensagens" />
+                            </h:inputFile>
+
 	                    </p:panelGrid>
 
 	                    <p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema(problemasBean.descricaoProblema)}" update="@form :mensagens :formulario-cadastro-tipo :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />
