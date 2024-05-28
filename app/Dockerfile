@@ -1,4 +1,4 @@
-FROM quay.io/wildfly/wildfly:30.0.1.Final-jdk17
+FROM quay.io/wildfly/wildfly:32.0.0.Final-jdk17
 
 WORKDIR /opt/jboss/wildfly
 
@@ -20,12 +20,12 @@ ARG OTRS_MAIL_SMTP_HOST=${OTRS_MAIL_SMTP_HOST}
 ARG OTRS_MAIL_SMTP_PORT=${OTRS_MAIL_SMTP_PORT}
 
 COPY Formulario-Garantia.docx ./bin/arquivos/formularios/
-COPY mysql-connector-j.jar /tmp/
+COPY mariadb-java-client.jar /tmp/
 COPY config.cli ./bin/config.cli
 
 COPY ./target/otrs.war ./standalone/deployments/
 
 RUN ["/opt/jboss/wildfly/bin/jboss-cli.sh", "--file=/opt/jboss/wildfly/bin/config.cli", "--resolve-parameter-values"]
 
-CMD ["/opt/jboss/wildfly/bin/standalone.sh", "--server-config=standalone-full.xml", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+CMD ["/opt/jboss/wildfly/bin/standalone.sh", "--server-config=standalone-full.xml", "-b", "0.0.0.0"]
 

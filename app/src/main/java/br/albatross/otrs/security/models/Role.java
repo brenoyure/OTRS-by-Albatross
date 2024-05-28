@@ -2,7 +2,6 @@ package br.albatross.otrs.security.models;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +16,6 @@ import lombok.Setter;
 @Entity @Table(name = "roles")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
-@Cacheable
 @NoArgsConstructor @AllArgsConstructor
 public class Role {
 

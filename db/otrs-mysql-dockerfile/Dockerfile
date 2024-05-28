@@ -1,4 +1,4 @@
-FROM mysql:8.3.0
+FROM mariadb:10.11.8-jammy
 
 WORKDIR /docker-entrypoint-initdb.d
 

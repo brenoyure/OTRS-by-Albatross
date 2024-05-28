@@ -31,7 +31,7 @@
 	                                            process="@this inputText-BM" update="inputText-NumeroDeSerie :mensagens" />
 
 	                    <p:outputLabel for="inputText-NumeroDeSerie" value="Nº de Série: " />
-	                        <p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" size="#{otrsBean.solicitacao.numeroDeSerie.length()}" value="#{otrsBean.solicitacao.numeroDeSerie}" >
+	                        <p:inputText id="inputText-NumeroDeSerie" required="true" requiredMessage="Nº de Série Obrigatório" value="#{otrsBean.solicitacao.numeroDeSerie}" >
 	                            <f:ajax event="change" render="@this :mensagens" />
 	                        </p:inputText>
 	                    <br />
@@ -75,28 +75,28 @@
 	        </p:fieldset>
 
 	        <p:fieldset legend="Dados do Envio" collapsed="false" toggleable="true" >
-	            <p:panelGrid columns="1" layout="tabular" >
+	            <p:panelGrid layout="flex" columns="2" >
 	                    <p:outputLabel for="inputText-EmailRemetente" value="E-mail do Remetente: ">
-	                        <p:inputText id="inputText-EmailRemetente" placeholder="email.do.atendente@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.remetente}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." size="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.remetente.length()}" >
+	                        <p:inputText id="inputText-EmailRemetente" placeholder="email.do.atendente@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.remetente}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." size="50" >
 	                            <f:ajax event="input" execute="@this" render="@this :mensagens" />
 	                        </p:inputText>
 	                    </p:outputLabel>
 
 	                    <p:outputLabel for="inputText-EmailDestino" value="E-mail(s) de Destino(s): ">
-	                        <p:inputText id="inputText-EmailDestino" placeholder="suporte.fabricante@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.destinatario}" required="true" requiredMessage="E-mail de Destino Obrigatório." size="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.destinatario.length()}" >
+	                        <p:inputText id="inputText-EmailDestino" placeholder="suporte.fabricante@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.destinatario}" required="true" requiredMessage="E-mail de Destino Obrigatório." size="50" >
 	                            <f:ajax event="input" execute="@this" render="@this :mensagens" />
 	                        </p:inputText>
 	                    </p:outputLabel>
 
 	                    <p:outputLabel for="inputText-EmailCopia" value="(Opcional) Cópia para: ">
-	                        <p:inputText id="inputText-EmailCopia" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.copiaPara}" size="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.copiaPara.length()/2}" >
+	                        <p:inputText id="inputText-EmailCopia" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.copiaPara}" size="50" >
 	                            <f:ajax event="input" execute="@this" render="@this" />
 	                        </p:inputText>
 	                    </p:outputLabel>
 	            </p:panelGrid>
 	        </p:fieldset>
 
-	            <p:commandButton type="submit" value="Enviar Solicitação" update=":mensagens @form" actionListener="#{otrsBean.enviarSolicitacaoDeGarantiaPorEmail}" style="margin-right: 5px; margin-top:10px" disabled="#{empty otrsBean.serviceBean.ticketsAbertosNivel1}" />
+	            <p:commandButton type="submit" value="Enviar Solicitação" update=":mensagens @form" actionListener="#{otrsBean.enviarSolicitacaoDeGarantiaPorEmail}" style="margin:10px 5px 10px 10px;" disabled="#{empty otrsBean.serviceBean.ticketsAbertosNivel1 or empty otrsBean.serviceBean.listaDeProblemas }" />
 	            <p:commandButton value="Limpar Formulário" action="otrs?faces-redirect=true" immediate="true" update="@all" style="margin-top:10px" />
 
 	        <br />

@@ -54,4 +54,8 @@
 	   </form-login-config>
 	</login-config>
 
+    <welcome-file-list>
+        <welcome-file>/otrs.xhtml</welcome-file>
+    </welcome-file-list>
+
 </web-app>

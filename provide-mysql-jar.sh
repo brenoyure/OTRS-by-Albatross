@@ -1,9 +1,9 @@
 #!/bin/bash
 
-FILE=./app/mysql-connector-j.jar
+FILE=./app/mariadb-java-client.jar
 if [ ! -f "$FILE" ]; then
-    echo 'Providing MySQL Connector J from Maven Central Repository'
-    curl -o mysql-connector-j.jar https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/8.3.0/mysql-connector-j-8.3.0.jar
-    mv ./mysql-connector-j.jar ./app/mysql-connector-j.jar
-    echo 'End of MySQL Connector J from Maven Central Repository Provision'
+    echo 'Providing MariaDB Java Client JDBC Driver from Maven Central Repository'
+    curl -o mariadb-java-client.jar https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/3.4.0/mariadb-java-client-3.4.0.jar
+    mv ./mariadb-java-client.jar ./app/mariadb-java-client.jar
+    echo 'End of MariaDB Java Client JDBC Driver from Maven Central Repository Provision'
 fi

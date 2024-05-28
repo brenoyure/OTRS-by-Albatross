@@ -11,10 +11,10 @@ public class AssuntoEmailService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int GARANTIA_MOUSE_DATEN    =  221;
-	private static final int GARANTIA_MONITOR_DATEN  =  222;
-	private static final int GARANTIA_TECLADO_DATEN  =  223;
-	private static final int GARANTIA_GABINETE_DATEN =  224;
+	private static final int GARANTIA_GABINETE_DATEN =  99;
+	private static final int GARANTIA_MONITOR_DATEN  =  100;
+	private static final int GARANTIA_MOUSE_DATEN    =  101;
+	private static final int GARANTIA_TECLADO_DATEN  =  102;
 
 	public Optional<String> getEmailSubject(EmailDeGarantia emailGarantia) {
 		return Optional.ofNullable(emailGarantia.getAssunto());

@@ -44,7 +44,9 @@
 	                        <p:outputLabel value="Informe uma Descrição Resumida do Problema" for="@next" />
 	                            <p:inputText id="inputText-DescricaoResumida" placeholder="ex. Mouse - Scroll Ruim" value="#{problemasBean.descricaoProblema.descricaoResumida}" required="true" requiredMessage="Descrição Obrigatória" />
 	                        <p:outputLabel value="Informe uma Descrição Detalhada do Problema" for="@next" />
-	                            <p:inputTextarea id="inputTextArea-DescricaoDetalhada" placeholder="Computador está apresentando problema de..." rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Detalhe do Problema Obrigatório" />
+	                            <p:inputTextarea id="inputTextArea-DescricaoDetalhada" counter="display" counterTemplate="{0} restantes" maxlength="255" placeholder="Computador está apresentando problema de..." rows="6" cols="33" value="#{problemasBean.descricaoProblema.descricaoDetalhada}" autoResize="false" required="true" requiredMessage="Detalhe do Problema Obrigatório" />
+	                            <p:outputLabel value="Caracteres Restantes: " />
+	                            <p:outputLabel id="display" />
 	                    </p:panelGrid>
 
 	                    <p:commandButton value="Salvar" actionListener="#{problemasBean.salvarDescricaoProblema(problemasBean.descricaoProblema)}" update="@form :mensagens :formulario-cadastro-tipo :formulario-descricaoProblema" style="margin-right: 5px; margin-top:10px" />

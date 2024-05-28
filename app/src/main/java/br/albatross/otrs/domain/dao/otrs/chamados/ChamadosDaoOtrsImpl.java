@@ -29,13 +29,13 @@ public class ChamadosDaoOtrsImpl implements ChamadosDao {
 	@PersistenceContext(unitName = "otrsdb")
 	private EntityManager entityManager;
 
-	private static final byte QUEUE_NIVEL_1 = 5;
+	private static final byte QUEUE_NIVEL_1 = 6;
 
 	private static final byte TICKET_STATE_AS_NEW  = 1;
 	private static final byte TICKET_STATE_AS_OPEN = 2;
 
-	private static final int TICKET_VALID_SERVICE_MIN_THRESHOLD = 221;
-	private static final int TICKET_VALID_SERVICE_MAX_THRESHOLD = 224;
+	private static final int TICKET_VALID_SERVICE_MIN_THRESHOLD = 99;
+	private static final int TICKET_VALID_SERVICE_MAX_THRESHOLD = 102;
 
 	public List<DadosDoChamado> findAllOpened() {
 		var cb      =  entityManager.getCriteriaBuilder();

@@ -20,7 +20,10 @@ public class EmailGarantiaServiceBean {
 
 	public void enviarSolicitacaoDeGarantia(EmailDeGarantia email) {
 		emailGarantiaService.enviarEmailDeGarantiaParaFilaDeEnvios(email);
-		context.addMessage("otrs", new FacesMessage(SEVERITY_INFO, "E-mail despachado para fila de envios", "E-mail despachado para a fila de envios e logo será enviado."));
+		context.addMessage("otrs", 
+		        new FacesMessage(SEVERITY_INFO, 
+		                "Solicitação despachada para fila de envios", 
+		                "Você pode conferir o status da Solicitação através do Sistema de Chamados, ou na Caixa de Entrada dos e-mails que receberam cópia. Lembrando que Sistemas de Chamados podem levar alguns minutos para registrarem a Solicitação."));
 
 	}
 	

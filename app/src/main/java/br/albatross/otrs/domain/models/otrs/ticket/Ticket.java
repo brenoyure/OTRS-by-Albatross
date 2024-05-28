@@ -5,9 +5,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
 
-import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
-import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoServico;
-import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoUsuarioCliente;
 import br.albatross.otrs.domain.models.otrs.User;
 import br.albatross.otrs.domain.models.otrs.queue.Queue;
 import br.albatross.otrs.domain.models.otrs.service.Service;
@@ -27,9 +24,7 @@ import lombok.Setter;
 @Entity @Table(name = "ticket")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
-public class Ticket implements DadosDoChamado {
-
-	private static final long serialVersionUID = 1L;
+public class Ticket {
 
 	@Id @GeneratedValue(strategy = IDENTITY)
 	private Long id;
@@ -107,26 +102,5 @@ public class Ticket implements DadosDoChamado {
 
 	@Column(name = "change_time", nullable = false)
 	private LocalDateTime changeTime;
-
-	@Override
-	public String getNumeroDoChamado() {
-		return ticketNumber;
-	}
-
-	@Override
-	public String getTitulo() {
-		return title;
-	}
-
-	@Override
-	public DadosDoServico getDadosDoServico() {
-		return service;
-	}
-
-	@Override
-	public DadosDoUsuarioCliente getDadosDoUsuarioCliente() {
-		return () -> customerUserId;
-
-	}
 
 }

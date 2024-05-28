@@ -13,9 +13,9 @@ import jakarta.persistence.PersistenceContext;
 @RequestScoped
 public class RelatorioServicoDeGarantiaDaoImpl implements RelatorioServicoDeGarantiaDao {
 
-	private static final int FIRST_SERVICE_FOR_BETWEEN_PREDICATE = 221;
-	private static final int LAST_SERVICE_FOR_BETWEEN_PREDICATE = 224;
-	private static final byte SERVICE_NAME_FORMAT_SUBSTRING_INDEX = 17;
+	private static final int FIRST_SERVICE_FOR_BETWEEN_PREDICATE = 99;
+	private static final int LAST_SERVICE_FOR_BETWEEN_PREDICATE = 102;
+	private static final byte SERVICE_NAME_FORMAT_SUBSTRING_INDEX = 32;
 
 	@PersistenceContext(unitName = "otrsdb")
 	private EntityManager entityManager;

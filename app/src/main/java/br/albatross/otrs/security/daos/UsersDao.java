@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.jpa.AvailableHints;
-
 import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
 import br.albatross.otrs.security.models.User;
 import jakarta.enterprise.context.RequestScoped;
@@ -30,7 +28,6 @@ public class UsersDao {
 			return entityManager
 					.createQuery("SELECT EXISTS(SELECT u FROM User u WHERE u.username = ?1)", Boolean.class)
 					.setParameter(1, username)
-					.setHint(AvailableHints.HINT_CACHEABLE, true)
 					.getSingleResult();
 		} catch (NoResultException e) {	return false; }
 	}
@@ -41,7 +38,6 @@ public class UsersDao {
 					.createQuery("SELECT EXISTS(SELECT u FROM User u WHERE u.id != ?1 AND u.username = ?2)", Boolean.class)
 					.setParameter(1, id)
 					.setParameter(2, newUsername)
-					.setHint(AvailableHints.HINT_CACHEABLE, true)
 					.getSingleResult();
 		} catch (NoResultException e) {	return false; }
 	}	
@@ -49,7 +45,6 @@ public class UsersDao {
 	public List<DadosParaListagemDoUsuarioDto> findAll() {
 		var usersResultStream = entityManager
 									.createQuery("SELECT u FROM User u INNER JOIN FETCH u.roles ORDER BY u.username", User.class)
-									.setHint(AvailableHints.HINT_CACHEABLE, true)
 									.getResultStream();
 
 		List<DadosParaListagemDoUsuarioDto> dtoResultList = new ArrayList<>();
@@ -69,7 +64,6 @@ public class UsersDao {
 			User userEntityResult = entityManager
 										.createQuery("SELECT u FROM User u INNER JOIN FETCH u.roles WHERE u.id = ?1", User.class)
 										.setParameter(1, id)
-										.setHint(AvailableHints.HINT_CACHEABLE, true)
 										.getSingleResult();
 	
 			return Optional

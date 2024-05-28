@@ -6,7 +6,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +24,6 @@ import lombok.Setter;
 @Entity @Table(name = "users")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
-@Cacheable
 @NoArgsConstructor @AllArgsConstructor
 public class User {
 
