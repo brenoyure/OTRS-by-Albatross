@@ -3,12 +3,12 @@ package br.albatross.otrs.domain.dao.otrs.inventario;
 import java.util.Optional;
 
 import br.albatross.otrs.domain.dao.apis.equipamentos.InventarioDao;
-import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 
-@Stateless
+@RequestScoped
 public class InventarioDaoOtrsImpl implements InventarioDao {
 
 	@PersistenceContext(unitName = "otrsdb")

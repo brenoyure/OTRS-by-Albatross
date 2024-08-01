@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<ui:composition template="/_template.xhtml">
+
+	<ui:define name="titulo">Listagem de Fornecedores</ui:define>
+
+	<ui:define name="conteudo">
+
+        <p:fieldset legend="Administração / Fornecedores / Listagem" >
+
+            <p:dataTable id="fornecedores" value="#{listaFornecedoresBean.fornecedores}" var="fornecedor" scrollable="true" scrollRows="10" scrollHeight="400" liveScroll="false" >
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputLabel style="margin-right: 5px" styleClass="pi pi-warehouse" />
+                        <h:outputLabel value="Fornecedor" />
+                    </f:facet>
+                    <p:outputLabel value="#{fornecedor.nome}" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputLabel style="margin-right: 5px" styleClass="pi pi-envelope" />
+                        <h:outputLabel value="Email(s)" />
+                    </f:facet>
+                    <p:outputLabel value="#{fornecedor.emails}" />
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputLabel style="margin-right: 5px" styleClass="pi pi-pencil" />
+                        <h:outputLabel value="Editar" />
+                    </f:facet>
+                    <p:link outcome="/administracao/fornecedores/atualizacao" includeViewParams="true">
+                        <h:outputText title="Editar" value="Editar" styleClass="btn btn-primary" />
+                        <f:param name="fornecedorId" value="#{fornecedor.id}" />
+                    </p:link>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
+                      <h:outputLabel style="margin-right: 5px" styleClass="pi pi-trash" />
+                      <h:outputLabel value="Excluir" />
+                    </f:facet>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#fornecedorModal#{fornecedor.id}">Excluir</button>
+                    <div class="modal fade" id="fornecedorModal#{fornecedor.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmação de Exclusão</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <label>Confirmar Exclusão do Fornecedor: <span style="text-transform: capitalize; font-weight: bold;">#{fornecedor.nome}</span> ?</label>
+                          </div>
+                          <div class="modal-footer">
+                            <h:commandButton value="Confirmar Exclusão" action="#{listaFornecedoresBean.excluirFornecedor(fornecedor)}" update="fornecedores :mensagens" styleClass="btn btn-danger" />
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </p:column>
+
+            </p:dataTable>
+
+        </p:fieldset>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

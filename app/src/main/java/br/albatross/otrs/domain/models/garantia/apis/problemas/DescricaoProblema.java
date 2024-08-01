@@ -6,5 +6,6 @@ public interface DescricaoProblema extends Serializable {
 
 	Number getId();
 	String getDescricaoDetalhada();
+	Problema getProblema();
 
 }

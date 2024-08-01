@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/_template.xhtml">
+    <ui:define name="titulo">Cadastro de Fornecedor</ui:define>
+    <ui:define name="conteudo">
+
+	    <div>
+	        <h:form id="form-cadastroFornecedor">
+	            <p:focus context="panel" />
+	            <p:fieldset legend="Administração / Fornecedores / Cadastro">
+
+	                <p:panelGrid columns="2" id="panel" layout="tabular">
+
+	                    <p:outputLabel for="@next" value="Nome do Fornecedor: " />
+	                    <p:inputText id="inputText-nomeDoFornecedor"
+	                        value="#{cadastroFornecedorBean.dadosParaCadastro.nome}" required="true"
+	                        requiredMessage="Nome do Fornecedor é Obrigatório" maxlength="55"
+	                        size="100"
+	                        placeholder="ex. Fabricante Informática LTDA" >
+	                    </p:inputText>
+
+                        <p:outputLabel for="@next" value="Email(s) do Fornecedor: " />
+                        <p:inputText id="inputText-emailDoFornecedor"
+                            value="#{cadastroFornecedorBean.dadosParaCadastro.emails}" required="true"
+                            requiredMessage="Email(s) para o Fornecedor é Obrigatório" maxlength="255"
+                            size="100"
+                            placeholder="ex. atendimento.garantia@forncedor.com, suporte@garantia.com">
+                        </p:inputText>
+
+                        <label for="selectMany-idDosServicos">
+                            Selecione o(s) Serviço(s) Relacionado(s) ao Fornecedor.
+                            <span style="font-weight: bold">OBS: </span>Você pode segurar a tecla Control(Ctrl) para selecionar vários
+                        </label>
+                        <p:selectManyMenu 
+                            id="selectMany-idDosServicos" 
+                            value="#{cadastroFornecedorBean.dadosParaCadastro.idsDosServicosDoFornecedorNoSistemaDeChamados}"
+                            required="true" requiredMessage="Selecione qual(is) o(s) Serviços do Sistema de Chamados, correspondem aos do Fornecedor" 
+                            filter="true" filterMatchMode="contains" filterNormalize="true"
+                            showCheckbox="true" 
+                            styleClass="manymenu-advanced" >
+                            <f:selectItems value="#{listaServicosDoSistemaDeChamadosBean.servicosDisponiveis}" var="servico" itemLabel="#{servico.nomeDoServico}" itemValue="#{servico.idDoServico}" />
+                        </p:selectManyMenu>
+
+	                </p:panelGrid>
+
+				    <p:commandButton id="commandButton-cadastrarUsuario" value="Salvar" action="#{cadastroFornecedorBean.cadastrarFornecedor}" update="@form :mensagens" />
+
+	            </p:fieldset>
+	        </h:form>
+	    </div>
+    </ui:define>
+</ui:composition>
+
+</html>

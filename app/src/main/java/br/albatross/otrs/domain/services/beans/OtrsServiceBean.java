@@ -5,26 +5,20 @@ import static jakarta.faces.application.FacesMessage.SEVERITY_WARN;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 
-import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
-import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
-import br.albatross.otrs.domain.services.apis.chamados.ServicoDeChamados;
 import br.albatross.otrs.domain.services.garantia.AnexoGenerator;
 import br.albatross.otrs.domain.services.garantia.FormularioGenerator;
 import br.albatross.otrs.domain.services.garantia.FormularioInputStreamGenerator;
-import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.Part;
 import jakarta.validation.ConstraintViolationException;
-import lombok.Getter;
 
 @ViewScoped
 public class OtrsServiceBean implements Serializable {
@@ -35,25 +29,10 @@ public class OtrsServiceBean implements Serializable {
 	private FacesContext context;
 
 	@Inject
-	private InventarioServiceBean inventarioService;
-
-	@Inject
-	private ServicoDeChamados servicoDeChamados;
-
-	@Getter
-	private List<DadosDoChamado> ticketsAbertosNivel1;
-
-	@Getter
-	private List<DescricaoProblema> listaDeProblemas;
-
-	@Inject
-	private TextosProntosService textosProntosService;
-
-	@Inject
 	private EmailGarantiaServiceBean emailGarantiaServiceBean;
 
 	@Inject
-	private AssuntoEmailServiceBean assuntoEmailServiceBean;
+	private AssuntoEmailDeGarantiaServiceBean assuntoEmailServiceBean;
 
 	@Inject
 	private AssinaturaEmailServiceBean assinaturaEmailServiceBean;
@@ -69,22 +48,8 @@ public class OtrsServiceBean implements Serializable {
 
 	private boolean solicitacaoGarantiaJaEfetuada = false;
 
-	@PostConstruct
-	void init() {
-		ticketsAbertosNivel1 = servicoDeChamados.listarTodosOsChamadosAbertos();
-		listaDeProblemas = textosProntosService.getListaDeProblemas();
-	}
-
-	public void buscarNumeroDeSeriePeloBm(String bm, SolicitacaoDeGarantia solicitacao) {
-		inventarioService
-		                 .buscarNumeroDeSeriePorBm(bm)
-		                 .ifPresentOrElse(NdeSerie -> solicitacao.setNumeroDeSerie(NdeSerie), 
-		                		 () -> solicitacao.setNumeroDeSerie(null));
-	}
-
 	public void definirAssuntoDoEmail(EmailDeGarantia emailGarantia) {
 		assuntoEmailServiceBean.setAssuntoDoEmail(emailGarantia);
-
 	}
 
 	public void enviarSolicitacaoDeGarantiaPorEmail(SolicitacaoDeGarantia solicitacao, Part uploadedFile) {
@@ -110,6 +75,8 @@ public class OtrsServiceBean implements Serializable {
 			vetorAnexos[0] = formulario;
 
 			solicitacao.getEmailDeGarantia().setAnexos(vetorAnexos);
+
+			assuntoEmailServiceBean.setAssuntoDoEmail(solicitacao.getEmailDeGarantia());
 			assinaturaEmailServiceBean.setCorpoDaMensagemComAssinatura(solicitacao.getEmailDeGarantia());
 			
 			emailGarantiaServiceBean.enviarSolicitacaoDeGarantia(solicitacao.getEmailDeGarantia());
@@ -122,6 +89,7 @@ public class OtrsServiceBean implements Serializable {
 			e.printStackTrace();
 			context.addMessage("otrs", new FacesMessage(SEVERITY_ERROR, e.getLocalizedMessage(), e.getMessage()));
 		}
+
 	}
 
 }

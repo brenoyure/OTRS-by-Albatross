@@ -13,7 +13,7 @@ data-source add --name=ProblemaDS --driver-name=mariadb --jndi-name=java:jboss/d
 jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue/OtrsEmailQueue
 
 ### 4. Criando o socket Binding ###
-/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-smtp-binding:add(host=sandbox.smtp.mailtrap.io, port=587
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-smtp-binding:add(host=sandbox.smtp.mailtrap.io, port=587)
 
 ### 5. Criando o Mail Session ###
 /subsystem=mail/mail-session=otrsMailSession:add(jndi-name=java:jboss/mail/OtrsMailSession)

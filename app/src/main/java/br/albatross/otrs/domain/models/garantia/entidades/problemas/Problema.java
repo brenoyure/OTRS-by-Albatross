@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter @Setter
 @EqualsAndHashCode(of = "id")
 @Cacheable
-public class Problema implements Serializable {
+public class Problema implements br.albatross.otrs.domain.models.garantia.apis.problemas.Problema, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

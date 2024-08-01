@@ -5,7 +5,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 import java.time.LocalDateTime;
 
-import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoServico;
 import br.albatross.otrs.domain.models.otrs.Valid;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,9 +27,7 @@ import lombok.Setter;
 @Entity @Table(name = "service")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
-public class Service implements DadosDoServico {
-
-	private static final long serialVersionUID = 1L;
+public class Service {
 
 	@Id @GeneratedValue(strategy = IDENTITY)
 	private Integer id;
@@ -50,15 +47,5 @@ public class Service implements DadosDoServico {
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "valid_id", nullable = false)
 	private Valid valid;
-
-	@Override
-	public Integer getIdDoServico() {
-		return this.id;
-	}
-
-	@Override
-	public String getNomeDoServico() {
-		return this.name;
-	}
 
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
+import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
 import br.albatross.otrs.domain.models.garantia.apis.problemas.DescricaoProblema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -41,6 +42,9 @@ public interface SolicitacaoDeGarantia extends Serializable {
 	@NotNull
 	EmailDeGarantia getEmailDeGarantia();
 
+	@NotNull
+	DadosDoFornecedor getDadosDoFornecedor();
+
 	/**
 	 * 
 	 * Define o Nº de Série do Equipamento (ex. Computador, Monitor...) (<strong>Não</strong> podendo ficar em branco).
@@ -64,5 +68,7 @@ public interface SolicitacaoDeGarantia extends Serializable {
 	 * Define o E-mail que será enviado para o fabricante/fornecedor do equipamento (<strong>Não</strong> podendo ficar nulo).
 	 */
 	void setEmailDeGarantia(EmailDeGarantia emailDeGarantia);
+
+	void setDadosDoFornecedor(DadosDoFornecedor dadosDoFornecedor);
 
 }

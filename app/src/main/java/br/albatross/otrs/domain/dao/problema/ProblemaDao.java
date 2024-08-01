@@ -2,7 +2,6 @@ package br.albatross.otrs.domain.dao.problema;
 
 import static br.albatross.otrs.domain.models.garantia.entidades.problemas.Problema_.id;
 import static br.albatross.otrs.domain.models.garantia.entidades.problemas.Problema_.tipo;
-import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class ProblemaDao {
 	public List<Problema> findAll() {
 		var cq = entityManager.getCriteriaBuilder().createQuery(Problema.class);
 		cq.from(Problema.class);
-		return entityManager.createQuery(cq).setHint(HINT_CACHEABLE, true).getResultList();
+		return entityManager.createQuery(cq).getResultList();
 	}
 
 }

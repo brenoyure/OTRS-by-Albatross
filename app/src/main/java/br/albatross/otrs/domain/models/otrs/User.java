@@ -3,10 +3,8 @@ package br.albatross.otrs.domain.models.otrs;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoResponsavelPeloChamado;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,9 +26,7 @@ import lombok.Setter;
 @Entity(name = "OtrsUser") @Table(name = "users")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
-public class User implements Serializable, DadosDoResponsavelPeloChamado {
-
-	private static final long serialVersionUID = 1L;
+public class User {
 
 	@Id @GeneratedValue(strategy = IDENTITY)
 	private Integer id;
@@ -60,10 +55,5 @@ public class User implements Serializable, DadosDoResponsavelPeloChamado {
 
 	@Column(name = "change_time", nullable = false)
 	private LocalDateTime changeTime;
-
-	@Override
-	public String getNomeCompleto() {
-		return this.firstName.concat(" ").concat(lastName);
-	}
 
 }

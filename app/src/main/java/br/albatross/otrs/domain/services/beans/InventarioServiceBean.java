@@ -31,7 +31,7 @@ public class InventarioServiceBean implements Serializable {
 			return empty();
 		}
 
-		var optional = service.buscarNumeroDeSeriePeloBm(bm);
+		var optional = service.buscarNumeroDeSeriePeloIdentificadorUnicoDoEquipamento(bm);
 
 		if (optional.isEmpty()) {
 			context.addMessage("otrs", 
@@ -40,8 +40,8 @@ public class InventarioServiceBean implements Serializable {
 
 		}
 
-		return optional;
+        return optional;
 
-	}
+    }
 
 }
