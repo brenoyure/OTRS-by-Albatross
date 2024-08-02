@@ -2,14 +2,14 @@ package br.albatross.otrs.domain.services;
 
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
 import jakarta.annotation.Resource;
-import jakarta.ejb.Singleton;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.jms.JMSConnectionFactory;
 import jakarta.jms.JMSContext;
 import jakarta.jms.Queue;
 import jakarta.validation.Valid;
 
-@Singleton
+@Stateless
 public class OtrsJMSQueueEmailProducer {
 
 	@Inject @JMSConnectionFactory(value = "java:jboss/DefaultJMSConnectionFactory")

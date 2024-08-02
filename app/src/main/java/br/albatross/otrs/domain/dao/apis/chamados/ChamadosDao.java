@@ -1,7 +1,6 @@
 package br.albatross.otrs.domain.dao.apis.chamados;
 
 import java.util.List;
-import java.util.Optional;
 
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 
@@ -22,7 +21,5 @@ public interface ChamadosDao {
      * @return
      */
 	List<DadosDoChamado> findByService(List<Integer> servicesIds);
-
-	Optional<DadosDoChamado> findById(long id);
 
 }

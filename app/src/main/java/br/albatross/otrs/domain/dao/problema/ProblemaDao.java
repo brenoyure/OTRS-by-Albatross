@@ -6,20 +6,23 @@ import static br.albatross.otrs.domain.models.garantia.entidades.problemas.Probl
 import java.util.List;
 
 import br.albatross.otrs.domain.models.garantia.entidades.problemas.Problema;
-import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
-@Stateless
+@RequestScoped
 public class ProblemaDao {
 
 	@PersistenceContext(unitName = "otrsdb_textos_prontos")
 	private EntityManager entityManager;
 
+	@Transactional
 	public void persist(Problema problema) {
 		entityManager.persist(problema);
 	}
 
+	@Transactional
 	public void update(Problema problema) {
 		var           cb  =  entityManager.getCriteriaBuilder();
 		var           cq  =  cb.createCriteriaUpdate(Problema.class);

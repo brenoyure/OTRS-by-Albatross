@@ -11,11 +11,11 @@ import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosPara
 import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaCadastroDeNovoFornecedor;
 import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.Fornecedor;
 import br.albatross.otrs.domain.services.apis.fornecedores.FornecedoresService;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 
-@RequestScoped
+@ApplicationScoped
 public class FornecedoresServiceImpl implements FornecedoresService {
 
     @Inject
@@ -47,6 +47,7 @@ public class FornecedoresServiceImpl implements FornecedoresService {
 
             Fornecedor fornecedor = fornecedoresDao.getReferenceById(id);
             fornecedoresDao.remove(fornecedor);
+
         }
 
     }

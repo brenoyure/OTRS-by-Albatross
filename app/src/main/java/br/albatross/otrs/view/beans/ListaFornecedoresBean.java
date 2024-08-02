@@ -12,6 +12,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
 
 @Named @ViewScoped
@@ -33,6 +34,7 @@ public class ListaFornecedoresBean implements Serializable {
         fornecedores = fornecedoresService.listarFornecedoresDisponiveis();
     }
 
+    @Transactional
     public String excluirFornecedor(DadosDoFornecedorDto fornecedor) {
 
         facesContext.getExternalContext().getFlash().setKeepMessages(true);

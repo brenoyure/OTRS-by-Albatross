@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DadosDoFornecedorDto implements DadosDoFornecedor {
 
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private String nome;
     private String emails;

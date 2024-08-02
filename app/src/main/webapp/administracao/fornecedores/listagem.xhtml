@@ -61,7 +61,9 @@
                             <label>Confirmar Exclusão do Fornecedor: <span style="text-transform: capitalize; font-weight: bold;">#{fornecedor.nome}</span> ?</label>
                           </div>
                           <div class="modal-footer">
-                            <h:commandButton value="Confirmar Exclusão" action="#{listaFornecedoresBean.excluirFornecedor(fornecedor)}" update="fornecedores :mensagens" styleClass="btn btn-danger" />
+                            <h:form>
+                              <h:commandButton value="Confirmar Exclusão" action="#{listaFornecedoresBean.excluirFornecedor(fornecedor)}" styleClass="btn btn-danger" />
+                            </h:form>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                           </div>
                         </div>

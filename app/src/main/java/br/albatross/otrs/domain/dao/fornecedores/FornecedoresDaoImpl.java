@@ -3,6 +3,8 @@ package br.albatross.otrs.domain.dao.fornecedores;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.jpa.AvailableHints;
+
 import br.albatross.otrs.domain.dao.apis.fornecedores.FornecedoresDao;
 import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.Fornecedor;
 import jakarta.enterprise.context.RequestScoped;
@@ -65,6 +67,7 @@ public class FornecedoresDaoImpl implements FornecedoresDao {
     public List<Fornecedor> findAll() {
         return entityManager
                 .createQuery("SELECT f FROM Fornecedor f JOIN FETCH f.idsDosServicosDoFornecedorNoSistemaDeChamados ORDER BY f.nome", Fornecedor.class)
+                .setHint(AvailableHints.HINT_CACHEABLE, true)
                 .getResultList();
     }
 

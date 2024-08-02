@@ -1,7 +1,6 @@
 package br.albatross.otrs.domain.dao.apis.problemas;
 
 import java.util.List;
-import java.util.Optional;
 
 import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
 
@@ -14,7 +13,5 @@ public interface DescricaoProblemaDao {
     void remove(DescricaoProblema descricaoProblema);
 
     List<DescricaoProblema> findAll();
-
-    Optional<DescricaoProblema> findById(int id);
 
 }

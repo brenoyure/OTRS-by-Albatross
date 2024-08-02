@@ -28,12 +28,10 @@ public class AtualizacaoFornecedorBean implements Serializable {
     private DadosParaAtualizacaoDeFornecedor dadosParaCadastro;
 
     @Transactional
-    public String atualizarCadastro() {
+    public void atualizarCadastro() {
 
-        facesContext.getExternalContext().getFlash().setKeepMessages(true);
         DadosDoFornecedor dadosDoFornecedor = service.atualizarFornecedor(dadosParaCadastro);
         facesContext.addMessage(null, new FacesMessage("Cadastro do Fornecedor " + dadosDoFornecedor.getNome() + " atualizado com sucesso"));
-        return null;
 
     }
 

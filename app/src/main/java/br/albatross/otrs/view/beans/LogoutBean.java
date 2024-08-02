@@ -13,7 +13,7 @@ public class LogoutBean {
 
 	public String logout() {
 		facesContext.getExternalContext().invalidateSession();
-		return facesContext.getViewRoot().getViewId().concat("?faces-redirect=true");
+		return "/otrs?faces-redirect=true";
 	}
 
 }

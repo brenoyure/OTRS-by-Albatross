@@ -1,14 +1,11 @@
 embed-server --server-config=standalone-full.xml
 
 ### 1. Adicionando Módulo do MySQL ####
-module add --name=org.mariadb --dependencies=jakarta.transaction.api,javax.api --resources=/tmp/mariadb-java-client.jar
+deploy /tmp/mariadb-java-client.jar
 
-### 2. Adicionando DataSource no Subsystem ####
-/subsystem=datasources/jdbc-driver=mariadb:add(driver-module-name=org.mariadb, driver-xa-datasource-class-name=org.mariadb.jdbc.MariaDbDataSource)
-
-## 2.1 Adicionando os DataSources do sistema de chamados e dos textos prontos ####
-data-source add --name=OtrsDS --driver-name=mariadb --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mariadb://${env.MYSQL_OTRS_DATABASE_HOST}:3306/${env.MYSQL_OTRS_DATABASE} --user-name=${env.MYSQL_OTRS_USER} --password=${env.MYSQL_OTRS_PASSWORD} --enabled=true
-data-source add --name=ProblemaDS --driver-name=mariadb --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mariadb://${env.MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST}:3306/${env.MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE} --user-name=${env.MYSQL_OTRS_TEXTOS_PRONTOS_USER} --password=${env.MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD} --enabled=true
+## 2 Adicionando os DataSources do sistema de chamados e dos textos prontos ####
+data-source add --name=OtrsDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mariadb://${env.MYSQL_OTRS_DATABASE_HOST}:3306/${env.MYSQL_OTRS_DATABASE} --user-name=${env.MYSQL_OTRS_USER} --password=${env.MYSQL_OTRS_PASSWORD} --enabled=true
+data-source add --name=ProblemaDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mariadb://${env.MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST}:3306/${env.MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE} --user-name=${env.MYSQL_OTRS_TEXTOS_PRONTOS_USER} --password=${env.MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD} --enabled=true
 
 ### 3.Criando a Fila JMS ###
 jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue/OtrsEmailQueue

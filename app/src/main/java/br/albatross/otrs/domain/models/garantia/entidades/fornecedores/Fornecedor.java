@@ -3,6 +3,7 @@ package br.albatross.otrs.domain.models.garantia.entidades.fornecedores;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Entity @Table(name = "fornecedores")
 @Getter @Setter
 @EqualsAndHashCode(of = "id")
+@Cacheable
 public class Fornecedor {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class EmailDeGarantiaDadosDoEnvioImpl implements DadosDoEnvio {
+public class EmailDadosDoEnvioImpl implements DadosDoEnvio {
 
 	private static final long serialVersionUID = 1L;
 

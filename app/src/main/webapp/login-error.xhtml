@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="#{request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet" />
+	<title>OTRS | Login</title>
+</head>
+
+<style>
+
+    .logo-empresa {
+        width: 114px; 
+        height: 136px;
+        margin: 0 0 10px 80px;
+    }
+
+</style>
+
+	<body>
+        <div class="container-sm" style="max-width: 20vw; margin: 20vh auto;">
+
+            <div>
+                <img class="logo-empresa"  src="#{request.contextPath}/resources/images/logo-empresas/logo-empresa-cliente.png" alt="Logo da Empresa Cliente" />
+            </div>
+
+	        <form class="mb-3" action="j_security_check" method="post" id="login-form" >
+				<div style="text-align: center;">
+					<label style="display: inline-block; margin: 5px 0 10px 0">Serviço de Garantia</label>
+				</div>
+				<div class="alert alert-danger" role="alert" style="text-align: center;" >
+					<h6>Usuário ou Senha Incorretos</h6>
+				</div>
+	            <div class="form-floating mb-3">
+	                <input id="j_username" class="form-control" name="j_username" placeholder="Nome de Usuário" /> 
+	                <label for="j_username" class="form-label" >Nome de Usuário</label> 
+	            </div>
+
+	            <div class="form-floating mb-3">
+	                <input type="password" class="form-control" name="j_password" title="Type your Password" id="j_password" placeholder="Senha" />
+	                <label for="j_password" >Senha</label>
+	            </div>
+
+	            <div>
+	                <button type="submit" class="btn btn-primary">Login</button>
+	            </div>            
+			</form>
+		</div>
+
+		<script src="#{request.contextPath}/resources/js/bootstrap.min.js"></script>
+
+	</body>
+</html>
