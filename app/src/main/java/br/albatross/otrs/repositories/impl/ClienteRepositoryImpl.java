@@ -32,7 +32,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     @Override
     public List<Cliente> findAll() {
         return entityManager
-                .createQuery("SELECT c FROM Cliente c FETCH c.emailsParaContato ORDER BY c.nome", Cliente.class)
+                .createQuery("SELECT c FROM Cliente c ORDER BY c.nome", Cliente.class)
                 .setHint(AvailableHints.HINT_CACHEABLE, true)
                 .getResultList();
     }

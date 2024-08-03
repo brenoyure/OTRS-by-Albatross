@@ -61,10 +61,10 @@ public class Cliente {
     @Column(name = "possui_horario_de_almoco", nullable = false)
     private boolean possuiHorarioDeAlmoco;
 
-    @Column(name = "inicio_do_horario_do_almoco", nullable = true)
+    @Column(name = "inicio_do_horario_de_almoco", nullable = true)
     private LocalTime inicioDoHorarioDeAlmoco;
 
-    @Column(name = "fim_do_horario_do_almoco", nullable = true)
+    @Column(name = "fim_do_horario_de_almoco", nullable = true)
     private LocalTime fimDoHorarioDeAlmoco;
 
     public Cliente(DadosParaCadastroDeNovoCliente novosDados) {
@@ -82,8 +82,12 @@ public class Cliente {
         this.horarioInicioDoExpediente = novosDados.getHorarioInicioDoExpediente();
         this.horarioFimDoExpediente = novosDados.getHorarioFimDoExpediente();
 
-        this.inicioDoHorarioDeAlmoco = novosDados.getInicioDoHorarioDeAlmoco();
-        this.fimDoHorarioDeAlmoco = novosDados.getFimDoHorarioDeAlmoco();
+        this.possuiHorarioDeAlmoco = novosDados.getPossuiHorarioDeAlmoco();
+
+        if (possuiHorarioDeAlmoco) {
+            this.inicioDoHorarioDeAlmoco = novosDados.getInicioDoHorarioDeAlmoco();
+            this.fimDoHorarioDeAlmoco = novosDados.getFimDoHorarioDeAlmoco();
+        }
 
     }
 

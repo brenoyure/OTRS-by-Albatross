@@ -28,12 +28,12 @@ public class ClientesServiceImpl implements ClientesService {
             throw new ValidationException("Já existe um cliente cadastrado com o nome informado");
         }
 
-        if (clienteRepository.existsByNome(dadosDoNovoCliente.getDescricao())) {
+        if (clienteRepository.existsByDescricao(dadosDoNovoCliente.getDescricao())) {
             throw new ValidationException("Já existe um cliente cadastrado com a descrição informada");
         }
 
         if (dadosDoNovoCliente.getPossuiHorarioDeAlmoco() && (dadosDoNovoCliente.getInicioDoHorarioDeAlmoco() == null || dadosDoNovoCliente.getFimDoHorarioDeAlmoco() == null)) {
-            throw new ValidationException("Foi informado que o cliente: " + dadosDoNovoCliente.getNome() + " possui horário de almoço, porém o(s) horário(s) de início ou fim não foram informados");
+            throw new ValidationException("Foi informado que o cliente " + dadosDoNovoCliente.getNome() + " possui horário de almoço, porém o(s) horário(s) de início ou fim não foram informados");
         }
 
         Cliente novoCliente = new Cliente(dadosDoNovoCliente);
@@ -50,12 +50,12 @@ public class ClientesServiceImpl implements ClientesService {
             throw new ValidationException("Já existe outro cliente cadastrado com o nome informado");
         }
 
-        if (clienteRepository.existsByNomeAndNotById(dadosAtualizados.getDescricao(), dadosAtualizados.getId())) {
+        if (clienteRepository.existsByDescricaoAndNotById(dadosAtualizados.getDescricao(), dadosAtualizados.getId())) {
             throw new ValidationException("Já existe outro cliente cadastrado com a descrição informada");
         }
 
         if (dadosAtualizados.getPossuiHorarioDeAlmoco() && (dadosAtualizados.getInicioDoHorarioDeAlmoco() == null || dadosAtualizados.getFimDoHorarioDeAlmoco() == null)) {
-            throw new ValidationException("Foi informado que o cliente: " + dadosAtualizados.getNome() + " possui horário de almoço, porém o(s) horário(s) de início ou fim não foram informados");
+            throw new ValidationException("Foi informado que o cliente " + dadosAtualizados.getNome() + " possui horário de almoço, porém o(s) horário(s) de início ou fim não foram informados");
         }
 
         Cliente clienteAtualizado = new Cliente(dadosAtualizados);
