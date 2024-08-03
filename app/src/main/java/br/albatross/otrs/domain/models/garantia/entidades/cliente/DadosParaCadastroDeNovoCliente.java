@@ -31,6 +31,9 @@ public class DadosParaCadastroDeNovoCliente {
     private String numero;
 
     @Size(max = 55)
+    private String bairro;    
+
+    @Size(max = 55)
     private String estado;
 
     @Size(max = 55)

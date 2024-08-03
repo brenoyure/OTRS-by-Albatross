@@ -43,6 +43,7 @@ public class FormularioGenerator {
 
 				xwpfTable.getRow(10).getCell(1).setText(endereco.getLogradouro());
 				xwpfTable.getRow(11).getCell(1).setText(endereco.getNumero());
+				xwpfTable.getRow(13).getCell(1).setText(endereco.getBairro());
 				xwpfTable.getRow(14).getCell(1).setText(endereco.getCidade());
 				xwpfTable.getRow(15).getCell(1).setText(endereco.getEstado());
 				xwpfTable.getRow(17).getCell(1).setText(solicitacao.getDadosDoCliente().getNumerosParaContato());

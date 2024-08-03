@@ -16,8 +16,9 @@ CREATE TABLE IF NOT EXISTS clientes (
 
     logradouro VARCHAR(100),
     numero VARCHAR(55),
-    estado VARCHAR(55),
+    bairro VARCHAR(55),
     cidade VARCHAR(55),
+    estado VARCHAR(55),
     cep VARCHAR(13),
 
     horario_inicio_do_expediente TIME NOT NULL,

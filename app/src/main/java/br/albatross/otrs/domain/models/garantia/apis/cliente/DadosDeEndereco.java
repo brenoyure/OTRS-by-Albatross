@@ -8,6 +8,8 @@ public interface DadosDeEndereco extends Serializable {
 
     String getNumero();
 
+    String getBairro();
+
     String getEstado();
 
     String getCidade();

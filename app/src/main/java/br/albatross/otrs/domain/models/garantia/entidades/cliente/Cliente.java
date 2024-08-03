@@ -47,6 +47,9 @@ public class Cliente {
     private String numero;
 
     @Column(length = 55, unique = false, nullable = true)
+    private String bairro;    
+
+    @Column(length = 55, unique = false, nullable = true)
     private String estado;
 
     @Column(length = 55, unique = false, nullable = true)
@@ -79,6 +82,7 @@ public class Cliente {
 
         this.logradouro = novosDados.getLogradouro();
         this.numero = novosDados.getNumero();
+        this.bairro = novosDados.getBairro();
         this.estado = novosDados.getEstado();
         this.cidade = novosDados.getCidade();
         this.cep = novosDados.getCep();
