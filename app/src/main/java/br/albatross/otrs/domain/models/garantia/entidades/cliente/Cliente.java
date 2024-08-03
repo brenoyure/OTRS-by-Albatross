@@ -49,6 +49,9 @@ public class Cliente {
     @Column(length = 55, unique = false, nullable = true)
     private String estado;
 
+    @Column(length = 55, unique = false, nullable = true)
+    private String cidade;
+
     @Column(length = 13, unique = false, nullable = true)
     private String cep;
 
@@ -77,6 +80,7 @@ public class Cliente {
         this.logradouro = novosDados.getLogradouro();
         this.numero = novosDados.getNumero();
         this.estado = novosDados.getEstado();
+        this.cidade = novosDados.getCidade();
         this.cep = novosDados.getCep();
 
         this.horarioInicioDoExpediente = novosDados.getHorarioInicioDoExpediente();

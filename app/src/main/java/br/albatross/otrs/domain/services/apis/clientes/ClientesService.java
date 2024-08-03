@@ -15,6 +15,6 @@ public interface ClientesService {
 
     List<DadosDoCliente> listarClientesDisponiveis();
 
-    void excluirCliente(int id);
+    void excluirClientePeloId(int id);
 
 }

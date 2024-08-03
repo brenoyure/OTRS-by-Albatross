@@ -20,7 +20,7 @@
 
 	    <p:focus context="panel" />
 
-	        <p:fieldset legend="Serviço de Garantia" > 
+	        <p:fieldset legend="Serviço de Garantia" collapsed="false" toggleable="true" > 
 	                <p:panelGrid columns="2" id="panel" layout="tabular" >
 
                         <p:outputLabel for="selectOne-Fornecedor" value="Selecione o Fornecedor" />
@@ -65,30 +65,27 @@
 	                        <f:ajax execute="@this" render=":mensagens" />
 	                    </h:inputFile>
 
-	                    <br />
-
 	                </p:panelGrid>
 	        </p:fieldset>
-	        
+
             <p:fieldset legend="Dados do Envio" collapsed="false" toggleable="true" >
-                <p:panelGrid layout="flex" columns="2" >
-                        <p:outputLabel for="inputText-EmailRemetente" value="E-mail do Remetente: ">
-                            <p:inputText id="inputText-EmailRemetente" placeholder="email.do.atendente@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.remetente}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." size="50" >
-                                <f:ajax event="input" execute="@this" render="@this :mensagens" />
-                            </p:inputText>
-                        </p:outputLabel>
+                <p:panelGrid layout="tabular" columns="2" >
+                
+                        <p:outputLabel for="inputText-EmailRemetente" value="E-mail do Remetente: " />
+                        <p:inputText id="inputText-EmailRemetente" placeholder="email.do.atendente@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.remetente}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." size="50" >
+                            <f:ajax event="input" execute="@this" render="@this :mensagens" />
+                        </p:inputText>
 
-                        <p:outputLabel for="inputText-EmailDestino" value="E-mail(s) de Destino(s): ">
-                            <p:inputText id="inputText-EmailDestino" placeholder="suporte.fabricante@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.destinatario}" required="true" requiredMessage="E-mail de Destino Obrigatório." size="50" >
-                                <f:ajax event="input" execute="@this" render="@this :mensagens" />
-                            </p:inputText>
-                        </p:outputLabel>
+                        <p:outputLabel for="inputText-EmailDestino" value="E-mail(s) de Destino(s): " />
+                        <p:inputText id="inputText-EmailDestino" placeholder="suporte.fabricante@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.destinatario}" required="true" requiredMessage="E-mail de Destino Obrigatório." size="50" >
+                            <f:ajax event="input" execute="@this" render="@this :mensagens" />
+                        </p:inputText>
 
-                        <p:outputLabel for="inputText-EmailCopia" value="(Opcional) Cópia para: ">
-                            <p:inputText id="inputText-EmailCopia" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.copiaPara}" size="50" >
-                                <f:ajax event="input" execute="@this" render="@this" />
-                            </p:inputText>
-                        </p:outputLabel>
+                        <p:outputLabel for="inputText-EmailCopia" value="(Opcional) Cópia para: " />
+                        <p:inputText id="inputText-EmailCopia" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.copiaPara}" size="50" >
+                            <f:ajax event="input" execute="@this" render="@this" />
+                        </p:inputText>
+
                 </p:panelGrid>
             </p:fieldset>
 

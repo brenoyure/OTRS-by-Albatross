@@ -11,18 +11,20 @@
     <nav>
         <h:form style="margin:10px 0 10px 0">
             <p:menubar autoDisplay="true">
-                <p:menuitem  value="Serviço de Garantia"            icon="pi pi-wrench"             outcome="/otrs"                                                                                  />
-                <p:menuitem  value="Textos Prontos"                 icon="pi pi-align-left"         outcome="/administracao/problemas"              disabled="#{not request.isUserInRole('ADMIN')}"  />
+                <p:menuitem  value="Serviço de Garantia"            icon="pi pi-wrench"             outcome="/otrs"                                                                                   />
+                <p:menuitem  value="Textos Prontos"                 icon="pi pi-align-left"         outcome="/administracao/problemas"              disabled="#{not request.isUserInRole('ADMIN')}"   />
 
-	            <p:submenu label="Usuários"                         icon="pi pi-fw pi-user"                                                         disabled="#{not request.isUserInRole('ADMIN')}"   >
+	            <p:submenu label="Usuários"                         icon="pi pi-fw pi-user"                                                         disabled="#{not request.isUserInRole('ADMIN')}"    >
 	                <p:menuitem value="Novo"                        icon="pi pi-fw pi-user-plus"    outcome="/administracao/usuarios/cadastro"                                                        />
 	                <p:menuitem value="Listagem"                    icon="pi pi-fw pi-users"        outcome="/administracao/usuarios/listagem"                                                        />
 	            </p:submenu>
 
-                <p:submenu label="Fornecedores"                     icon="pi pi-warehouse"                                                          disabled="#{not request.isUserInRole('ADMIN')}"   >
+                <p:submenu label="Fornecedores"                     icon="pi pi-truck"                                                              disabled="#{not request.isUserInRole('ADMIN')}"    >
                     <p:menuitem value="Novo"                        icon="pi pi-plus-circle"        outcome="/administracao/fornecedores/cadastro"                                                    />
                     <p:menuitem value="Listagem"                    icon="pi pi-list-check"         outcome="/administracao/fornecedores/listagem"                                                    />
                 </p:submenu>
+
+                <p:menuitem  value="Clientes"                       icon="pi pi-building"           outcome="/administracao/clientes/listagem"      disabled="#{not request.isUserInRole('ADMIN')}"   />
 
                 <p:menuitem  value="Relatórios dos Serviços (Em Manutenção)"        icon="pi pi-history"            outcome="/administracao/solicitacoes/listagem"  disabled="true"                   />
 

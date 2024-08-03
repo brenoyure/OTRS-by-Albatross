@@ -12,12 +12,14 @@ public class DadosDeEnderecoDto implements DadosDeEndereco {
     private String logradouro;
     private String numero;
     private String estado;
+    private String cidade;
     private String cep;
 
     public DadosDeEnderecoDto(Cliente cliente) {
         this.logradouro = cliente.getLogradouro();
         this.numero = cliente.getNumero();
         this.estado = cliente.getEstado();
+        this.cidade = cliente.getCidade();
         this.cep = cliente.getCep();
     }
 

@@ -33,6 +33,9 @@ public class DadosParaCadastroDeNovoCliente {
     @Size(max = 55)
     private String estado;
 
+    @Size(max = 55)
+    private String cidade;    
+
     @Size(max = 13)
     private String cep;
 

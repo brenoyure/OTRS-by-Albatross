@@ -77,7 +77,7 @@ public class ClientesServiceImpl implements ClientesService {
     }
 
     @Override
-    public void excluirCliente(int id) {
+    public void excluirClientePeloId(int id) {
 
         if (clienteRepository.existsById(id)) {
             Cliente referenceDoCliente = clienteRepository.getReferenceById(id);

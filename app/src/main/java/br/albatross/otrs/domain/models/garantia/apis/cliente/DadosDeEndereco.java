@@ -8,6 +8,8 @@ public interface DadosDeEndereco {
 
     String getEstado();
 
+    String getCidade();
+
     String getCep();
 
 }
