@@ -9,6 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DadosDeEnderecoDto implements DadosDeEndereco {
 
+    private static final long serialVersionUID = 1L;
+
     private String logradouro;
     private String numero;
     private String estado;

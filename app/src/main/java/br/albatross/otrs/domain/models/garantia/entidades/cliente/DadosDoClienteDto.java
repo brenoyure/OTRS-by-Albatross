@@ -14,6 +14,8 @@ import lombok.Setter;
 @NoArgsConstructor @AllArgsConstructor
 public class DadosDoClienteDto implements DadosDoCliente {
 
+    private static final long serialVersionUID = 1L;
+
     private int id;
 
     private String nome;

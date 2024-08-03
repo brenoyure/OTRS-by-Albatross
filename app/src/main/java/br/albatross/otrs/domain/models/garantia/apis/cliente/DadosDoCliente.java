@@ -1,6 +1,8 @@
 package br.albatross.otrs.domain.models.garantia.apis.cliente;
 
-public interface DadosDoCliente {
+import java.io.Serializable;
+
+public interface DadosDoCliente extends Serializable {
 
     int getId();
     

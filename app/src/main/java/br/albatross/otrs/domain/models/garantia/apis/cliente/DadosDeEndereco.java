@@ -1,6 +1,8 @@
 package br.albatross.otrs.domain.models.garantia.apis.cliente;
 
-public interface DadosDeEndereco {
+import java.io.Serializable;
+
+public interface DadosDeEndereco extends Serializable {
 
     String getLogradouro();
 

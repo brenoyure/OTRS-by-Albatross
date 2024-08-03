@@ -11,6 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class HorariosDoClienteDto implements HorariosDoCliente {
 
+    private static final long serialVersionUID = 1L;
+
     private LocalTime horarioInicioDoExpediente;
     private LocalTime horarioFimDoExpediente;
 

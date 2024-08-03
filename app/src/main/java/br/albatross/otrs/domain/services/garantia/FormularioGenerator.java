@@ -12,6 +12,9 @@ import java.io.OutputStream;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
+import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDeEndereco;
+import br.albatross.otrs.domain.models.garantia.apis.cliente.HorariosDoCliente;
+import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import jakarta.enterprise.context.RequestScoped;
 
 @RequestScoped
@@ -24,12 +27,34 @@ public class FormularioGenerator {
 
 	private static final int STRING_BUILDER_SIZE = 5;
 
-	public File getFormulario(InputStream formTemplate, String numeroDeSerie, String descricaoDoProblema) {
+	public File getFormulario(InputStream formTemplate, SolicitacaoDeGarantia solicitacao) {
 		try (XWPFDocument doc = new XWPFDocument(formTemplate)) {
+
+            String numeroDeSerie = solicitacao.getNumeroDeSerie();
+            String descricaoDoProblema = solicitacao.getDescricaoDoProblema().getDescricaoDetalhada();
 
 			var xwpfTable = doc.getTableArray(0);
 
 				xwpfTable.getRow(2).getCell(1).setText(numeroDeSerie);
+				xwpfTable.getRow(3).getCell(1).setText(solicitacao.getDadosDoCliente().getNome() + " - " + solicitacao.getDadosDoCliente().getDescricao());
+				xwpfTable.getRow(7).getCell(1).setText(solicitacao.getDadosDoCliente().getNumerosParaContato());
+
+				DadosDeEndereco endereco = solicitacao.getDadosDoCliente().getDadosDeEndereco();
+
+				xwpfTable.getRow(10).getCell(1).setText(endereco.getLogradouro());
+				xwpfTable.getRow(11).getCell(1).setText(endereco.getNumero());
+				xwpfTable.getRow(14).getCell(1).setText(endereco.getCidade());
+				xwpfTable.getRow(15).getCell(1).setText(endereco.getEstado());
+				xwpfTable.getRow(17).getCell(1).setText(solicitacao.getDadosDoCliente().getNumerosParaContato());
+
+				HorariosDoCliente horarios = solicitacao.getDadosDoCliente().getHorarios();
+
+				xwpfTable.getRow(18).getCell(1).setText(horarios.getHorarioInicioDoExpediente() + " às " + horarios.getHorarioFimDoExpediente());
+
+				if (horarios.possuiHorarioDeAlmoco()) {
+				    xwpfTable.getRow(19).getCell(1).setText(horarios.getInicioDoHorarioDeAlmoco() + " às " + horarios.getFimDoHorarioDeAlmoco());
+				}
+
 				xwpfTable.getRow(20).getCell(1).setText(descricaoDoProblema);
 
 			var formularioTempFile = createTempFile(new StringBuilder(STRING_BUILDER_SIZE)
