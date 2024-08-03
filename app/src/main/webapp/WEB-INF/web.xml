@@ -58,4 +58,14 @@
         <welcome-file>/otrs.xhtml</welcome-file>
     </welcome-file-list>
 
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error/pages/forbidden-error-page.xhtml</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/pages/notfound-error-page.xhtml</location>
+    </error-page>
+
 </web-app>
