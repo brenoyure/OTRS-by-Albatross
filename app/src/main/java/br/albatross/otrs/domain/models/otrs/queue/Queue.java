@@ -3,7 +3,6 @@ package br.albatross.otrs.domain.models.otrs.queue;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import br.albatross.otrs.domain.models.otrs.Valid;
@@ -14,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,9 +26,7 @@ import lombok.Setter;
 @Entity @Table(name = "queue")
 @EqualsAndHashCode(of = "id")
 @Getter @Setter
-public class Queue implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Queue {
 
 	@Id @GeneratedValue(strategy = IDENTITY)
 	private Integer id;
