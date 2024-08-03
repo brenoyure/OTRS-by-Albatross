@@ -23,6 +23,13 @@
 	        <p:fieldset legend="Serviço de Garantia" collapsed="false" toggleable="true" > 
 	                <p:panelGrid columns="2" id="panel" layout="tabular" >
 
+                        <p:outputLabel for="selectOne-Cliente" value="Selecione o Solicitante" />
+                        <p:selectOneMenu id="selectOne-Cliente" value="#{otrsBean.solicitacao.dadosDoCliente}" required="true" requiredMessage="É Obrigatório informar qual cliente solicitará a garantia" converter="clienteConverter" >
+                            <f:selectItem itemLabel="Selecione o Cliente" itemDisabled="true" noSelectionOption="true" />
+                            <f:selectItems value="#{listaClientesBean.clientes}" var="cliente" itemValue="#{cliente}" itemLabel="#{cliente.nome} - #{cliente.descricao}" />
+                            <f:ajax event="change" render=":mensagens outputText-Assunto" />
+                        </p:selectOneMenu>
+
                         <p:outputLabel for="selectOne-Fornecedor" value="Selecione o Fornecedor" />
                         <p:selectOneMenu id="selectOne-Fornecedor" value="#{otrsBean.fornecedorSelecionado}" required="true" requiredMessage="É Obrigatório informar para qual fornecedor será a Solicitação de Garantia" converter="fornecedorConverter" >
                             <f:selectItem itemLabel="Selecione o Fornecedor" noSelectionOption="true" />

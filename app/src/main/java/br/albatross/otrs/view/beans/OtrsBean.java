@@ -71,7 +71,7 @@ public class OtrsBean implements Serializable {
 
 	public void definirAssuntoDoEmail() {
 
-	    if (solicitacao.getChamado() == null || solicitacao.getDadosDoFornecedor() == null || solicitacao.getDescricaoDoProblema() == null) {
+	    if (solicitacao.getChamado() == null || solicitacao.getDadosDoFornecedor() == null || solicitacao.getDescricaoDoProblema() == null || solicitacao.getDadosDoCliente() == null) {
 
 	        solicitacao.getEmailDeGarantia().setAssunto(null);
 	        return;

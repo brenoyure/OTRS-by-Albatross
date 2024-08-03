@@ -6,11 +6,12 @@ import br.albatross.otrs.domain.models.garantia.apis.cliente.HorariosDoCliente;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
 @EqualsAndHashCode(of = "id")
-@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 public class DadosDoClienteDto implements DadosDoCliente {
 
     private int id;
