@@ -1,7 +1,6 @@
 package br.albatross.otrs.domain.services.garantia;
 
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
-
 import jakarta.enterprise.context.RequestScoped;
 
 @RequestScoped
@@ -15,7 +14,9 @@ public class AssuntoEmailService {
 
         String fornecedor = emailGarantia.getSolicitacaoGarantia().getDadosDoFornecedor().getNome();
 
-        String template = String.format("[Ticket#%s] Problema %s %s - Company", numeroDoChamado, tipoDoProblema, fornecedor);
+        String cliente = emailGarantia.getSolicitacaoGarantia().getDadosDoCliente().getNome();
+
+        String template = String.format("[Ticket#%s] Problema %s %s - %s", numeroDoChamado, tipoDoProblema, fornecedor, cliente);
 
         return template;
 

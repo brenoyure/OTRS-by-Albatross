@@ -49,6 +49,15 @@
                     <p:outputLabel value="#{cliente.numerosParaContato}" />
                 </p:column>
 
+                <p:column style="cursor: default">
+                    <f:facet name="header">
+                        <h:outputLabel style="margin-right: 5px" styleClass="pi pi-clock" />
+                        <h:outputLabel value="Horários" />
+                    </f:facet>
+                    <p>Expediente: #{cliente.horarios.horarioInicioDoExpediente} às #{cliente.horarios.horarioFimDoExpediente}</p>
+                    <span jsf:rendered="#{cliente.horarios.possuiHorarioDeAlmoco}">Almoço: #{cliente.horarios.inicioDoHorarioDeAlmoco} às #{cliente.horarios.fimDoHorarioDeAlmoco}</span>
+                </p:column>
+
                 <p:column>
                     <f:facet name="header">
                       <h:outputLabel style="margin-right: 5px" styleClass="pi pi-trash" />
