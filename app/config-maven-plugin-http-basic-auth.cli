@@ -3,8 +3,8 @@
 deploy mariadb-java-client.jar
 
 ## 2 Adicionando os DataSources do sistema de chamados e dos textos prontos ####
-data-source add --name=OtrsDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mariadb://localhost:3306/otrsdb --user-name=root --password=Bl@ck0511 --enabled=true
-data-source add --name=ProblemaDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mariadb://localhost:3306/otrsdb_textos_prontos --user-name=root --password=Bl@ck0511 --enabled=true
+data-source add --name=OtrsDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mariadb://172.19.0.2:3306/otrsdb --user-name=albatross18 --password=pass123 --enabled=true
+data-source add --name=ProblemaDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mariadb://172.19.0.3:3306/otrsdb_textos_prontos --user-name=albatross18 --password=pass123 --enabled=true
 
 ### 3.Criando a Fila JMS ###
 jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue/OtrsEmailQueue

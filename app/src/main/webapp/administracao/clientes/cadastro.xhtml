@@ -7,7 +7,7 @@
 
 <ui:composition template="/_template.xhtml" >
 
-    <ui:define name="titulo">Cadastrado de Cliente</ui:define>
+    <ui:define name="titulo">Cadastro de Cliente</ui:define>
 
     <ui:define name="conteudo">
 
@@ -16,19 +16,126 @@
 
             <h:form id="form-cadastroCliente" >
 
-                <p:panelGrid id="panel" columns="2" layout="tabular" >
+                <p:fieldset legend="Cliente">
+	                <p:panelGrid id="panel" columns="2" layout="tabular" >
+	
+	                    <p:outputLabel for="@next" value="Nome: "/>
+	                    <p:inputText id="inputText-nome" value="#{cadastroClienteBean.dadosParaCadastro.nome}" maxlength="100" required="true" requiredMessage="Nome do Cliente é Obrigatório" size="100" />
+	
+	                    <p:outputLabel for="@next" value="Descrição: " />
+	                    <p:inputText id="inputText-descricao" value="#{cadastroClienteBean.dadosParaCadastro.descricao}" maxlength="255" required="true" requiredMessage="Forneça uma Descrição é Obrigatório" size="100" />
+	
+	                    <p:outputLabel for="@next" value="Número(s) para contato: " />
+	                    <p:inputText id="inputText-numerosParaContato" value="#{cadastroClienteBean.dadosParaCadastro.numerosParaContato}" maxlength="100" size="100" />
+	
+	                    <p:outputLabel for="@next" value="Email(s) para contato: " />
+	                    <p:inputText id="inputText-emailsParaContato" value="#{cadastroClienteBean.dadosParaCadastro.emailsParaContato}" size="100" />
+	
+	                </p:panelGrid>
+                </p:fieldset>
 
-                    <p:outputLabel for="@next" value="Nome: "/>
-                    <p:inputText id="inputText-clienteNome" value="#{cadastroClienteBean.dadosParaCadastro.nome}" />
+                <p:fieldset legend="Dados de Endereço" >
+	                <p:panelGrid id="panel-endereco" columns="2" layout="tabular" >
 
-                    <p:outputLabel value="Finalizar Cadastro: "/>
-                    <p:commandButton value="Cadastrar" action="#{cadastroClienteBean.cadastrarCliente()}" ajax="false" />
+	                    <p:outputLabel value="Rua / Avenida: ">
+	                       <p:inputText id="inputText-logradouro" value="#{cadastroClienteBean.dadosParaCadastro.logradouro}" maxlength="100" size="50" />
+	                    </p:outputLabel>
 
-                </p:panelGrid>
-                
+                        <p:outputLabel value="Número: ">
+                            <p:inputText id="inputText-numero" value="#{cadastroClienteBean.dadosParaCadastro.numero}" maxlength="55" size="10" />
+                        </p:outputLabel>
+
+                        <p:outputLabel value="Bairro: ">
+                            <p:inputText id="inputText-bairro" value="#{cadastroClienteBean.dadosParaCadastro.bairro}" maxlength="55" size="50" />
+                        </p:outputLabel>
+
+                        <p:outputLabel value="Estado: ">
+                            <p:inputText id="inputText-estado" value="#{cadastroClienteBean.dadosParaCadastro.estado}" maxlength="55" />
+                        </p:outputLabel>
+
+                        <p:outputLabel value="Cidade: ">
+                            <p:inputText id="inputText-cidade" value="#{cadastroClienteBean.dadosParaCadastro.cidade}" maxlength="55" size="30" />
+                        </p:outputLabel>
+
+                        <p:outputLabel value="CEP: ">
+                            <p:inputText id="inputText-cep" value="#{cadastroClienteBean.dadosParaCadastro.cep}" maxlength="13" />
+                        </p:outputLabel>
+	                    
+	                </p:panelGrid>
+                </p:fieldset>
+
+                <p:fieldset legend="Horários">
+                    <p:panelGrid id="panel-horarios" columns="2" layout="tabular" >
+
+                        <p:outputLabel value="Início do Expediente:">
+                            <p:inputText id="inputText-horarioInicioDoExpediente" type="time" value="#{cadastroClienteBean.dadosParaCadastro.horarioInicioDoExpediente}" required="true" requiredMessage="É necessário informar o horário de início do expediente" styleClass="form-control" >
+                                <f:convertDateTime pattern="HH:mm" type="localTime" timeZone="America/Fortaleza" />
+                            </p:inputText>
+                        </p:outputLabel>
+
+                        <p:outputLabel value="Fim do Expediente:">
+                            <p:inputText id="inputText-horarioFimDoExpediente" type="time" value="#{cadastroClienteBean.dadosParaCadastro.horarioFimDoExpediente}" required="true" requiredMessage="É necessário informar o horário do fim do expediente" styleClass="form-control" >
+                                <f:convertDateTime pattern="HH:mm" type="localTime" timeZone="America/Fortaleza" />
+                            </p:inputText>
+                        </p:outputLabel>
+
+                        <p:outputLabel for="@next" value="Possui Horário de Almoço?" />
+                        <h:selectBooleanCheckbox id="selectBoolean-possuiHorarioDeAlmoco" onchange="showOrHideHorariosDeAlmoco()" value="#{cadastroClienteBean.dadosParaCadastro.possuiHorarioDeAlmoco}" required="true" requiredMessage="É necessário informar se o cliente (órgão ou empresa, possui horário de almoço)" />
+                        
+                        <p:outputLabel value="Início do Horário de Almoço: ">
+                            <h:inputText id="inputText-inicioDoHorarioDeAlmoco" type="time" value="#{cadastroClienteBean.dadosParaCadastro.inicioDoHorarioDeAlmoco}" styleClass="form-control" >
+                                <f:convertDateTime pattern="HH:mm" type="localTime" timeZone="America/Fortaleza" />
+                            </h:inputText>
+                        </p:outputLabel>
+
+                        <p:outputLabel value="Fim do Horário de Almoço: ">
+                            <h:inputText id="inputText-fimDoHorarioDeAlmoco" type="time" value="#{cadastroClienteBean.dadosParaCadastro.fimDoHorarioDeAlmoco}" styleClass="form-control" >
+                                <f:convertDateTime pattern="HH:mm" type="localTime" timeZone="America/Fortaleza" />
+                            </h:inputText>
+                        </p:outputLabel>
+
+                    </p:panelGrid>
+                </p:fieldset>
+
+                <p:commandButton value="Cadastrar" action="#{cadastroClienteBean.cadastrarCliente()}" ajax="false" />
+
             </h:form>
 
         </p:fieldset>
+
+	    <script type="text/javascript" >
+
+	    const checkBoxPossuiHorarioDeAlmoco = document.getElementById('form-cadastroCliente:selectBoolean-possuiHorarioDeAlmoco');
+	    const inputInicioDoHorarioDeAlmoco = document.getElementById('form-cadastroCliente:inputText-inicioDoHorarioDeAlmoco');
+	    const inputFimDoHorarioDeAlmoco = document.getElementById('form-cadastroCliente:inputText-fimDoHorarioDeAlmoco');
+
+	    if (!checkBoxPossuiHorarioDeAlmoco.checked) {
+	        inputInicioDoHorarioDeAlmoco.hidden = true;
+	        inputFimDoHorarioDeAlmoco.hidden = true;
+		}
+
+	    function showOrHideHorariosDeAlmoco() {
+
+	        let inicioDoHorarioDeAlmoco = inputInicioDoHorarioDeAlmoco.value;
+	        let fimDoHorarioDeAlmoco = inputFimDoHorarioDeAlmoco.value;
+
+	        if (checkBoxPossuiHorarioDeAlmoco.checked) {
+
+	        	inputInicioDoHorarioDeAlmoco.value = '';
+	        	inputInicioDoHorarioDeAlmoco.hidden = false;
+
+	            inputFimDoHorarioDeAlmoco.value = '';
+	            inputFimDoHorarioDeAlmoco.hidden = false;
+
+	            return;
+		    }
+
+	        inputInicioDoHorarioDeAlmoco.hidden = true;
+	        inputFimDoHorarioDeAlmoco.hidden = true;
+
+		}
+   
+	    </script>
         
     </ui:define>
 

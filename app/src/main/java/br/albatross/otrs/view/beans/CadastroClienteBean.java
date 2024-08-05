@@ -12,6 +12,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ValidationException;
 import lombok.Getter;
 
 @Named @ViewScoped
@@ -35,10 +36,21 @@ public class CadastroClienteBean implements Serializable {
 
     @Transactional
     public String cadastrarCliente() {
+        try {
 
-        DadosDoCliente dadosDoCliente = service.cadastrarNovoCliente(dadosParaCadastro);
-        facesContext.addMessage(null, new FacesMessage("Cliente " + dadosDoCliente.getNome() + " cadastrado com sucesso"));
-        return facesContext.getViewRoot().getViewId() + "?faces-redirect=true";
+            facesContext.getExternalContext().getFlash().setKeepMessages(true);
+
+            DadosDoCliente dadosDoCliente = service.cadastrarNovoCliente(dadosParaCadastro);
+            facesContext.addMessage(null, new FacesMessage("Cliente " + dadosDoCliente.getNome() + " cadastrado com sucesso"));
+
+            return facesContext.getViewRoot().getViewId() + "?faces-redirect=true";
+
+        } catch (ValidationException e) {
+
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Dados Incorretos", e.getMessage()));
+            return null;
+
+        }
 
     }
 
