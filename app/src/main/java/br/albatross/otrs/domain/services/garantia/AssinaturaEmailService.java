@@ -8,11 +8,17 @@ public class AssinaturaEmailService {
 
 	public String getCorpoDoEmailComAssinatura(SolicitacaoDeGarantia solicitacao) {
 
+	    String nomeDoCliente = 
+	            solicitacao.getDadosDoCliente().getNome();
+
 	    String nomeEDescricaoDoCliente = 
-	            solicitacao.getDadosDoCliente().getNome() + " - " + solicitacao.getDadosDoCliente().getDescricao();
+	            nomeDoCliente + " - " + solicitacao.getDadosDoCliente().getDescricao();
 
 	    String numeroDeSerie = 
 	            solicitacao.getNumeroDeSerie();
+
+	    String nomeDoFornecedor =
+	            solicitacao.getDadosDoFornecedor().getNome();
 
 	    String numerosTelefonicosDoSolicitante = 
 	            solicitacao.getDadosDoCliente().getNumerosParaContato();
@@ -20,23 +26,40 @@ public class AssinaturaEmailService {
 	    String emailsDoSolicitante =
 	            solicitacao.getDadosDoCliente().getEmails();
 
+	    String cidade = 
+	            solicitacao.getDadosDoCliente().getDadosDeEndereco().getCidade();
+
+	    String estado = 
+	            solicitacao.getDadosDoCliente().getDadosDeEndereco().getEstado();
+
 		return String.format("""
 Prezados,
 Falamos do %s,
 Segue em anexo o formulário preenchido para abertura de solicitação de garantia para o equipamento: %s.
 
+Prezado atendente do fornecedor %s: 
+
 O formulário possui as informações necessárias sobre a solicitação, como, a descrição detalhada do problema,
 horários disponíveis, como também, os dados de endereço.
 
+As solicitações de garantia são realizadas através de um sistema interno de Solicitações de Garantia, com 
+o objetivo de automatizar os envios de solicitações para diversos fornecedores.
+
 Atenciosamente,
 --
-Serviço de Tecnologia da Informação
+%s
+%s/%s
+Serviço de Tecnologia da Informação (%s)
 %s
 %s
 
 				""",
 				nomeEDescricaoDoCliente,
 				numeroDeSerie,
+				nomeDoFornecedor,
+				nomeEDescricaoDoCliente,
+				cidade, estado,
+				nomeDoCliente,
 				numerosTelefonicosDoSolicitante,
 				emailsDoSolicitante);
 	}
