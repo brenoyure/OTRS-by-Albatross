@@ -24,7 +24,10 @@
                     <p:menuitem value="Listagem"                    icon="pi pi-list-check"         outcome="/administracao/fornecedores/listagem"                                                    />
                 </p:submenu>
 
-                <p:menuitem  value="Clientes"                       icon="pi pi-building"           outcome="/administracao/clientes/listagem"      disabled="#{not request.isUserInRole('ADMIN')}"   />
+                <p:submenu label="Clientes" icon="pi pi-building"                                                                                   disabled="#{not request.isUserInRole('ADMIN')}"    >
+                    <p:menuitem  value="Novo"                       icon="pi pi-plus-circle"        outcome="/administracao/clientes/cadastro"                                                        />
+                    <p:menuitem  value="Listagem"                   icon="pi pi-list-check"         outcome="/administracao/clientes/listagem"                                                        />
+                </p:submenu>
 
                 <p:menuitem  value="Relatórios dos Serviços (Em Manutenção)"        icon="pi pi-history"            outcome="/administracao/solicitacoes/listagem"  disabled="true"                   />
 

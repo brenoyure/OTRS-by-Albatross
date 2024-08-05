@@ -1,7 +1,5 @@
 package br.albatross.otrs.view.beans;
 
-import java.io.Serializable;
-
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
 import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaCadastroDeNovoFornecedor;
 import br.albatross.otrs.domain.services.apis.fornecedores.FornecedoresService;
@@ -15,9 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.Getter;
 
 @Named @RequestScoped
-public class CadastroFornecedorBean implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class CadastroFornecedorBean {
 
     @Inject
     private FornecedoresService service;
