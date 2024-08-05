@@ -11,6 +11,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ValidationException;
 import lombok.Getter;
 
 @Named @ViewScoped
@@ -29,9 +30,12 @@ public class AtualizacaoClienteBean implements Serializable {
 
     @Transactional
     public void atualizarCadastro() {
-
-        DadosDoCliente dadosDoCliente = service.atualizarCadastroDeCliente(dadosParaCadastro);
-        facesContext.addMessage(null, new FacesMessage("Cadastro do cliente " + dadosDoCliente.getNome() + " atualizado com sucesso"));
+        try {
+            DadosDoCliente dadosDoCliente = service.atualizarCadastroDeCliente(dadosParaCadastro);
+            facesContext.addMessage(null, new FacesMessage("Cadastro do cliente " + dadosDoCliente.getNome() + " atualizado com sucesso"));
+        } catch (ValidationException e) {
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Dados Incorretos", e.getMessage()));
+        }
 
     }
 

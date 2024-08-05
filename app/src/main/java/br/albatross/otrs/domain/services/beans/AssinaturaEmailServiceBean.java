@@ -13,7 +13,8 @@ public class AssinaturaEmailServiceBean {
 
 	public void setCorpoDaMensagemComAssinatura(EmailDeGarantia emailDeGarantia) {
 
-		emailDeGarantia.setCorpoDaMensagem(assinaturaEmailService.getCorpoDoEmailComAssinatura(emailDeGarantia.getSolicitacaoGarantia().getNumeroDeSerie()));
+	    String corpoDoEmailComAssinatura = assinaturaEmailService.getCorpoDoEmailComAssinatura(emailDeGarantia.getSolicitacaoGarantia());
+		emailDeGarantia.setCorpoDaMensagem(corpoDoEmailComAssinatura);
 
 	}
 
