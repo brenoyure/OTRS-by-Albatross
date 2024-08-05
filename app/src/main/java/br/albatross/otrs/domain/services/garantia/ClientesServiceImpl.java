@@ -1,6 +1,7 @@
 package br.albatross.otrs.domain.services.garantia;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
@@ -84,6 +85,11 @@ public class ClientesServiceImpl implements ClientesService {
             clienteRepository.remove(referenceDoCliente);
         }
 
+    }
+
+    @Override
+    public Optional<DadosDoCliente> buscarPorId(int id) {
+        return clienteRepository.findById(id).map(DadosDoClienteDto::new);
     }
 
 }

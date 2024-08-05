@@ -60,6 +60,17 @@
 
                 <p:column>
                     <f:facet name="header">
+                        <h:outputLabel value="Editar" />
+                        <h:outputLabel style="margin-left: 5px" styleClass="pi pi-user-edit" />
+                    </f:facet>
+                    <p:link outcome="/administracao/clientes/atualizacao" includeViewParams="true">
+                        <h:outputText title="Editar" value="Editar" styleClass="btn btn-primary" />
+                        <f:param name="clienteId" value="#{cliente.id}" />
+                    </p:link>
+                </p:column>
+
+                <p:column>
+                    <f:facet name="header">
                       <h:outputLabel style="margin-right: 5px" styleClass="pi pi-trash" />
                       <h:outputLabel value="Excluir" />
                     </f:facet>

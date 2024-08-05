@@ -5,13 +5,18 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
+<f:metadata>
+    <f:viewParam  name="clienteId" />
+    <f:viewAction action="#{atualizacaoClienteBean.carregarClientePeloId(param.clienteId)}" if="#{param.clienteId != null}" />
+</f:metadata>
+
 <ui:composition template="/_template.xhtml" >
 
-    <ui:define name="titulo">Cadastro de Cliente</ui:define>
+    <ui:define name="titulo">Atualização Cadastral de Cliente</ui:define>
 
     <ui:define name="conteudo">
 
-        <p:fieldset legend="Administração / Clientes / Cadastro" >
+        <p:fieldset legend="Administração / Clientes / Atualização" >
         <p:focus for=":form-cadastroCliente:panel" />
 
             <h:form id="form-cadastroCliente" >
@@ -20,16 +25,16 @@
 	                <p:panelGrid id="panel" columns="2" layout="tabular" >
 	
 	                    <p:outputLabel for="@next" value="Nome: "/>
-	                    <p:inputText id="inputText-nome" value="#{cadastroClienteBean.dadosParaCadastro.nome}" maxlength="100" required="true" requiredMessage="Nome do Cliente é Obrigatório" size="100" />
+	                    <p:inputText id="inputText-nome" value="#{atualizacaoClienteBean.dadosParaCadastro.nome}" maxlength="100" required="true" requiredMessage="Nome do Cliente é Obrigatório" size="100" />
 	
 	                    <p:outputLabel for="@next" value="Descrição: " />
-	                    <p:inputText id="inputText-descricao" value="#{cadastroClienteBean.dadosParaCadastro.descricao}" maxlength="255" required="true" requiredMessage="Forneça uma Descrição é Obrigatório" size="100" />
+	                    <p:inputText id="inputText-descricao" value="#{atualizacaoClienteBean.dadosParaCadastro.descricao}" maxlength="255" required="true" requiredMessage="Forneça uma Descrição é Obrigatório" size="100" />
 	
 	                    <p:outputLabel for="@next" value="Número(s) para contato: " />
-	                    <p:inputText id="inputText-numerosParaContato" value="#{cadastroClienteBean.dadosParaCadastro.numerosParaContato}" maxlength="100" size="100" />
+	                    <p:inputText id="inputText-numerosParaContato" value="#{atualizacaoClienteBean.dadosParaCadastro.numerosParaContato}" maxlength="100" size="100" />
 	
 	                    <p:outputLabel for="@next" value="Email(s) para contato: " />
-	                    <p:inputText id="inputText-emailsParaContato" value="#{cadastroClienteBean.dadosParaCadastro.emailsParaContato}" size="100" />
+	                    <p:inputText id="inputText-emailsParaContato" value="#{atualizacaoClienteBean.dadosParaCadastro.emailsParaContato}" size="100" />
 	
 	                </p:panelGrid>
                 </p:fieldset>
@@ -38,27 +43,27 @@
 	                <p:panelGrid id="panel-endereco" columns="2" layout="tabular" >
 
 	                    <p:outputLabel value="Rua / Avenida: ">
-	                       <p:inputText id="inputText-logradouro" value="#{cadastroClienteBean.dadosParaCadastro.logradouro}" maxlength="100" size="50" />
+	                       <p:inputText id="inputText-logradouro" value="#{atualizacaoClienteBean.dadosParaCadastro.logradouro}" maxlength="100" size="50" />
 	                    </p:outputLabel>
 
                         <p:outputLabel value="Número: ">
-                            <p:inputText id="inputText-numero" value="#{cadastroClienteBean.dadosParaCadastro.numero}" maxlength="55" size="10" />
+                            <p:inputText id="inputText-numero" value="#{atualizacaoClienteBean.dadosParaCadastro.numero}" maxlength="55" size="10" />
                         </p:outputLabel>
 
                         <p:outputLabel value="Bairro: ">
-                            <p:inputText id="inputText-bairro" value="#{cadastroClienteBean.dadosParaCadastro.bairro}" maxlength="55" size="50" />
+                            <p:inputText id="inputText-bairro" value="#{atualizacaoClienteBean.dadosParaCadastro.bairro}" maxlength="55" size="50" />
                         </p:outputLabel>
 
                         <p:outputLabel value="Estado: ">
-                            <p:inputText id="inputText-estado" value="#{cadastroClienteBean.dadosParaCadastro.estado}" maxlength="55" />
+                            <p:inputText id="inputText-estado" value="#{atualizacaoClienteBean.dadosParaCadastro.estado}" maxlength="55" />
                         </p:outputLabel>
 
                         <p:outputLabel value="Cidade: ">
-                            <p:inputText id="inputText-cidade" value="#{cadastroClienteBean.dadosParaCadastro.cidade}" maxlength="55" size="30" />
+                            <p:inputText id="inputText-cidade" value="#{atualizacaoClienteBean.dadosParaCadastro.cidade}" maxlength="55" size="30" />
                         </p:outputLabel>
 
                         <p:outputLabel value="CEP: ">
-                            <p:inputText id="inputText-cep" value="#{cadastroClienteBean.dadosParaCadastro.cep}" maxlength="13" />
+                            <p:inputText id="inputText-cep" value="#{atualizacaoClienteBean.dadosParaCadastro.cep}" maxlength="13" />
                         </p:outputLabel>
 	                    
 	                </p:panelGrid>
@@ -68,28 +73,28 @@
                     <p:panelGrid id="panel-horarios" columns="2" layout="tabular" >
 
                         <p:outputLabel value="Início do Expediente:">
-                            <p:inputText id="inputText-horarioInicioDoExpediente" type="time" value="#{cadastroClienteBean.dadosParaCadastro.horarioInicioDoExpediente}" required="true" requiredMessage="É necessário informar o horário de início do expediente" styleClass="form-control" >
+                            <p:inputText id="inputText-horarioInicioDoExpediente" type="time" value="#{atualizacaoClienteBean.dadosParaCadastro.horarioInicioDoExpediente}" required="true" requiredMessage="É necessário informar o horário de início do expediente" styleClass="form-control" >
                                 <f:convertDateTime pattern="HH:mm" type="localTime" timeZone="America/Fortaleza" />
                             </p:inputText>
                         </p:outputLabel>
 
                         <p:outputLabel value="Fim do Expediente:">
-                            <p:inputText id="inputText-horarioFimDoExpediente" type="time" value="#{cadastroClienteBean.dadosParaCadastro.horarioFimDoExpediente}" required="true" requiredMessage="É necessário informar o horário do fim do expediente" styleClass="form-control" >
+                            <p:inputText id="inputText-horarioFimDoExpediente" type="time" value="#{atualizacaoClienteBean.dadosParaCadastro.horarioFimDoExpediente}" required="true" requiredMessage="É necessário informar o horário do fim do expediente" styleClass="form-control" >
                                 <f:convertDateTime pattern="HH:mm" type="localTime" timeZone="America/Fortaleza" />
                             </p:inputText>
                         </p:outputLabel>
 
                         <p:outputLabel for="@next" value="Possui Horário de Almoço?" />
-                        <h:selectBooleanCheckbox id="selectBoolean-possuiHorarioDeAlmoco" onchange="showOrHideHorariosDeAlmoco()" value="#{cadastroClienteBean.dadosParaCadastro.possuiHorarioDeAlmoco}" required="true" requiredMessage="É necessário informar se o cliente (órgão ou empresa, possui horário de almoço)" />
+                        <h:selectBooleanCheckbox id="selectBoolean-possuiHorarioDeAlmoco" onchange="showOrHideHorariosDeAlmoco()" value="#{atualizacaoClienteBean.dadosParaCadastro.possuiHorarioDeAlmoco}" required="true" requiredMessage="É necessário informar se o cliente (órgão ou empresa, possui horário de almoço)" />
 
                         <p:outputLabel value="Início do Horário de Almoço: ">
-                            <h:inputText id="inputText-inicioDoHorarioDeAlmoco" type="time" value="#{cadastroClienteBean.dadosParaCadastro.inicioDoHorarioDeAlmoco}" styleClass="form-control" >
+                            <h:inputText id="inputText-inicioDoHorarioDeAlmoco" type="time" value="#{atualizacaoClienteBean.dadosParaCadastro.inicioDoHorarioDeAlmoco}" styleClass="form-control" >
                                 <f:convertDateTime pattern="HH:mm" type="localTime" timeZone="America/Fortaleza" />
                             </h:inputText>
                         </p:outputLabel>
 
                         <p:outputLabel value="Fim do Horário de Almoço: ">
-                            <h:inputText id="inputText-fimDoHorarioDeAlmoco" type="time" value="#{cadastroClienteBean.dadosParaCadastro.fimDoHorarioDeAlmoco}" styleClass="form-control" >
+                            <h:inputText id="inputText-fimDoHorarioDeAlmoco" type="time" value="#{atualizacaoClienteBean.dadosParaCadastro.fimDoHorarioDeAlmoco}" styleClass="form-control" >
                                 <f:convertDateTime pattern="HH:mm" type="localTime" timeZone="America/Fortaleza" />
                             </h:inputText>
                         </p:outputLabel>
@@ -97,7 +102,7 @@
                     </p:panelGrid>
                 </p:fieldset>
 
-                <p:commandButton value="Cadastrar" action="#{cadastroClienteBean.cadastrarCliente()}" update="@form :mensagens" />
+                <p:commandButton value="Cadastrar" actionListener="#{atualizacaoClienteBean.atualizarCadastro()}" update="@form :mensagens" />
 
             </h:form>
 
@@ -121,10 +126,8 @@
 
 	        if (checkBoxPossuiHorarioDeAlmoco.checked) {
 
-	        	inputInicioDoHorarioDeAlmoco.value = '';
 	        	inputInicioDoHorarioDeAlmoco.hidden = false;
 
-	            inputFimDoHorarioDeAlmoco.value = '';
 	            inputFimDoHorarioDeAlmoco.hidden = false;
 
 	            return;

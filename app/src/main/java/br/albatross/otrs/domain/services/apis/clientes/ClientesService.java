@@ -1,6 +1,7 @@
 package br.albatross.otrs.domain.services.apis.clientes;
 
 import java.util.List;
+import java.util.Optional;
 
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaAtualizacaoCadastralDoCliente;
@@ -12,6 +13,8 @@ public interface ClientesService {
     DadosDoCliente cadastrarNovoCliente(@Valid DadosParaCadastroDeNovoCliente dadosDoNovoCliente);
 
     DadosDoCliente atualizarCadastroDeCliente(@Valid DadosParaAtualizacaoCadastralDoCliente dadosAtualizados);
+
+    Optional<DadosDoCliente> buscarPorId(int id);
 
     List<DadosDoCliente> listarClientesDisponiveis();
 
