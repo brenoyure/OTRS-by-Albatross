@@ -130,7 +130,7 @@ class ClientesServiceImplTest {
     }
 
     @Test
-    @DisplayName("Deve invocar o getReference() em seguida o remove(), apenas SE o Cliente com o Id informado existir")
+    @DisplayName("Apenas SE o Cliente com o Id informado existir, deve invocar o getReference() em seguida o remove()")
     void deveInvocarOGetReferenceEoRemoveApenasSeOClienteExistirPeloId() {
 
         BDDMockito
