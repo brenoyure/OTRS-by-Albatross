@@ -10,8 +10,10 @@ import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosDoCliente
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaAtualizacaoCadastralDoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaCadastroDeNovoCliente;
 import br.albatross.otrs.domain.services.apis.clientes.ClientesService;
+import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoCadastroNovoCliente;
 import br.albatross.otrs.repositories.api.ClienteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
@@ -21,21 +23,14 @@ public class ClientesServiceImpl implements ClientesService {
 
     @Inject
     private ClienteRepository clienteRepository;
-    
+
+    @Inject
+    private Instance<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
+
     @Override
     public DadosDoCliente cadastrarNovoCliente(@Valid DadosParaCadastroDeNovoCliente dadosDoNovoCliente) {
-        
-        if (clienteRepository.existsByNome(dadosDoNovoCliente.getNome())) {
-            throw new ValidationException("Já existe outro cliente cadastrado com o nome informado");
-        }
 
-        if (clienteRepository.existsByDescricao(dadosDoNovoCliente.getDescricao())) {
-            throw new ValidationException("Já existe outro cliente cadastrado com a descrição informada");
-        }
-
-        if (dadosDoNovoCliente.getPossuiHorarioDeAlmoco() && (dadosDoNovoCliente.getInicioDoHorarioDeAlmoco() == null || dadosDoNovoCliente.getFimDoHorarioDeAlmoco() == null)) {
-            throw new ValidationException("Foi informado que o cliente " + dadosDoNovoCliente.getNome() + " possui horário de almoço, porém o(s) horário(s) de início ou fim não foram informados");
-        }
+        validacoesNovoCliente.forEach(validacao -> validacao.validar(dadosDoNovoCliente));
 
         Cliente novoCliente = new Cliente(dadosDoNovoCliente);
         clienteRepository.persist(novoCliente);
@@ -64,7 +59,7 @@ public class ClientesServiceImpl implements ClientesService {
 
         clienteAtualizado = clienteRepository.merge(clienteAtualizado);
 
-        return new DadosDoClienteDto(clienteAtualizado);        
+        return new DadosDoClienteDto(clienteAtualizado);
 
     }
 

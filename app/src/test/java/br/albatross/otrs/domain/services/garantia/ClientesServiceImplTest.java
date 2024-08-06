@@ -150,8 +150,8 @@ class ClientesServiceImplTest {
     }
 
     @Test
-    @DisplayName("Lança ValidationException caso o cliente possua horário de almoço, mas um dos horários não foi informado")
-    void deveLancarValidationExceptionCasoPossuaHorarioDeAlmocoPoremOsInformadosSaoInvalidos() {
+    @DisplayName("Lança ValidationException caso o cliente possua horário de almoço, porém os horários de inicio e fim não foram informados")
+    void deveLancarValidationExceptionCasoPossuaHorarioDeAlmocoPoremOsHorariosDeInicioEFimNaoForamInformados() {
 
         /*
          * Flag indicando que o Cliente possui horário de almoço
@@ -162,10 +162,55 @@ class ClientesServiceImplTest {
                 Assertions
                     .assertThrows(ValidationException.class, () -> service.cadastrarNovoCliente(dto));
 
+        /*
+         * Mensagem de Erro esperada
+         */
         String expectedMessage = 
                 "Foi informado que o cliente Empresa XPTO possui horário de almoço, porém o(s) horário(s) de início ou fim não foram informados";
 
         assertEquals(expectedMessage, horarioDeAlmocoValidationException.getMessage());
+
+    }
+
+    @Test
+    @DisplayName("Deve lançar ValidationException caso o cliente possua horário de almoço, porém apenas o horário de incio for informado")
+    void deveLancarValidationExceptionCasoOClientePossuiHorarioDeAlmocoMasApenasOInicioFoiInformado() {
+        
+        /*
+         * Flag indicando que o Cliente possui horário de almoço
+         */
+        dto.setPossuiHorarioDeAlmoco(true);
+        dto.setInicioDoHorarioDeAlmoco(LocalTime.of(12, 0));
+
+        ValidationException horarioDeAlmocoValidationException = 
+                Assertions
+                    .assertThrows(ValidationException.class, () -> service.cadastrarNovoCliente(dto));
+
+        String expectedMessage = 
+                "Foi informado que o cliente Empresa XPTO possui horário de almoço, porém o(s) horário(s) de início ou fim não foram informados";
+
+        assertEquals(expectedMessage, horarioDeAlmocoValidationException.getMessage());        
+
+    }
+
+    @Test
+    @DisplayName("Deve lançar ValidationException caso o cliente possua horário de almoço, porém apenas o horário de fim for informado")
+    void deveLancarValidationExceptionCasoOClientePossuiHorarioDeAlmocoMasApenasOFimFoiInformado() {
+
+        /*
+         * Flag indicando que o Cliente possui horário de almoço
+         */
+        dto.setPossuiHorarioDeAlmoco(true);
+        dto.setFimDoHorarioDeAlmoco(LocalTime.of(13, 0));
+
+        ValidationException horarioDeAlmocoValidationException = 
+                Assertions
+                    .assertThrows(ValidationException.class, () -> service.cadastrarNovoCliente(dto));
+
+        String expectedMessage = 
+                "Foi informado que o cliente Empresa XPTO possui horário de almoço, porém o(s) horário(s) de início ou fim não foram informados";
+
+        assertEquals(expectedMessage, horarioDeAlmocoValidationException.getMessage());        
 
     }
 
@@ -214,36 +259,6 @@ class ClientesServiceImplTest {
         inOrder.verify(repository).getReferenceById(mockedClienteId);
         inOrder.verify(repository).remove(cliente);
 
-    }    
+    }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
