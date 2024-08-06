@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.mockito.Captor;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -20,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
+import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaAtualizacaoCadastralDoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaCadastroDeNovoCliente;
 import br.albatross.otrs.repositories.api.ClienteRepository;
 import jakarta.validation.ValidationException;
@@ -53,10 +55,10 @@ class ClientesServiceImplTest {
         dto.setHorarioFimDoExpediente(LocalTime.of(17, 0));
 
     }
-    
+
     @Test
-    @DisplayName("Lança ValidationException se outro cliente com o nome informado já existir")
-    void deveLancarValidationExceptionSeNomeDoClienteJaExistir() {
+    @DisplayName("Ao cadastrar um novo cliente, deve lançar ValidationException se outro cliente com o nome informado já existir")
+    void aoCadastrarNovoClienteDeveLancarValidationExceptionSeNomeDoClienteJaExistir() {
 
         BDDMockito
             .given(repository.existsByNome(dto.getNome())).willReturn(true);
@@ -65,13 +67,32 @@ class ClientesServiceImplTest {
             Assertions.assertThrows(ValidationException.class, () -> service.cadastrarNovoCliente(dto));
 
         Assertions
-            .assertTrue(() -> nomeValidationException.getMessage().contains("Já existe um cliente cadastrado com o nome informado"));
+            .assertTrue(() -> nomeValidationException.getMessage().contains("Já existe outro cliente cadastrado com o nome informado"));
 
     }
 
     @Test
-    @DisplayName("Lança ValidationException se outro cliente com a descrição informada já existir")
-    void deveLancarValidationExceptionSeADescricaoDoClienteJaExistir() {
+    @DisplayName("Ao atualizar um cliente, deve lançar ValidationException se outro cliente com o nome informado já existir")
+    void aoAtualizarUmClienteDeveLancarValidationExceptionSeNomeDoClienteJaExistir() {
+
+        DadosParaAtualizacaoCadastralDoCliente dadosMockados = 
+                Mockito.mock(DadosParaAtualizacaoCadastralDoCliente.class);
+
+        BDDMockito
+            .given(repository.existsByNomeAndNotById(dadosMockados.getNome(), dadosMockados.getId()))
+            .willReturn(true);
+
+        ValidationException nomeValidationException = 
+                Assertions.assertThrows(ValidationException.class, () -> service.atualizarCadastroDeCliente(dadosMockados));
+
+            Assertions
+                .assertTrue(() -> nomeValidationException.getMessage().contains("Já existe outro cliente cadastrado com o nome informado"));        
+
+    }
+
+    @Test
+    @DisplayName("Ao cadastrar, deve lançar ValidationException se outro cliente com a descrição informada já existir")
+    void aoCadastrarNovoClienteDeveLancarValidationExceptionSeADescricaoDoClienteJaExistir() {
 
         BDDMockito
             .given(repository.existsByDescricao(dto.getDescricao())).willReturn(true);
@@ -80,9 +101,28 @@ class ClientesServiceImplTest {
             Assertions.assertThrows(ValidationException.class, () -> service.cadastrarNovoCliente(dto));
 
         Assertions
-            .assertEquals("Já existe um cliente cadastrado com a descrição informada", descricaoValidationException.getMessage());
+            .assertEquals("Já existe outro cliente cadastrado com a descrição informada", descricaoValidationException.getMessage());
 
     }
+
+    @Test
+    @DisplayName("Ao atualizar, deve lançar ValidationException se outro cliente com a descrição informada já existir")
+    void aoAtualizarUmClienteDeveLancarValidationExceptionSeADescricaoDoClienteJaExistir() {
+
+        DadosParaAtualizacaoCadastralDoCliente dadosMockados = 
+                Mockito.mock(DadosParaAtualizacaoCadastralDoCliente.class);
+
+        BDDMockito
+            .given(repository.existsByDescricaoAndNotById(dadosMockados.getDescricao(), dadosMockados.getId()))
+            .willReturn(true);
+
+        ValidationException descricaoValidationException = 
+            Assertions.assertThrows(ValidationException.class, () -> service.atualizarCadastroDeCliente(dadosMockados));
+
+        Assertions
+            .assertEquals("Já existe outro cliente cadastrado com a descrição informada", descricaoValidationException.getMessage());
+
+    }    
 
     @Test
     @DisplayName("Verifica se a entidade Cliente é corretamente preenchida com os dados obrigatórios do DTO")
@@ -149,6 +189,32 @@ class ClientesServiceImplTest {
             .remove(cliente);        
 
     }
+
+    @Test
+    @DisplayName("Verifica a ordem de invocação dos métodos getReference() em seguida o remove()")
+    void verificaAOrdemDeInvocacaoDosMetodosGetReferenceERemove() {
+
+        int mockedClienteId = 1;
+
+        BDDMockito
+            .given(repository.existsById(mockedClienteId))
+            .willReturn(true);
+
+        BDDMockito
+            .given(repository.getReferenceById(mockedClienteId))
+            .willReturn(cliente);
+
+        service
+            .excluirClientePeloId(mockedClienteId);
+
+        InOrder inOrder = 
+            Mockito.inOrder(repository);
+
+        inOrder.verify(repository).existsById(mockedClienteId);
+        inOrder.verify(repository).getReferenceById(mockedClienteId);
+        inOrder.verify(repository).remove(cliente);
+
+    }    
 
 }
 

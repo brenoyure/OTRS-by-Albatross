@@ -26,11 +26,11 @@ public class ClientesServiceImpl implements ClientesService {
     public DadosDoCliente cadastrarNovoCliente(@Valid DadosParaCadastroDeNovoCliente dadosDoNovoCliente) {
         
         if (clienteRepository.existsByNome(dadosDoNovoCliente.getNome())) {
-            throw new ValidationException("Já existe um cliente cadastrado com o nome informado");
+            throw new ValidationException("Já existe outro cliente cadastrado com o nome informado");
         }
 
         if (clienteRepository.existsByDescricao(dadosDoNovoCliente.getDescricao())) {
-            throw new ValidationException("Já existe um cliente cadastrado com a descrição informada");
+            throw new ValidationException("Já existe outro cliente cadastrado com a descrição informada");
         }
 
         if (dadosDoNovoCliente.getPossuiHorarioDeAlmoco() && (dadosDoNovoCliente.getInicioDoHorarioDeAlmoco() == null || dadosDoNovoCliente.getFimDoHorarioDeAlmoco() == null)) {
