@@ -7,12 +7,12 @@ import org.hibernate.jpa.AvailableHints;
 
 import br.albatross.otrs.domain.dao.apis.fornecedores.FornecedoresDao;
 import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.Fornecedor;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 
-@RequestScoped
+@ApplicationScoped
 public class FornecedoresDaoImpl implements FornecedoresDao {
 
     @PersistenceContext(unitName = "otrsdb_textos_prontos")

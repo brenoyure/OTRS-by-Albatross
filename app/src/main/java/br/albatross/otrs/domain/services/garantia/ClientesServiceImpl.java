@@ -38,7 +38,7 @@ public class ClientesServiceImpl implements ClientesService {
         }
 
         Cliente novoCliente = new Cliente(dadosDoNovoCliente);
-        novoCliente = clienteRepository.persist(novoCliente);
+        clienteRepository.persist(novoCliente);
 
         return new DadosDoClienteDto(novoCliente);
 
