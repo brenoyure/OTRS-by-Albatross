@@ -23,7 +23,9 @@ import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaAtualizacaoCadastralDoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaCadastroDeNovoCliente;
+import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoCadastroNovoCliente;
 import br.albatross.otrs.repositories.api.ClienteRepository;
+import jakarta.enterprise.inject.Instance;
 import jakarta.validation.ValidationException;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,6 +40,9 @@ class ClientesServiceImplTest {
 
     @Mock
     private Cliente cliente;
+
+    @Mock
+    private Instance<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
 
     @InjectMocks
     private ClientesServiceImpl service;

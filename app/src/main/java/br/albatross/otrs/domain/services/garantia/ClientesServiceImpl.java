@@ -13,7 +13,6 @@ import br.albatross.otrs.domain.services.apis.clientes.ClientesService;
 import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoCadastroNovoCliente;
 import br.albatross.otrs.repositories.api.ClienteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
@@ -25,7 +24,7 @@ public class ClientesServiceImpl implements ClientesService {
     private ClienteRepository clienteRepository;
 
     @Inject
-    private Instance<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
+    private List<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
 
     @Override
     public DadosDoCliente cadastrarNovoCliente(@Valid DadosParaCadastroDeNovoCliente dadosDoNovoCliente) {
