@@ -10,12 +10,12 @@ import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosDoCliente
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaAtualizacaoCadastralDoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaCadastroDeNovoCliente;
 import br.albatross.otrs.domain.services.apis.clientes.ClientesService;
+import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoAtualizacaoCliente;
 import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoCadastroNovoCliente;
 import br.albatross.otrs.repositories.api.ClienteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
-import jakarta.validation.ValidationException;
 
 @ApplicationScoped
 public class ClientesServiceImpl implements ClientesService {
@@ -25,6 +25,9 @@ public class ClientesServiceImpl implements ClientesService {
 
     @Inject
     private List<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
+
+    @Inject
+    private List<ValidacaoAtualizacaoCliente> validacoesAtualizacaoCliente;
 
     @Override
     public DadosDoCliente cadastrarNovoCliente(@Valid DadosParaCadastroDeNovoCliente dadosDoNovoCliente) {
@@ -41,24 +44,9 @@ public class ClientesServiceImpl implements ClientesService {
     @Override
     public DadosDoCliente atualizarCadastroDeCliente(@Valid DadosParaAtualizacaoCadastralDoCliente dadosAtualizados) {
 
-        if (clienteRepository.existsByNomeAndNotById(dadosAtualizados.getNome(), dadosAtualizados.getId())) {
-            throw new ValidationException("Já existe outro cliente cadastrado com o nome informado");
-        }
-
-        if (clienteRepository.existsByDescricaoAndNotById(dadosAtualizados.getDescricao(), dadosAtualizados.getId())) {
-            throw new ValidationException("Já existe outro cliente cadastrado com a descrição informada");
-        }
-
-        if (dadosAtualizados.getPossuiHorarioDeAlmoco() && (dadosAtualizados.getInicioDoHorarioDeAlmoco() == null || dadosAtualizados.getFimDoHorarioDeAlmoco() == null)) {
-            throw new ValidationException("Foi informado que o cliente " + dadosAtualizados.getNome() + " possui horário de almoço, porém o(s) horário(s) de início ou fim não foram informados");
-        }
-
+        validacoesAtualizacaoCliente.forEach(validacao -> validacao.validar(dadosAtualizados));
         Cliente clienteAtualizado = new Cliente(dadosAtualizados);
-        clienteAtualizado.setId(dadosAtualizados.getId());
-
-        clienteAtualizado = clienteRepository.merge(clienteAtualizado);
-
-        return new DadosDoClienteDto(clienteAtualizado);
+        return new DadosDoClienteDto(clienteRepository.merge(clienteAtualizado));
 
     }
 

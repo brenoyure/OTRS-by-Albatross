@@ -7,12 +7,13 @@ import jakarta.validation.ValidationException;
 
 /**
  * 
- * Validação referente aos horários de almoço.
+ * <p>Validação referente aos horários de almoço.</p>
  * 
- * Caso for informado que o Cliente possui horário de almoço, e algum desses horários ou ambos não 
- * forem informados, a validação falhará.
+ * <p>Caso for informado que o Cliente possui horário de almoço, e algum desses horários ou ambos não 
+ * forem informados, a validação falhará.</p>
  * 
  * @author breno.brito
+ * 
  */
 @RequestScoped
 public class ValidacaoHorariosDeAlmocoDoCliente implements ValidacaoCadastroNovoCliente, ValidacaoAtualizacaoCliente {

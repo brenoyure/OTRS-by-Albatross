@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.then;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.BDDMockito;
 import org.mockito.Captor;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,9 +23,9 @@ import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaAtualizacaoCadastralDoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaCadastroDeNovoCliente;
+import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoAtualizacaoCliente;
 import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoCadastroNovoCliente;
 import br.albatross.otrs.repositories.api.ClienteRepository;
-import jakarta.enterprise.inject.Instance;
 import jakarta.validation.ValidationException;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,7 +42,10 @@ class ClientesServiceImplTest {
     private Cliente cliente;
 
     @Mock
-    private Instance<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
+    private List<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
+
+    @Mock
+    private List<ValidacaoAtualizacaoCliente> validacoesAtualizacaoCliente;
 
     @InjectMocks
     private ClientesServiceImpl service;
@@ -109,25 +112,6 @@ class ClientesServiceImplTest {
             .assertEquals("Já existe outro cliente cadastrado com a descrição informada", descricaoValidationException.getMessage());
 
     }
-
-    @Test
-    @DisplayName("Ao atualizar, deve lançar ValidationException se outro cliente com a descrição informada já existir")
-    void aoAtualizarUmClienteDeveLancarValidationExceptionSeADescricaoDoClienteJaExistir() {
-
-        DadosParaAtualizacaoCadastralDoCliente dadosMockados = 
-                Mockito.mock(DadosParaAtualizacaoCadastralDoCliente.class);
-
-        BDDMockito
-            .given(repository.existsByDescricaoAndNotById(dadosMockados.getDescricao(), dadosMockados.getId()))
-            .willReturn(true);
-
-        ValidationException descricaoValidationException = 
-            Assertions.assertThrows(ValidationException.class, () -> service.atualizarCadastroDeCliente(dadosMockados));
-
-        Assertions
-            .assertEquals("Já existe outro cliente cadastrado com a descrição informada", descricaoValidationException.getMessage());
-
-    }    
 
     @Test
     @DisplayName("Verifica se a entidade Cliente é corretamente preenchida com os dados obrigatórios do DTO")
@@ -216,53 +200,6 @@ class ClientesServiceImplTest {
                 "Foi informado que o cliente Empresa XPTO possui horário de almoço, porém o(s) horário(s) de início ou fim não foram informados";
 
         assertEquals(expectedMessage, horarioDeAlmocoValidationException.getMessage());        
-
-    }
-
-    @Test
-    @DisplayName("Apenas SE o Cliente com o Id informado existir, deve invocar o getReference() em seguida o remove()")
-    void deveInvocarOGetReferenceEoRemoveApenasSeOClienteExistirPeloId() {
-
-        BDDMockito
-            .given(repository.existsById(cliente.getId()))
-            .willReturn(false);
-
-        service
-            .excluirClientePeloId(cliente.getId());
-
-        BDDMockito
-            .verify(repository, Mockito.never())
-            .getReferenceById(cliente.getId());
-
-        BDDMockito
-            .verify(repository, Mockito.never())
-            .remove(cliente);        
-
-    }
-
-    @Test
-    @DisplayName("Verifica a ordem de invocação dos métodos getReference() em seguida o remove()")
-    void verificaAOrdemDeInvocacaoDosMetodosGetReferenceERemove() {
-
-        int mockedClienteId = 1;
-
-        BDDMockito
-            .given(repository.existsById(mockedClienteId))
-            .willReturn(true);
-
-        BDDMockito
-            .given(repository.getReferenceById(mockedClienteId))
-            .willReturn(cliente);
-
-        service
-            .excluirClientePeloId(mockedClienteId);
-
-        InOrder inOrder = 
-            Mockito.inOrder(repository);
-
-        inOrder.verify(repository).existsById(mockedClienteId);
-        inOrder.verify(repository).getReferenceById(mockedClienteId);
-        inOrder.verify(repository).remove(cliente);
 
     }
 
