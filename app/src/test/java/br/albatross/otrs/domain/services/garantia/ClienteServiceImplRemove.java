@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
-import br.albatross.otrs.domain.services.cliente.ClientesServiceImpl;
+import br.albatross.otrs.domain.services.clientes.ClientesServiceImpl;
 import br.albatross.otrs.repositories.cliente.ClienteRepository;
 
 @ExtendWith(MockitoExtension.class)

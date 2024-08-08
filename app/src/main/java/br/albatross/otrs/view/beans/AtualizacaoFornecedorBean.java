@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
 import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaAtualizacaoDeFornecedor;
-import br.albatross.otrs.domain.services.fornecedor.FornecedoresService;
+import br.albatross.otrs.domain.services.fornecedores.FornecedoresService;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;

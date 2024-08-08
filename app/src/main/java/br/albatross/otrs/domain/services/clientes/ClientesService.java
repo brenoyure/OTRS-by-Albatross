@@ -1,4 +1,4 @@
-package br.albatross.otrs.domain.services.cliente;
+package br.albatross.otrs.domain.services.clientes;
 
 import java.util.List;
 import java.util.Optional;

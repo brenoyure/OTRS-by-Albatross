@@ -1,4 +1,4 @@
-package br.albatross.otrs.domain.services.fornecedor;
+package br.albatross.otrs.domain.services.fornecedores;
 
 import java.util.List;
 import java.util.Optional;

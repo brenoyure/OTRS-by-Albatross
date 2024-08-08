@@ -21,7 +21,7 @@ import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosAtualizacaoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
-import br.albatross.otrs.domain.services.cliente.ClientesServiceImpl;
+import br.albatross.otrs.domain.services.clientes.ClientesServiceImpl;
 import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoAtualizacaoCliente;
 import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoCadastroNovoCliente;
 import br.albatross.otrs.repositories.cliente.ClienteRepository;
