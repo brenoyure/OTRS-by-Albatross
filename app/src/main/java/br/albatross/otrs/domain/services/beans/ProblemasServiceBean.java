@@ -3,10 +3,10 @@ package br.albatross.otrs.domain.services.beans;
 import java.io.Serializable;
 import java.util.List;
 
-import br.albatross.otrs.domain.dao.apis.problemas.DescricaoProblemaDao;
-import br.albatross.otrs.domain.dao.problema.ProblemaDao;
 import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
 import br.albatross.otrs.domain.models.garantia.entidades.problemas.Problema;
+import br.albatross.otrs.repositories.problema.DescricaoProblemaRepository;
+import br.albatross.otrs.repositories.problema.ProblemaRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -20,10 +20,10 @@ public class ProblemasServiceBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private ProblemaDao problemasDao;
+	private ProblemaRepository problemaRepository;
 	
 	@Inject
-	private DescricaoProblemaDao descricaoProblemaDao;
+	private DescricaoProblemaRepository descricaoProblemaRepository;
 
 	@Inject
 	private FacesContext context;
@@ -33,18 +33,18 @@ public class ProblemasServiceBean implements Serializable {
 
 	@Getter
 	private List<DescricaoProblema> descricaoProblemas;
-	
+
 	@PostConstruct
 	void init() {
-		problemas = problemasDao.findAll();
-		descricaoProblemas = descricaoProblemaDao.findAll();
+		problemas = problemaRepository.findAll();
+		descricaoProblemas = descricaoProblemaRepository.findAll();
 	}
 
 	public void salvarProblema(Problema problema) {
 		if (problema.getId() == null)
-			problemasDao.persist(problema);
+			problemaRepository.persist(problema);
 		else
-			problemasDao.update(problema);
+			problemaRepository.update(problema);
 
 		context.addMessage("problemas", new FacesMessage(String.format("Problema '%s' salvo com sucesso", problema.getTipo())));
 		atualizarListaProblemas();
@@ -52,26 +52,26 @@ public class ProblemasServiceBean implements Serializable {
 
 	public void salvarDescricaoProblema(DescricaoProblema descricaoProblema) {
 		if (descricaoProblema.getId() == null)
-			descricaoProblemaDao.persist(descricaoProblema);
+			descricaoProblemaRepository.persist(descricaoProblema);
 		else
-			descricaoProblemaDao.update(descricaoProblema);
+			descricaoProblemaRepository.update(descricaoProblema);
 
 		context.addMessage("problemas", new FacesMessage("Nova Descrição salva com sucesso"));
 		atualizarListaDescricaoProblemas();
 	}
 
 	public void removerDescricaoProblema(DescricaoProblema descricaoProblema) {
-		descricaoProblemaDao.remove(descricaoProblema);
+		descricaoProblemaRepository.remove(descricaoProblema);
 		context.addMessage("problemas", new FacesMessage("Descrição removida com sucesso"));
 		atualizarListaDescricaoProblemas();
 	}
 
 	private void atualizarListaProblemas() {
-		problemas = problemasDao.findAll();
+		problemas = problemaRepository.findAll();
 	}
 
 	private void atualizarListaDescricaoProblemas() {
-		descricaoProblemas = descricaoProblemaDao.findAll();
+		descricaoProblemas = descricaoProblemaRepository.findAll();
 	}
 
 }

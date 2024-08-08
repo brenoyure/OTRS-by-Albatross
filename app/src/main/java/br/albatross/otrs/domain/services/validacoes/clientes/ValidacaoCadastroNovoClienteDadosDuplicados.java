@@ -1,7 +1,7 @@
 package br.albatross.otrs.domain.services.validacoes.clientes;
 
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaCadastroDeNovoCliente;
-import br.albatross.otrs.repositories.api.ClienteRepository;
+import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
+import br.albatross.otrs.repositories.cliente.ClienteRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.ValidationException;
@@ -20,7 +20,7 @@ public class ValidacaoCadastroNovoClienteDadosDuplicados implements ValidacaoCad
     private ClienteRepository repository;
 
     @Override
-    public void validar(DadosParaCadastroDeNovoCliente dadosDoNovoCliente) {
+    public void validar(DadosCadastroCliente dadosDoNovoCliente) {
 
         if (repository.existsByNome(dadosDoNovoCliente.getNome())) {
             throw new ValidationException("Já existe outro cliente cadastrado com o nome informado");

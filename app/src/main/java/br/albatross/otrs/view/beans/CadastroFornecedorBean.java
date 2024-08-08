@@ -2,7 +2,7 @@ package br.albatross.otrs.view.beans;
 
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
 import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaCadastroDeNovoFornecedor;
-import br.albatross.otrs.domain.services.apis.fornecedores.FornecedoresService;
+import br.albatross.otrs.domain.services.fornecedor.FornecedoresService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;

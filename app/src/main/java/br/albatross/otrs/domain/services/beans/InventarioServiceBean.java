@@ -6,7 +6,7 @@ import static java.util.Optional.empty;
 import java.io.Serializable;
 import java.util.Optional;
 
-import br.albatross.otrs.domain.services.apis.inventario.InventarioService;
+import br.albatross.otrs.externos.InventarioRepository;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -15,15 +15,15 @@ import jakarta.inject.Inject;
 @ViewScoped
 public class InventarioServiceBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Inject
-	private InventarioService service;
+    @Inject
+    private InventarioRepository repository;
 
-	@Inject
-	private FacesContext context;
+    @Inject
+    private FacesContext context;
 
-	public Optional<String> buscarNumeroDeSeriePorBm(String bm) {
+    public Optional<String> buscarNumeroDeSeriePorBm(String bm) {
 
 		if (bm == null || bm.isBlank()) {
 			context.addMessage("otrs", 
@@ -31,7 +31,7 @@ public class InventarioServiceBean implements Serializable {
 			return empty();
 		}
 
-		var optional = service.buscarNumeroDeSeriePeloIdentificadorUnicoDoEquipamento(bm);
+		var optional = repository.findSerialNumberByIdentifier(bm);
 
 		if (optional.isEmpty()) {
 			context.addMessage("otrs", 

@@ -3,8 +3,8 @@ package br.albatross.otrs.view.beans;
 import java.io.Serializable;
 import java.util.List;
 
-import br.albatross.otrs.domain.dao.apis.problemas.DescricaoProblemaDao;
 import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
+import br.albatross.otrs.repositories.problema.DescricaoProblemaRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -20,7 +20,7 @@ public class ListaDescricaoProblemasBean implements Serializable {
     private List<DescricaoProblema> problemasDisponiveis;
 
     @Inject
-    private DescricaoProblemaDao descricaoProblemaDao;
+    private DescricaoProblemaRepository descricaoProblemaDao;
 
     @PostConstruct
     void init() {

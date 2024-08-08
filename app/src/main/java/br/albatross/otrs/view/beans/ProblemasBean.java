@@ -8,6 +8,7 @@ import br.albatross.otrs.domain.services.beans.ProblemasServiceBean;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,16 +26,19 @@ public class ProblemasBean implements Serializable {
 	@Getter	@Setter
 	private DescricaoProblema descricaoProblema = new DescricaoProblema();
 
+	@Transactional
 	public void salvarProblema(Problema problema) {
 		serviceBean.salvarProblema(problema);
 		resetarProblema();
 	}
 
+	@Transactional
 	public void salvarDescricaoProblema(DescricaoProblema descricaoProblema) {
 		serviceBean.salvarDescricaoProblema(descricaoProblema);
 		resetarAtributos();
 	}
 
+	@Transactional
 	public void excluirDescricaoProblema(DescricaoProblema descricaoProblema) {
 		serviceBean.removerDescricaoProblema(descricaoProblema);
 		resetarDescricaoProblema();

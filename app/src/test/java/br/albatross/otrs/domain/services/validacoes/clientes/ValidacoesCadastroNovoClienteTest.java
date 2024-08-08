@@ -13,9 +13,9 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaCadastroDeNovoCliente;
-import br.albatross.otrs.domain.services.garantia.ClientesServiceImpl;
-import br.albatross.otrs.repositories.api.ClienteRepository;
+import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.services.cliente.ClientesServiceImpl;
+import br.albatross.otrs.repositories.cliente.ClienteRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Testa se as validações do tipo ValidacaoCadastroNovoCliente são executadas ao cadastrar um novo Cliente")
@@ -40,7 +40,7 @@ class ValidacoesCadastroNovoClienteTest {
     @DisplayName("Verifica se os validadores de cadastro de novo cliente são chamadas")
     void deveChamarOsValidadoresAoCadastrarNovoCliente() {
 
-        DadosParaCadastroDeNovoCliente dto = new DadosParaCadastroDeNovoCliente();
+        DadosCadastroCliente dto = new DadosCadastroCliente();
         dto.setNome("Empresa XPTO");
         dto.setDescricao("Descrição da Empresa XPTO");
         dto.setPossuiHorarioDeAlmoco(false);

@@ -1,0 +1,23 @@
+package br.albatross.otrs.domain.services.cliente;
+
+import java.util.List;
+import java.util.Optional;
+
+import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
+import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosAtualizacaoCliente;
+import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
+import jakarta.validation.Valid;
+
+public interface ClientesService {
+
+    DadosDoCliente cadastrarNovoCliente(@Valid DadosCadastroCliente dadosDoNovoCliente);
+
+    DadosDoCliente atualizarCadastroDeCliente(@Valid DadosAtualizacaoCliente dadosAtualizados);
+
+    Optional<DadosDoCliente> buscarPorId(int id);
+
+    List<DadosDoCliente> listarClientesDisponiveis();
+
+    void excluirClientePeloId(int id);
+
+}

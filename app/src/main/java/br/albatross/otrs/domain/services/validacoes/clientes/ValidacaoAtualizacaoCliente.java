@@ -1,6 +1,6 @@
 package br.albatross.otrs.domain.services.validacoes.clientes;
 
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaAtualizacaoCadastralDoCliente;
+import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosAtualizacaoCliente;
 
 /**
  * 
@@ -11,6 +11,6 @@ import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaAtual
  */
 public interface ValidacaoAtualizacaoCliente {
 
-    void validar(DadosParaAtualizacaoCadastralDoCliente dadosDoCliente);
+    void validar(DadosAtualizacaoCliente dadosDoCliente);
 
 }

@@ -1,0 +1,90 @@
+package br.albatross.otrs.domain.services.fornecedor;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
+import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosDoFornecedorDto;
+import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaAtualizacaoDeFornecedor;
+import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaCadastroDeNovoFornecedor;
+import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.Fornecedor;
+import br.albatross.otrs.repositories.fornecedor.FornecedorRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
+
+@ApplicationScoped
+public class FornecedoresServiceImpl implements FornecedoresService {
+
+    @Inject
+    private FornecedorRepository repository;
+
+    @Override
+    public DadosDoFornecedorDto cadastrarNovoFornecedor(@Valid DadosParaCadastroDeNovoFornecedor novosDados) {
+
+        if (repository.existsByNome(novosDados.getNome())) {
+            throw new ValidationException("Já existe outro Fornecedor cadastrado com o nome informado");
+        }
+
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setNome(novosDados.getNome());
+        fornecedor.setEmails(novosDados.getEmails());
+        fornecedor.getIdsDosServicosDoFornecedorNoSistemaDeChamados().addAll(novosDados.getIdsDosServicosDoFornecedorNoSistemaDeChamados());
+
+        fornecedor = repository.persist(fornecedor);
+
+        return new DadosDoFornecedorDto(fornecedor);
+
+    }
+
+    @Override
+    public List<DadosDoFornecedor> listarFornecedoresDisponiveis() {
+        return repository.findAll().stream().map(DadosDoFornecedorDto::new).collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public void excluirFornecedorPeloId(int id) {
+
+        if (repository.existsById(id)) {
+
+            Fornecedor fornecedor = repository.getReferenceById(id);
+            repository.remove(fornecedor);
+
+        }
+
+    }
+
+    @Override
+    public DadosDoFornecedor atualizarFornecedor(@Valid DadosParaAtualizacaoDeFornecedor dados) {
+
+        if (repository.existsByNomeAndNotById(dados.getNome(), dados.getId())) {
+            throw new ValidationException("Já existe outro Fornecedor cadastrado com o nome informado");
+        }
+
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setId(dados.getId());
+        fornecedor.setNome(dados.getNome());
+        fornecedor.setEmails(dados.getEmails());
+        fornecedor.getIdsDosServicosDoFornecedorNoSistemaDeChamados().addAll(dados.getIdsDosServicosDoFornecedorNoSistemaDeChamados());
+
+        fornecedor = repository.merge(fornecedor);
+
+        return new DadosDoFornecedorDto(fornecedor);        
+
+    }
+
+    @Override
+    public Optional<DadosDoFornecedor> buscarPorId(int id) {
+        return repository.findById(id).map(DadosDoFornecedorDto::new);
+    }
+
+    @Override
+    public List<Integer> listarOsIdsDosServicosDoFornecedor(int idDoFornecedor) {
+
+        return repository.findIdsDosServicosDoFornecedorNoSistemaDeChamadosById(idDoFornecedor);
+
+    }
+
+}

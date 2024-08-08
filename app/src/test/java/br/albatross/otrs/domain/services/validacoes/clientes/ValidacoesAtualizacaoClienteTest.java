@@ -16,9 +16,9 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaAtualizacaoCadastralDoCliente;
-import br.albatross.otrs.domain.services.garantia.ClientesServiceImpl;
-import br.albatross.otrs.repositories.api.ClienteRepository;
+import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosAtualizacaoCliente;
+import br.albatross.otrs.domain.services.cliente.ClientesServiceImpl;
+import br.albatross.otrs.repositories.cliente.ClienteRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Testa se as validações do tipo ValidacaoAtualizacaoCliente são executadas ao atualizar um Cliente")
@@ -52,7 +52,7 @@ class ValidacoesAtualizacaoClienteTest {
     @DisplayName("Verifica se os validadores de cadastro de novo cliente são chamadas")
     void deveChamarOsValidadoresAoCadastrarNovoCliente() {
 
-        DadosParaAtualizacaoCadastralDoCliente dto = new DadosParaAtualizacaoCadastralDoCliente();
+        DadosAtualizacaoCliente dto = new DadosAtualizacaoCliente();
         dto.setId(1);
         dto.setNome("Empresa XPTO");
         dto.setDescricao("Descrição da Empresa XPTO");

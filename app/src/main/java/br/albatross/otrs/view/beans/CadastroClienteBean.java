@@ -3,8 +3,8 @@ package br.albatross.otrs.view.beans;
 import java.io.Serializable;
 
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosParaCadastroDeNovoCliente;
-import br.albatross.otrs.domain.services.apis.clientes.ClientesService;
+import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.services.cliente.ClientesService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -27,11 +27,11 @@ public class CadastroClienteBean implements Serializable {
     private FacesContext facesContext;
 
     @Getter
-    private DadosParaCadastroDeNovoCliente dadosParaCadastro;
+    private DadosCadastroCliente dadosParaCadastro;
 
     @PostConstruct
     void init() {
-        dadosParaCadastro = new DadosParaCadastroDeNovoCliente();
+        dadosParaCadastro = new DadosCadastroCliente();
     }
 
     @Transactional

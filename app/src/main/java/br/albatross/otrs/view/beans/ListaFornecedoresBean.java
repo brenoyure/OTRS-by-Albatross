@@ -5,7 +5,7 @@ import java.util.List;
 
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
 import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosDoFornecedorDto;
-import br.albatross.otrs.domain.services.apis.fornecedores.FornecedoresService;
+import br.albatross.otrs.domain.services.fornecedor.FornecedoresService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;

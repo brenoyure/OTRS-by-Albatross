@@ -11,11 +11,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
-import br.albatross.otrs.repositories.api.ClienteRepository;
+import br.albatross.otrs.domain.services.cliente.ClientesServiceImpl;
+import br.albatross.otrs.repositories.cliente.ClienteRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Testa o método Remove do ClienteService")
-class ClienteServiceImplRemove {
+class ClienteServiceImplRemoveTest {
 
     @Mock
     private ClienteRepository repository;

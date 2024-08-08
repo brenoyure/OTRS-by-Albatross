@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import br.albatross.otrs.cdi.SolicitacaoDeGarantiaFactoryBean;
-import br.albatross.otrs.domain.dao.apis.chamados.ChamadosDao;
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import br.albatross.otrs.domain.services.beans.InventarioServiceBean;
 import br.albatross.otrs.domain.services.beans.OtrsServiceBean;
+import br.albatross.otrs.externos.ChamadoRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -44,7 +44,7 @@ public class OtrsBean implements Serializable {
 	private DadosDoFornecedor fornecedorSelecionado;
 
 	@Inject
-	private ChamadosDao chamadosDao;
+	private ChamadoRepository chamadosRepository;
 
 	@Getter @Setter
 	private List<DadosDoChamado> chamadosDisponiveis;
@@ -85,7 +85,7 @@ public class OtrsBean implements Serializable {
 
         solicitacao.setDadosDoFornecedor(fornecedorSelecionado);
 
-        List<DadosDoChamado> chamadosRelacionadosAoFornecedor = chamadosDao.findByService(fornecedorSelecionado.getIdsDosServicosDoFornecedorNoSistemaDeChamados().stream().toList());
+        List<DadosDoChamado> chamadosRelacionadosAoFornecedor = chamadosRepository.findByService(fornecedorSelecionado.getIdsDosServicosDoFornecedorNoSistemaDeChamados().stream().toList());
 
         if (chamadosRelacionadosAoFornecedor.isEmpty()) {
 

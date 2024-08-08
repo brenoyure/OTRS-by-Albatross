@@ -73,7 +73,7 @@ public class Cliente {
     @Column(name = "fim_do_horario_de_almoco", nullable = true)
     private LocalTime fimDoHorarioDeAlmoco;
 
-    public Cliente(DadosParaCadastroDeNovoCliente novosDados) {
+    public Cliente(DadosCadastroCliente novosDados) {
 
         this.nome = novosDados.getNome();
         this.descricao = novosDados.getDescricao();
