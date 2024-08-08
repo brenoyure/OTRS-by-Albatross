@@ -12,14 +12,14 @@ import jakarta.validation.Valid;
 @Stateless
 public class OtrsJMSQueueEmailProducer {
 
-	@Inject @JMSConnectionFactory(value = "java:jboss/DefaultJMSConnectionFactory")
-	private JMSContext context;
+    @Inject @JMSConnectionFactory(value = "java:jboss/DefaultJMSConnectionFactory")
+    private JMSContext context;
 
-	@Resource(mappedName = "java:/jms/queue/OtrsEmailQueue")
-	private Queue queue;
+    @Resource(mappedName = "java:/jms/queue/OtrsEmailQueue")
+    private Queue queue;
 
-	public void enviarEmailParaAJmsQueue(@Valid EmailDeGarantia email) {
-		context.createProducer().send(queue, email);
-	}
+    public void enviarEmailParaAJmsQueue(@Valid EmailDeGarantia email) {
+        context.createProducer().send(queue, email);
+    }
 
 }
