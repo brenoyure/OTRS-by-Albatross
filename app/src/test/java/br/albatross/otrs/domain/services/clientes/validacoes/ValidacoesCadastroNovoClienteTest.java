@@ -1,4 +1,4 @@
-package br.albatross.otrs.domain.services.validacoes.clientes;
+package br.albatross.otrs.domain.services.clientes.validacoes;
 
 import java.time.LocalTime;
 import java.util.ArrayList;

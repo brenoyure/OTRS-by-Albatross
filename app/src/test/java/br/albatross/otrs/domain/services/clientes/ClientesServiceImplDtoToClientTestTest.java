@@ -1,4 +1,4 @@
-package br.albatross.otrs.domain.services.garantia;
+package br.albatross.otrs.domain.services.clientes;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -22,8 +22,8 @@ import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosAtualizacaoCliente;
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
 import br.albatross.otrs.domain.services.clientes.ClientesServiceImpl;
-import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoAtualizacaoCliente;
-import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoCadastroNovoCliente;
+import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoAtualizacaoCliente;
+import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoCadastroNovoCliente;
 import br.albatross.otrs.repositories.cliente.ClienteRepository;
 
 @ExtendWith(MockitoExtension.class)

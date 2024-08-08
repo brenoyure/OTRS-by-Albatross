@@ -1,4 +1,4 @@
-package br.albatross.otrs.domain.services.garantia;
+package br.albatross.otrs.domain.services.clientes;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
-import br.albatross.otrs.domain.services.clientes.ClientesServiceImpl;
 import br.albatross.otrs.repositories.cliente.ClienteRepository;
 
 @ExtendWith(MockitoExtension.class)

@@ -3,8 +3,8 @@ package br.albatross.otrs.cdi;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoAtualizacaoCliente;
-import br.albatross.otrs.domain.services.validacoes.clientes.ValidacaoCadastroNovoCliente;
+import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoAtualizacaoCliente;
+import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoCadastroNovoCliente;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.Produces;
