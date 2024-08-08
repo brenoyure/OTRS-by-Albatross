@@ -1,5 +1,6 @@
 package br.albatross.otrs.domain.services.fornecedores;
 
+import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaAtualizacaoDeFornecedor;
 import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaCadastroDeNovoFornecedor;
 import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.Fornecedor;
 import br.albatross.otrs.repositories.fornecedor.FornecedorRepository;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.verification.VerificationMode;
 
 import java.util.Set;
 
@@ -26,7 +26,8 @@ class FornecedoresServiceImplTest {
     @Test
     void deveLancarValidationExceptionCasoOutroFornecidorJaExistaComONomeInformado() {
 
-        DadosParaCadastroDeNovoFornecedor dto = Mockito.mock(DadosParaCadastroDeNovoFornecedor.class);
+        DadosParaCadastroDeNovoFornecedor dto =
+                Mockito.mock(DadosParaCadastroDeNovoFornecedor.class);
 
         BDDMockito
                 .given(repository.existsByNome(dto.getNome()))
@@ -39,7 +40,6 @@ class FornecedoresServiceImplTest {
                 .assertEquals("Já existe outro Fornecedor cadastrado com o nome informado", validationException.getMessage());
 
     }
-
 
     @Test
     @DisplayName("Ao cadastrar, garante que os dados obrigatórios da entidade fornecedor serão preenchidos corretamente com os dados do DTO")
@@ -97,27 +97,70 @@ class FornecedoresServiceImplTest {
 
     }
 
+    @Test
+    @DisplayName("Garante a ordem de execução existsById, getReference e remove() ao excluir um Fornecedor")
+    void deveInvocarNaOrdemOsMetodosDoRepositoryExistsByIdGetReferenceERemove() {
+
+        int fornecedorId = 1;
+
+        Fornecedor mockedFornecedor =
+                Mockito.mock(Fornecedor.class);
+
+        BDDMockito
+                .given(repository.existsById(fornecedorId))
+                .willReturn(true);
+
+        BDDMockito
+                .given(repository.getReferenceById(fornecedorId))
+                        .willReturn(mockedFornecedor);
+
+        service
+                .excluirFornecedorPeloId(fornecedorId);
+
+        InOrder inOrder =
+                Mockito.inOrder(repository);
+
+        inOrder.verify(repository).existsById(fornecedorId);
+        inOrder.verify(repository).getReferenceById(fornecedorId);
+        inOrder.verify(repository).remove(mockedFornecedor);
+
+    }
+
+    @Test
+    @DisplayName("Ao atualizar, garante que a entidade Fornecedor será corretamente preenchida com os dados do DTO")
+    void aoAtualizar_garanteQueOFornecedorSeraPreenchidoComOsDadosDoDto() {
+
+        DadosParaAtualizacaoDeFornecedor dto =
+                new DadosParaAtualizacaoDeFornecedor();
+        dto.setId(1);
+        dto.setNome("Fornecedor XPTO");
+        dto.setEmails("xpto@mail.com, support.xpto@mail.com");
+        dto.setIdsDosServicosDoFornecedorNoSistemaDeChamados(Set.of(99, 100, 101));
+
+        ArgumentCaptor<Fornecedor> fornecedorCaptor =
+                ArgumentCaptor.forClass(Fornecedor.class);
+
+        Fornecedor mockedMergeReturn =
+                Mockito.mock(Fornecedor.class);
+
+        BDDMockito
+                .given(repository.existsByNomeAndNotById(dto.getNome(), dto.getId()))
+                .willReturn(false);
+
+        BDDMockito
+                .given(repository.merge(fornecedorCaptor.capture()))
+                .willReturn(mockedMergeReturn);
+
+        service.atualizarFornecedor(dto);
+
+        Fornecedor fornecedor =
+                fornecedorCaptor.getValue();
+
+        Assertions.assertEquals(dto.getId(), fornecedor.getId());
+        Assertions.assertEquals(dto.getNome(), fornecedor.getNome());
+        Assertions.assertEquals(dto.getEmails(), fornecedor.getEmails());
+        Assertions.assertEquals(dto.getIdsDosServicosDoFornecedorNoSistemaDeChamados(), fornecedor.getIdsDosServicosDoFornecedorNoSistemaDeChamados());
+
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
