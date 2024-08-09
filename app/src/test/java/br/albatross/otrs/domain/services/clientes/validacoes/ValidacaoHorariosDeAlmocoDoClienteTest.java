@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.models.cliente.DadosParaCadastroDeCliente;
 import jakarta.validation.ValidationException;
 
 /**
@@ -25,14 +25,14 @@ import jakarta.validation.ValidationException;
 @DisplayName("Validações relacionadas ao Horário de Almoço do Cliente")
 class ValidacaoHorariosDeAlmocoDoClienteTest {
 
-    private DadosCadastroCliente dto;
+    private DadosParaCadastroDeCliente dto;
     
     @Spy
     private ValidacaoHorariosDeAlmocoDoCliente validacao;
 
     @BeforeEach
     void init() {
-        dto = new DadosCadastroCliente();
+        dto = new DadosParaCadastroDeCliente();
         
         dto.setNome("Empresa XPTO");
         dto.setDescricao("Descrição da Empresa XPTO");

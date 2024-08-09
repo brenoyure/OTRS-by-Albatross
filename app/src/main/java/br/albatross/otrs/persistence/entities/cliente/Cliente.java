@@ -2,7 +2,7 @@ package br.albatross.otrs.persistence.entities.cliente;
 
 import java.time.LocalTime;
 
-import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.models.cliente.DadosParaCadastroDeCliente;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,22 +41,22 @@ public class Cliente {
     @Column(name = "emails_para_contato", unique = false, nullable = false)
     private String emailsParaContato;
 
-    @Column(length = 100, unique = false, nullable = true)
+    @Column(length = 100, unique = false, nullable = false)
     private String logradouro;
 
-    @Column(length = 55, unique = false, nullable = true)
+    @Column(length = 55, unique = false, nullable = false)
     private String numero;
 
-    @Column(length = 55, unique = false, nullable = true)
+    @Column(length = 55, unique = false, nullable = false)
     private String bairro;    
 
-    @Column(length = 55, unique = false, nullable = true)
+    @Column(length = 55, unique = false, nullable = false)
     private String estado;
 
-    @Column(length = 55, unique = false, nullable = true)
+    @Column(length = 55, unique = false, nullable = false)
     private String cidade;
 
-    @Column(length = 13, unique = false, nullable = true)
+    @Column(length = 13, unique = false, nullable = false)
     private String cep;
 
     @Column(name = "horario_inicio_do_expediente", nullable = false)
@@ -74,7 +74,7 @@ public class Cliente {
     @Column(name = "fim_do_horario_de_almoco", nullable = true)
     private LocalTime fimDoHorarioDeAlmoco;
 
-    public Cliente(DadosCadastroCliente novosDados) {
+    public Cliente(DadosParaCadastroDeCliente novosDados) {
 
         this.nome = novosDados.getNome();
         this.descricao = novosDados.getDescricao();

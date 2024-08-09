@@ -2,7 +2,7 @@ package br.albatross.otrs.view.beans;
 
 import java.io.Serializable;
 
-import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.models.cliente.DadosParaCadastroDeCliente;
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.services.clientes.ClientesService;
 import jakarta.annotation.PostConstruct;
@@ -27,11 +27,11 @@ public class CadastroClienteBean implements Serializable {
     private FacesContext facesContext;
 
     @Getter
-    private DadosCadastroCliente dadosParaCadastro;
+    private DadosParaCadastroDeCliente dadosParaCadastro;
 
     @PostConstruct
     void init() {
-        dadosParaCadastro = new DadosCadastroCliente();
+        dadosParaCadastro = new DadosParaCadastroDeCliente();
     }
 
     @Transactional

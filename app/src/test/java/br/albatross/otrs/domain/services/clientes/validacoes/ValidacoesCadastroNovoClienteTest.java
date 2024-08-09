@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.models.cliente.DadosParaCadastroDeCliente;
 import br.albatross.otrs.domain.services.clientes.ClientesServiceImpl;
 import br.albatross.otrs.persistence.repositories.cliente.ClienteRepository;
 import jakarta.enterprise.inject.Instance;
@@ -25,7 +25,7 @@ class ValidacoesCadastroNovoClienteTest {
     private ClienteRepository repository;
 
     @Mock
-    private DadosCadastroCliente dto;
+    private DadosParaCadastroDeCliente dto;
 
     @Mock
     private Instance<ValidacaoCadastroNovoCliente> validacoesNovoCadastro;

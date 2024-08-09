@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-public class DadosAtualizacaoCliente extends DadosCadastroCliente {
+public class DadosAtualizacaoCliente extends DadosParaCadastroDeCliente {
 
     @Positive
     private int id;

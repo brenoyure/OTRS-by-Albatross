@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.albatross.otrs.domain.models.cliente.DadosAtualizacaoCliente;
-import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.models.cliente.DadosParaCadastroDeCliente;
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoAtualizacaoCliente;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoCadastroNovoCliente;
@@ -54,7 +54,7 @@ class ClientesServiceImplDtoToClientTestTest {
     @DisplayName("Verifica se a entidade Cliente é corretamente preenchida com os dados obrigatórios do DTO de Cadastro")
     void verificaSeOsDadosDaEntidadeForamPreenchidosAntesDoRepositoryPersist() {
 
-        DadosCadastroCliente dto = new DadosCadastroCliente();
+        DadosParaCadastroDeCliente dto = new DadosParaCadastroDeCliente();
         dto.setNome("Empresa XPTO");
         dto.setDescricao("Descrição da Empresa XPTO");
         dto.setPossuiHorarioDeAlmoco(false);

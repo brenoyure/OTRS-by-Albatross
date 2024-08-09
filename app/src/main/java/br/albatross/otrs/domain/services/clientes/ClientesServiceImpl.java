@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.albatross.otrs.domain.models.cliente.DadosAtualizacaoCliente;
-import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.models.cliente.DadosParaCadastroDeCliente;
 import br.albatross.otrs.domain.models.cliente.DadosDoClienteDto;
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoAtualizacaoCliente;
@@ -30,7 +30,7 @@ public class ClientesServiceImpl implements ClientesService {
     private Instance<ValidacaoAtualizacaoCliente> validacoesAtualizacaoCliente;
 
     @Override
-    public DadosDoCliente cadastrarNovoCliente(@Valid DadosCadastroCliente dadosDoNovoCliente) {
+    public DadosDoCliente cadastrarNovoCliente(@Valid DadosParaCadastroDeCliente dadosDoNovoCliente) {
 
         validacoesNovoCliente.forEach(validacao -> validacao.validar(dadosDoNovoCliente));
 
