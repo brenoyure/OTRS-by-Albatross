@@ -20,7 +20,7 @@
         <project.report.sourceEncoding>UTF-8</project.report.sourceEncoding>
         <maven.compiler.release>17</maven.compiler.release>
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
-        <compiler-plugin.version>3.12.1</compiler-plugin.version>
+        <compiler-plugin.version>3.13.0</compiler-plugin.version>
         <war-plugin.version>3.4.0</war-plugin.version>
     </properties>
 
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>14.0.0</version>
+            <version>14.0.4</version>
             <classifier>jakarta</classifier>
         </dependency>
 

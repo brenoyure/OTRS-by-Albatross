@@ -10,8 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
-import br.albatross.otrs.repositories.cliente.ClienteRepository;
+import br.albatross.otrs.persistence.entities.Cliente;
+import br.albatross.otrs.persistence.repositories.cliente.ClienteRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Testa o método Remove do ClienteService")

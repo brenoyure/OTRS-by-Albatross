@@ -1,6 +1,6 @@
 package br.albatross.otrs.domain.services.clientes.validacoes;
 
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
 
 /**
  * 

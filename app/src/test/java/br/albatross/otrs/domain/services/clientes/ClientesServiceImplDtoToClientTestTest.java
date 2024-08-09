@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.BDDMockito.then;
 
 import java.time.LocalTime;
-import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,13 +16,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import br.albatross.otrs.domain.models.cliente.DadosAtualizacaoCliente;
+import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosAtualizacaoCliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoAtualizacaoCliente;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoCadastroNovoCliente;
-import br.albatross.otrs.repositories.cliente.ClienteRepository;
+import br.albatross.otrs.persistence.entities.Cliente;
+import br.albatross.otrs.persistence.repositories.cliente.ClienteRepository;
+import jakarta.enterprise.inject.Instance;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Testa a Conversão entre DTO e entidade Cliente ao Cadastrar e Atualizar")
@@ -42,10 +42,10 @@ class ClientesServiceImplDtoToClientTestTest {
     private Cliente cliente;
 
     @Mock
-    private List<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
+    private Instance<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
 
     @Mock
-    private List<ValidacaoAtualizacaoCliente> validacoesAtualizacaoCliente;
+    private Instance<ValidacaoAtualizacaoCliente> validacoesAtualizacaoCliente;
 
     @InjectMocks
     private ClientesServiceImpl service;

@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import br.albatross.otrs.domain.models.fornecedor.DadosDoFornecedorDto;
+import br.albatross.otrs.domain.models.fornecedor.DadosParaAtualizacaoDeFornecedor;
+import br.albatross.otrs.domain.models.fornecedor.DadosParaCadastroDeNovoFornecedor;
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
-import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosDoFornecedorDto;
-import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaAtualizacaoDeFornecedor;
-import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaCadastroDeNovoFornecedor;
-import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.Fornecedor;
-import br.albatross.otrs.repositories.fornecedor.FornecedorRepository;
+import br.albatross.otrs.persistence.entities.Fornecedor;
+import br.albatross.otrs.persistence.repositories.fornecedor.FornecedorRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;

@@ -1,14 +1,14 @@
 package br.albatross.otrs.externos.otrs;
 
-import static br.albatross.otrs.domain.models.otrs.service.Service_.id;
-import static br.albatross.otrs.domain.models.otrs.service.Service_.name;
+import static br.albatross.otrs.externos.otrs.entities.service.Service_.id;
+import static br.albatross.otrs.externos.otrs.entities.service.Service_.name;
 
 import java.util.List;
 
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoServico;
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoServicoDto;
-import br.albatross.otrs.domain.models.otrs.service.Service;
 import br.albatross.otrs.externos.ServicosDosChamadosRepository;
+import br.albatross.otrs.externos.otrs.entities.service.Service;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

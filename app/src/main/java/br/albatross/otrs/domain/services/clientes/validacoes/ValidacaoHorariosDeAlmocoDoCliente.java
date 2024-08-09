@@ -1,7 +1,7 @@
 package br.albatross.otrs.domain.services.clientes.validacoes;
 
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosAtualizacaoCliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.models.cliente.DadosAtualizacaoCliente;
+import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.validation.ValidationException;
 

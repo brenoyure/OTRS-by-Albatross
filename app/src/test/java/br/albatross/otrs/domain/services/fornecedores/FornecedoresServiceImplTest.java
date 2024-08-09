@@ -1,9 +1,9 @@
 package br.albatross.otrs.domain.services.fornecedores;
 
-import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaAtualizacaoDeFornecedor;
-import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosParaCadastroDeNovoFornecedor;
-import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.Fornecedor;
-import br.albatross.otrs.repositories.fornecedor.FornecedorRepository;
+import br.albatross.otrs.domain.models.fornecedor.DadosParaAtualizacaoDeFornecedor;
+import br.albatross.otrs.domain.models.fornecedor.DadosParaCadastroDeNovoFornecedor;
+import br.albatross.otrs.persistence.entities.Fornecedor;
+import br.albatross.otrs.persistence.repositories.fornecedor.FornecedorRepository;
 import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

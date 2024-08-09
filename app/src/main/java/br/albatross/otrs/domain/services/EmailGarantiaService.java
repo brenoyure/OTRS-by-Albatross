@@ -1,6 +1,7 @@
 package br.albatross.otrs.domain.services;
 
 import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
+import br.albatross.otrs.messaging.OtrsEmailMessageProducer;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -9,7 +10,7 @@ import jakarta.validation.Valid;
 public class EmailGarantiaService {
 
 	@Inject
-	private OtrsJMSQueueEmailProducer emailProducer;
+	private OtrsEmailMessageProducer emailProducer;
 
 	public void enviarEmailDeGarantiaParaFilaDeEnvios(@Valid EmailDeGarantia solicitacaoGarantia) {
 		emailProducer.enviarEmailParaAJmsQueue(solicitacaoGarantia);

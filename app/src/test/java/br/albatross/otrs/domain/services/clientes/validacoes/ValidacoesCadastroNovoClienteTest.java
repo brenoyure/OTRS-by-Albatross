@@ -1,21 +1,21 @@
 package br.albatross.otrs.domain.services.clientes.validacoes;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
 import br.albatross.otrs.domain.services.clientes.ClientesServiceImpl;
-import br.albatross.otrs.repositories.cliente.ClienteRepository;
+import br.albatross.otrs.persistence.repositories.cliente.ClienteRepository;
+import jakarta.enterprise.inject.Instance;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Testa se as validações do tipo ValidacaoCadastroNovoCliente são executadas ao cadastrar um novo Cliente")
@@ -24,15 +24,15 @@ class ValidacoesCadastroNovoClienteTest {
     @Mock
     private ClienteRepository repository;
 
-    @Spy
-    private List<ValidacaoCadastroNovoCliente> validacoesNovoCadastro = new ArrayList<>();
+    @Mock
+    private DadosCadastroCliente dto;
 
     @Mock
-    private ValidacaoCadastroNovoCliente validacaoNovoCadastro1;
+    private Instance<ValidacaoCadastroNovoCliente> validacoesNovoCadastro;
 
-    @Mock
-    private ValidacaoCadastroNovoCliente validacaoNovoCadastro2;
-
+    @Captor
+    private ArgumentCaptor<ValidacaoCadastroNovoCliente> validacaoCaptor;
+    
     @InjectMocks
     private ClientesServiceImpl service;
 
@@ -40,28 +40,29 @@ class ValidacoesCadastroNovoClienteTest {
     @DisplayName("Verifica se os validadores de cadastro de novo cliente são chamadas")
     void deveChamarOsValidadoresAoCadastrarNovoCliente() {
 
-        DadosCadastroCliente dto = new DadosCadastroCliente();
-        dto.setNome("Empresa XPTO");
-        dto.setDescricao("Descrição da Empresa XPTO");
-        dto.setPossuiHorarioDeAlmoco(false);
-        dto.setHorarioInicioDoExpediente(LocalTime.of(8, 0));
-        dto.setHorarioFimDoExpediente(LocalTime.of(17, 0));        
-
-        validacoesNovoCadastro.add(validacaoNovoCadastro1);
-        validacoesNovoCadastro.add(validacaoNovoCadastro2);
-
         service.cadastrarNovoCliente(dto);
-
-        BDDMockito
-            .then(validacaoNovoCadastro1)
-            .should()
-            .validar(dto);
-
-        BDDMockito
-            .then(validacaoNovoCadastro2)
-            .should()
-            .validar(dto);
+        verify(validacoesNovoCadastro).forEach(any());
 
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

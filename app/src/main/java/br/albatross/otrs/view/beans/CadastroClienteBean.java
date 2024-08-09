@@ -2,8 +2,8 @@ package br.albatross.otrs.view.beans;
 
 import java.io.Serializable;
 
+import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
 import br.albatross.otrs.domain.services.clientes.ClientesService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;

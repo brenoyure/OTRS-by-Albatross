@@ -3,8 +3,8 @@ package br.albatross.otrs.view.beans;
 import java.io.Serializable;
 import java.util.List;
 
+import br.albatross.otrs.domain.models.fornecedor.DadosDoFornecedorDto;
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
-import br.albatross.otrs.domain.models.garantia.entidades.fornecedores.DadosDoFornecedorDto;
 import br.albatross.otrs.domain.services.fornecedores.FornecedoresService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;

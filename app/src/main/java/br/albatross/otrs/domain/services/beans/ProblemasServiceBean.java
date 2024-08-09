@@ -3,10 +3,10 @@ package br.albatross.otrs.domain.services.beans;
 import java.io.Serializable;
 import java.util.List;
 
-import br.albatross.otrs.domain.models.garantia.entidades.problemas.DescricaoProblema;
-import br.albatross.otrs.domain.models.garantia.entidades.problemas.Problema;
-import br.albatross.otrs.repositories.problema.DescricaoProblemaRepository;
-import br.albatross.otrs.repositories.problema.ProblemaRepository;
+import br.albatross.otrs.persistence.entities.DescricaoProblema;
+import br.albatross.otrs.persistence.entities.Problema;
+import br.albatross.otrs.persistence.repositories.problemas.DescricaoProblemaRepository;
+import br.albatross.otrs.persistence.repositories.problemas.ProblemaRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;

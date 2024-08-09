@@ -4,15 +4,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import br.albatross.otrs.domain.models.cliente.DadosAtualizacaoCliente;
+import br.albatross.otrs.domain.models.cliente.DadosCadastroCliente;
+import br.albatross.otrs.domain.models.cliente.DadosDoClienteDto;
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.Cliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosAtualizacaoCliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosCadastroCliente;
-import br.albatross.otrs.domain.models.garantia.entidades.cliente.DadosDoClienteDto;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoAtualizacaoCliente;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoCadastroNovoCliente;
-import br.albatross.otrs.repositories.cliente.ClienteRepository;
+import br.albatross.otrs.persistence.entities.Cliente;
+import br.albatross.otrs.persistence.repositories.cliente.ClienteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 
@@ -23,10 +24,10 @@ public class ClientesServiceImpl implements ClientesService {
     private ClienteRepository clienteRepository;
 
     @Inject
-    private List<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
+    private Instance<ValidacaoCadastroNovoCliente> validacoesNovoCliente;
 
     @Inject
-    private List<ValidacaoAtualizacaoCliente> validacoesAtualizacaoCliente;
+    private Instance<ValidacaoAtualizacaoCliente> validacoesAtualizacaoCliente;
 
     @Override
     public DadosDoCliente cadastrarNovoCliente(@Valid DadosCadastroCliente dadosDoNovoCliente) {
