@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 
+import br.albatross.otrs.security.persistence.entities.User;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

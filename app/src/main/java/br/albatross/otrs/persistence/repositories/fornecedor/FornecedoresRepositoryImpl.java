@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.hibernate.jpa.AvailableHints;
 
-import br.albatross.otrs.persistence.entities.Fornecedor;
+import br.albatross.otrs.persistence.entities.fornecedor.Fornecedor;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;

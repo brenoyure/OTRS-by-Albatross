@@ -1,4 +1,4 @@
-package br.albatross.otrs.persistence.entities;
+package br.albatross.otrs.persistence.entities.problemas;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 

@@ -3,8 +3,8 @@ package br.albatross.otrs.domain.services.beans;
 import java.io.Serializable;
 import java.util.List;
 
-import br.albatross.otrs.persistence.entities.DescricaoProblema;
-import br.albatross.otrs.persistence.entities.Problema;
+import br.albatross.otrs.persistence.entities.problemas.DescricaoProblema;
+import br.albatross.otrs.persistence.entities.problemas.Problema;
 import br.albatross.otrs.persistence.repositories.problemas.DescricaoProblemaRepository;
 import br.albatross.otrs.persistence.repositories.problemas.ProblemaRepository;
 import jakarta.annotation.PostConstruct;

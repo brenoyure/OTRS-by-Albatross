@@ -2,7 +2,7 @@ package br.albatross.otrs.persistence.repositories.problemas;
 
 import java.util.List;
 
-import br.albatross.otrs.persistence.entities.Problema;
+import br.albatross.otrs.persistence.entities.problemas.Problema;
 
 public interface ProblemaRepository {
 

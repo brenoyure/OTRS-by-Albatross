@@ -8,7 +8,7 @@ import br.albatross.otrs.domain.models.fornecedor.DadosDoFornecedorDto;
 import br.albatross.otrs.domain.models.fornecedor.DadosParaAtualizacaoDeFornecedor;
 import br.albatross.otrs.domain.models.fornecedor.DadosParaCadastroDeNovoFornecedor;
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
-import br.albatross.otrs.persistence.entities.Fornecedor;
+import br.albatross.otrs.persistence.entities.fornecedor.Fornecedor;
 import br.albatross.otrs.persistence.repositories.fornecedor.FornecedorRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

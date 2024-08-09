@@ -1,5 +1,6 @@
 package br.albatross.otrs.security.models;
 
+import br.albatross.otrs.security.persistence.entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

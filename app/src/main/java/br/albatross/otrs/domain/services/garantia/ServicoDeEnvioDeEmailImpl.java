@@ -16,10 +16,10 @@ import jakarta.mail.internet.AddressException;
 import jakarta.validation.Valid;
 
 /**
- * Responsável por enviar os e-mails de garantia.
+ * Responsável por enviar emails de uma dada <code>Session</code>.
  */
 @Stateless
-public class ServicoDeEnvioDeEmailDeGarantia implements ServicoDeEnvioDeEmail {
+public class ServicoDeEnvioDeEmailImpl implements ServicoDeEnvioDeEmail {
 
 	@Inject
 	private MessageBuilder<Email> builder;

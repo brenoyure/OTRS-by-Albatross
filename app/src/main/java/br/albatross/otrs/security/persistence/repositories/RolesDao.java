@@ -1,8 +1,8 @@
-package br.albatross.otrs.security.daos;
+package br.albatross.otrs.security.persistence.repositories;
 
 import java.util.List;
 
-import br.albatross.otrs.security.models.Role;
+import br.albatross.otrs.security.persistence.entities.Role;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

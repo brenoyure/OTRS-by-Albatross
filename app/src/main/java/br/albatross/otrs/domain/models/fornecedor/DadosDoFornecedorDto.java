@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
-import br.albatross.otrs.persistence.entities.Fornecedor;
+import br.albatross.otrs.persistence.entities.fornecedor.Fornecedor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

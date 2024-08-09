@@ -9,6 +9,12 @@ import jakarta.jms.JMSContext;
 import jakarta.jms.Queue;
 import jakarta.validation.Valid;
 
+/**
+ * 
+ * EJB Stateless responsável por colocar os <code>Email</code>s na fila de mensageria.
+ * 
+ * @author breno.brito
+ */
 @Stateless
 public class OtrsEmailMessageProducer {
 

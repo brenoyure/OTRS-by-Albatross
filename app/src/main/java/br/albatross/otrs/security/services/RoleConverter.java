@@ -1,6 +1,6 @@
 package br.albatross.otrs.security.services;
 
-import br.albatross.otrs.security.models.Role;
+import br.albatross.otrs.security.persistence.entities.Role;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;

@@ -1,4 +1,4 @@
-package br.albatross.otrs.persistence.entities;
+package br.albatross.otrs.persistence.entities.fornecedor;
 
 import java.util.HashSet;
 import java.util.Set;

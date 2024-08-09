@@ -1,4 +1,4 @@
-package br.albatross.otrs.security.models;
+package br.albatross.otrs.security.persistence.entities;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 

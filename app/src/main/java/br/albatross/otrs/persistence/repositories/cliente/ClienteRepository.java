@@ -3,7 +3,7 @@ package br.albatross.otrs.persistence.repositories.cliente;
 import java.util.List;
 import java.util.Optional;
 
-import br.albatross.otrs.persistence.entities.Cliente;
+import br.albatross.otrs.persistence.entities.cliente.Cliente;
 
 public interface ClienteRepository {
 

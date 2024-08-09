@@ -1,11 +1,11 @@
 package br.albatross.otrs.persistence.repositories.problemas;
 
-import static br.albatross.otrs.persistence.entities.Problema_.id;
-import static br.albatross.otrs.persistence.entities.Problema_.tipo;
+import static br.albatross.otrs.persistence.entities.problemas.Problema_.id;
+import static br.albatross.otrs.persistence.entities.problemas.Problema_.tipo;
 
 import java.util.List;
 
-import br.albatross.otrs.persistence.entities.Problema;
+import br.albatross.otrs.persistence.entities.problemas.Problema;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

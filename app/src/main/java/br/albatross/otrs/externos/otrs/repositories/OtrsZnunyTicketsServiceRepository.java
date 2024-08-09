@@ -1,4 +1,4 @@
-package br.albatross.otrs.externos.otrs;
+package br.albatross.otrs.externos.otrs.repositories;
 
 import static br.albatross.otrs.externos.otrs.entities.service.Service_.id;
 import static br.albatross.otrs.externos.otrs.entities.service.Service_.name;

@@ -3,8 +3,8 @@ package br.albatross.otrs.security.beans;
 import java.io.Serializable;
 import java.util.List;
 
-import br.albatross.otrs.security.daos.RolesDao;
-import br.albatross.otrs.security.models.Role;
+import br.albatross.otrs.security.persistence.entities.Role;
+import br.albatross.otrs.security.persistence.repositories.RolesDao;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;

@@ -10,7 +10,7 @@ import br.albatross.otrs.domain.models.cliente.DadosDoClienteDto;
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoAtualizacaoCliente;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoCadastroNovoCliente;
-import br.albatross.otrs.persistence.entities.Cliente;
+import br.albatross.otrs.persistence.entities.cliente.Cliente;
 import br.albatross.otrs.persistence.repositories.cliente.ClienteRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;

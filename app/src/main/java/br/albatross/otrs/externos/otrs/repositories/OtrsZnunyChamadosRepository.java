@@ -1,4 +1,4 @@
-package br.albatross.otrs.externos.otrs;
+package br.albatross.otrs.externos.otrs.repositories;
 
 import java.util.List;
 

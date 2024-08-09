@@ -1,7 +1,7 @@
 package br.albatross.otrs.domain.models.cliente;
 
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDeEndereco;
-import br.albatross.otrs.persistence.entities.Cliente;
+import br.albatross.otrs.persistence.entities.cliente.Cliente;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package br.albatross.otrs.security.services;
 
-import br.albatross.otrs.security.models.User;
+import br.albatross.otrs.security.persistence.entities.User;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.convert.Converter;

@@ -1,13 +1,13 @@
 package br.albatross.otrs.security.services;
 
-import br.albatross.otrs.security.daos.RolesDao;
-import br.albatross.otrs.security.daos.UsersDao;
 import br.albatross.otrs.security.exceptions.CadastroException;
 import br.albatross.otrs.security.exceptions.ListagemException;
 import br.albatross.otrs.security.models.DadosParaAtualizacaoDeUsuarioDto;
 import br.albatross.otrs.security.models.DadosParaCadastroDeUsuarioDto;
 import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
-import br.albatross.otrs.security.models.User;
+import br.albatross.otrs.security.persistence.entities.User;
+import br.albatross.otrs.security.persistence.repositories.RolesDao;
+import br.albatross.otrs.security.persistence.repositories.UsersDao;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;

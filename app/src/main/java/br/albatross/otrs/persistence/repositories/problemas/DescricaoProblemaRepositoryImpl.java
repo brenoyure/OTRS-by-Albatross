@@ -1,15 +1,15 @@
 package br.albatross.otrs.persistence.repositories.problemas;
 
-import static br.albatross.otrs.persistence.entities.DescricaoProblema_.descricaoDetalhada;
-import static br.albatross.otrs.persistence.entities.DescricaoProblema_.descricaoResumida;
-import static br.albatross.otrs.persistence.entities.DescricaoProblema_.id;
-import static br.albatross.otrs.persistence.entities.DescricaoProblema_.problema;
+import static br.albatross.otrs.persistence.entities.problemas.DescricaoProblema_.descricaoDetalhada;
+import static br.albatross.otrs.persistence.entities.problemas.DescricaoProblema_.descricaoResumida;
+import static br.albatross.otrs.persistence.entities.problemas.DescricaoProblema_.id;
+import static br.albatross.otrs.persistence.entities.problemas.DescricaoProblema_.problema;
 import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 
 import java.util.List;
 
-import br.albatross.otrs.persistence.entities.DescricaoProblema;
-import br.albatross.otrs.persistence.entities.Problema_;
+import br.albatross.otrs.persistence.entities.problemas.DescricaoProblema;
+import br.albatross.otrs.persistence.entities.problemas.Problema_;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

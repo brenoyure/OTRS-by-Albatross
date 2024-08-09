@@ -1,4 +1,4 @@
-package br.albatross.otrs.persistence.entities;
+package br.albatross.otrs.persistence.entities.problemas;
 
 import jakarta.persistence.metamodel.SingularAttribute;
 import jakarta.persistence.metamodel.StaticMetamodel;

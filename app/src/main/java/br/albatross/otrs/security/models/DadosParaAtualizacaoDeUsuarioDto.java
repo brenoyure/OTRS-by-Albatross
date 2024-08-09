@@ -2,6 +2,8 @@ package br.albatross.otrs.security.models;
 
 import static java.util.stream.Collectors.toList;
 
+import br.albatross.otrs.security.persistence.entities.Role;
+import br.albatross.otrs.security.persistence.entities.User;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

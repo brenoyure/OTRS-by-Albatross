@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.albatross.otrs.domain.models.cliente.DadosAtualizacaoCliente;
 import br.albatross.otrs.domain.services.clientes.ClientesServiceImpl;
-import br.albatross.otrs.persistence.entities.Cliente;
+import br.albatross.otrs.persistence.entities.cliente.Cliente;
 import br.albatross.otrs.persistence.repositories.cliente.ClienteRepository;
 import jakarta.enterprise.inject.Instance;
 

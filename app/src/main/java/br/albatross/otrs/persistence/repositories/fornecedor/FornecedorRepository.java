@@ -3,7 +3,7 @@ package br.albatross.otrs.persistence.repositories.fornecedor;
 import java.util.List;
 import java.util.Optional;
 
-import br.albatross.otrs.persistence.entities.Fornecedor;
+import br.albatross.otrs.persistence.entities.fornecedor.Fornecedor;
 
 public interface FornecedorRepository {
 

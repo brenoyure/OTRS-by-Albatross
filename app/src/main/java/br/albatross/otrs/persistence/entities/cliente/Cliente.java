@@ -1,4 +1,4 @@
-package br.albatross.otrs.persistence.entities;
+package br.albatross.otrs.persistence.entities.cliente;
 
 import java.time.LocalTime;
 

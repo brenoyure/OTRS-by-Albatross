@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.albatross.otrs.persistence.entities.Cliente;
+import br.albatross.otrs.persistence.entities.cliente.Cliente;
 import br.albatross.otrs.persistence.repositories.cliente.ClienteRepository;
 
 @ExtendWith(MockitoExtension.class)

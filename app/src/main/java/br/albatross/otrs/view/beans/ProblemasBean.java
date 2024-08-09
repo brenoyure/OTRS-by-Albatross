@@ -3,8 +3,8 @@ package br.albatross.otrs.view.beans;
 import java.io.Serializable;
 
 import br.albatross.otrs.domain.services.beans.ProblemasServiceBean;
-import br.albatross.otrs.persistence.entities.DescricaoProblema;
-import br.albatross.otrs.persistence.entities.Problema;
+import br.albatross.otrs.persistence.entities.problemas.DescricaoProblema;
+import br.albatross.otrs.persistence.entities.problemas.Problema;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;

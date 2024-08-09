@@ -2,24 +2,24 @@ package br.albatross.otrs.domain.services.beans;
 
 import static jakarta.faces.application.FacesMessage.SEVERITY_INFO;
 
-import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
-import br.albatross.otrs.domain.services.EmailGarantiaService;
+import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
+import br.albatross.otrs.domain.services.garantia.SolicitacaoDeGarantiaService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 
 @RequestScoped
-public class EmailGarantiaServiceBean {
+public class SolicitacaoDeGarantiaServiceBean {
 
 	@Inject
-	private EmailGarantiaService emailGarantiaService;
+	private SolicitacaoDeGarantiaService solicitacaoService;
 
 	@Inject
 	private FacesContext context;
 
-	public void enviarSolicitacaoDeGarantia(EmailDeGarantia email) {
-		emailGarantiaService.enviarEmailDeGarantiaParaFilaDeEnvios(email);
+	public void solicitarGarantia(SolicitacaoDeGarantia solicitacaoDeGarantia) {
+	    solicitacaoService.solicitarGarantia(solicitacaoDeGarantia);
 		context.addMessage("otrs", 
 		        new FacesMessage(SEVERITY_INFO, 
 		                "Solicitação despachada para fila de envios", 

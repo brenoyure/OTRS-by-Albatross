@@ -1,11 +1,11 @@
-package br.albatross.otrs.security.daos;
+package br.albatross.otrs.security.persistence.repositories;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import br.albatross.otrs.security.models.DadosParaListagemDoUsuarioDto;
-import br.albatross.otrs.security.models.User;
+import br.albatross.otrs.security.persistence.entities.User;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
