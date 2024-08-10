@@ -5,8 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.albatross.otrs.domain.models.cliente.DadosAtualizacaoCliente;
-import br.albatross.otrs.domain.models.cliente.DadosParaCadastroDeCliente;
 import br.albatross.otrs.domain.models.cliente.DadosDoClienteDto;
+import br.albatross.otrs.domain.models.cliente.DadosParaCadastroDeCliente;
 import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoAtualizacaoCliente;
 import br.albatross.otrs.domain.services.clientes.validacoes.ValidacaoCadastroNovoCliente;
@@ -46,7 +46,10 @@ public class ClientesServiceImpl implements ClientesService {
 
         validacoesAtualizacaoCliente.forEach(validacao -> validacao.validar(dadosAtualizados));
 
-        return new DadosDoClienteDto(clienteRepository.merge(new Cliente(dadosAtualizados)));
+        Cliente cliente = new Cliente(dadosAtualizados);
+        cliente.setId(dadosAtualizados.getId());
+        
+        return new DadosDoClienteDto(clienteRepository.merge(cliente));
 
     }
 
