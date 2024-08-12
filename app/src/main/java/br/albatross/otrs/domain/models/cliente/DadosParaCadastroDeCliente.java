@@ -19,9 +19,11 @@ public class DadosParaCadastroDeCliente {
     @Size(min = 1, max = 255)
     private String descricao;
 
-    @Size(max = 100)
+    @NotBlank
+    @Size(max = 255)
     private String numerosParaContato;
 
+    @NotBlank
     private String emailsParaContato;
 
     @NotBlank

@@ -26,10 +26,10 @@
 	                    <p:inputText id="inputText-descricao" value="#{cadastroClienteBean.dadosParaCadastro.descricao}" maxlength="255" required="true" requiredMessage="Forneça uma Descrição é Obrigatório" size="100" />
 	
 	                    <p:outputLabel for="@next" value="Número(s) para contato: " />
-	                    <p:inputText id="inputText-numerosParaContato" value="#{cadastroClienteBean.dadosParaCadastro.numerosParaContato}" maxlength="100" size="100" />
+	                    <p:inputText id="inputText-numerosParaContato" value="#{cadastroClienteBean.dadosParaCadastro.numerosParaContato}" maxlength="255" size="100" required="true" requiredMessage="Número(s) para contato Obrigatório(s)" />
 	
 	                    <p:outputLabel for="@next" value="Email(s) para contato: " />
-	                    <p:inputText id="inputText-emailsParaContato" value="#{cadastroClienteBean.dadosParaCadastro.emailsParaContato}" size="100" />
+	                    <p:inputText id="inputText-emailsParaContato" value="#{cadastroClienteBean.dadosParaCadastro.emailsParaContato}" size="100" required="true" requiredMessage="Número(s) para contato Obrigatório(s)" />
 	
 	                </p:panelGrid>
                 </p:fieldset>
