@@ -44,7 +44,7 @@ public class ProblemasServiceBean implements Serializable {
 		if (problema.getId() == null)
 			problemaRepository.persist(problema);
 		else
-			problemaRepository.update(problema);
+			problemaRepository.merge(problema);
 
 		context.addMessage("problemas", new FacesMessage(String.format("Problema '%s' salvo com sucesso", problema.getTipo())));
 		atualizarListaProblemas();
@@ -54,7 +54,7 @@ public class ProblemasServiceBean implements Serializable {
 		if (descricaoProblema.getId() == null)
 			descricaoProblemaRepository.persist(descricaoProblema);
 		else
-			descricaoProblemaRepository.update(descricaoProblema);
+			descricaoProblemaRepository.merge(descricaoProblema);
 
 		context.addMessage("problemas", new FacesMessage("Nova Descrição salva com sucesso"));
 		atualizarListaDescricaoProblemas();

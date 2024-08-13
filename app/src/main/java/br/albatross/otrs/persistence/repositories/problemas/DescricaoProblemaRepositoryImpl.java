@@ -1,8 +1,5 @@
 package br.albatross.otrs.persistence.repositories.problemas;
 
-import static br.albatross.otrs.persistence.entities.problemas.DescricaoProblema_.descricaoDetalhada;
-import static br.albatross.otrs.persistence.entities.problemas.DescricaoProblema_.descricaoResumida;
-import static br.albatross.otrs.persistence.entities.problemas.DescricaoProblema_.id;
 import static br.albatross.otrs.persistence.entities.problemas.DescricaoProblema_.problema;
 import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 
@@ -10,50 +7,21 @@ import java.util.List;
 
 import br.albatross.otrs.persistence.entities.problemas.DescricaoProblema;
 import br.albatross.otrs.persistence.entities.problemas.Problema_;
+import br.albatross.otrs.persistence.repositories.RepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.JoinType;
-import jakarta.transaction.Transactional;
 
 @ApplicationScoped
-public class DescricaoProblemaRepositoryImpl implements DescricaoProblemaRepository {
+public class DescricaoProblemaRepositoryImpl extends RepositoryImpl<DescricaoProblema, Integer> implements DescricaoProblemaRepository {
 
-	@PersistenceContext(unitName = "otrsdb_textos_prontos")
+    @PersistenceContext(unitName = "otrsdb_textos_prontos")
 	private EntityManager entityManager;
 
-	@Override
-	@Transactional
-    public void persist(DescricaoProblema descricaoProblema) {
-		entityManager.persist(descricaoProblema);
-	}
-
-	@Override
-	@Transactional
-	public void update(DescricaoProblema descricaoProblema) {
-		var cb                     =  entityManager.getCriteriaBuilder();
-		var cq                     =  cb.createCriteriaUpdate(DescricaoProblema.class);
-		var rootDescricaoProblema  =  cq.from(DescricaoProblema.class);
-
-		cq
-		  .set(rootDescricaoProblema.get(problema),           descricaoProblema.getProblema())
-		  .set(rootDescricaoProblema.get(descricaoResumida),  descricaoProblema.getDescricaoResumida())
-		  .set(rootDescricaoProblema.get(descricaoDetalhada), descricaoProblema.getDescricaoDetalhada());
-
-		entityManager
-		        .createQuery(cq.where(cb.equal(rootDescricaoProblema.get(id), descricaoProblema.getId())))
-		        .executeUpdate();
-	}
-
-	@Override
-	@Transactional
-    public void remove(DescricaoProblema descricaoProblema) {
-		var cb = entityManager.getCriteriaBuilder();
-		var cq = cb.createCriteriaDelete(DescricaoProblema.class);
-		entityManager
-				.createQuery(cq.where(cb.equal(cq.from(DescricaoProblema.class).get(id), descricaoProblema.getId())))
-				.executeUpdate();
-	}
+    public DescricaoProblemaRepositoryImpl() {
+        super(DescricaoProblema.class);
+    }    
 
 	@Override
     public List<DescricaoProblema> findAll() {

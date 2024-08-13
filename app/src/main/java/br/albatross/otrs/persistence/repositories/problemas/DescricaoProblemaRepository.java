@@ -1,17 +1,8 @@
 package br.albatross.otrs.persistence.repositories.problemas;
 
-import java.util.List;
-
 import br.albatross.otrs.persistence.entities.problemas.DescricaoProblema;
+import br.albatross.otrs.persistence.repositories.Repository;
 
-public interface DescricaoProblemaRepository {
-
-    void persist(DescricaoProblema descricaoProblema);
-
-    void update(DescricaoProblema descricaoProblema);
-
-    void remove(DescricaoProblema descricaoProblema);
-
-    List<DescricaoProblema> findAll();
+public interface DescricaoProblemaRepository extends Repository<DescricaoProblema, Integer> {
 
 }
