@@ -77,11 +77,9 @@
 
             <p:fieldset legend="Dados do Envio" collapsed="false" toggleable="true" >
                 <p:panelGrid layout="tabular" columns="2" >
-                
-                        <p:outputLabel for="inputText-EmailRemetente" value="E-mail do Remetente: " />
-                        <p:inputText id="inputText-EmailRemetente" placeholder="email.do.atendente@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.remetente}" required="true" requiredMessage="E-mail do Remetente é Obrigatório." size="50" >
-                            <f:ajax event="input" execute="@this" render="@this :mensagens" />
-                        </p:inputText>
+
+                        <p:outputLabel for="outputText-EmailRemetente" value="E-mail do Remetente: " />
+                        <p:outputLabel id="outputText-EmailRemetente" placeholder="email.do.atendente@empresa.br" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.remetente}" size="50" />
 
                         <p:outputLabel for="inputText-EmailDestino" value="E-mail(s) de Destino(s): " />
                         <p:inputText id="inputText-EmailDestino" placeholder="suporte.fabricante@empresa.br" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.destinatario}" required="true" requiredMessage="E-mail de Destino Obrigatório." size="50" >

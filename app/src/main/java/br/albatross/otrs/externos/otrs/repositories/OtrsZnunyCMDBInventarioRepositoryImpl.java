@@ -1,12 +1,16 @@
 package br.albatross.otrs.externos.otrs.repositories;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
+import javax.sql.DataSource;
+
 import br.albatross.otrs.externos.InventarioRepository;
+import jakarta.annotation.Resource;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
 
 /**
  * Contexto de persistência com o sistema de chamados OTRS/Znuny, 
@@ -17,21 +21,22 @@ import jakarta.persistence.PersistenceContext;
 @RequestScoped
 public class OtrsZnunyCMDBInventarioRepositoryImpl implements InventarioRepository {
 
-	@PersistenceContext(unitName = "otrsdb")
-	private EntityManager entityManager;
+    @Resource(lookup = "java:jboss/datasources/OtrsDS")
+    private DataSource dataSource;
+    private static final byte RESULT_SET_FETCH_SIZE = 1;
 
 	/**
-	 * Busca o número de série pelo BM do equipamento utilizando a NativeQuery JPA.
+	 * Busca o número de série pelo Nome do Item de Configuração no inventário CMDB do Otrs/Znuny.
 	 * 
-	 * @param bm
+	 * @param configItemName
 	 * @return optional contendo ou não o número de série.
 	 */
-	public Optional<String> findSerialNumberByIdentifier(String bm) {
+	public Optional<String> findSerialNumberByIdentifier(String configItemName) {
 
-		try {
-			return Optional.of(
-					(String) entityManager
-								.createNativeQuery("""
+		try (Connection connection = dataSource.getConnection()) {
+
+		    try (PreparedStatement preparedStatement = connection.prepareStatement(
+"""
 SELECT 
     x.xml_content_value
 FROM
@@ -39,23 +44,36 @@ FROM
         INNER JOIN
     xml_storage x ON civ.id = x.xml_key
 WHERE
-			(x.xml_content_key = '[1]{''Version''}[1]{''NumeroDeSerie''}[1]{''Content''}'
+            (x.xml_content_key = '[1]{''Version''}[1]{''NumeroDeSerie''}[1]{''Content''}'
             OR
             x.xml_content_key = '[1]{''Version''}[1]{''SerialNumber_Hardware''}[1]{''Content''}')
 
-		AND
+        AND
 
-			NOT x.xml_type = 'ITSM::ConfigItem::Archiv::22'
+            NOT x.xml_type = 'ITSM::ConfigItem::Archiv::22'
 
-		AND
-			civ.name = ?1 ;
-					
-					""", String.class)
-								.setParameter(1, bm)
-								.setMaxResults(1)
-								.getSingleResult());
+        AND
+            civ.name = ? 
 
-		} catch (NoResultException e) {	return Optional.empty(); }
+"""
+		            )) {
+
+		        preparedStatement.setFetchSize(RESULT_SET_FETCH_SIZE);
+		        preparedStatement.setString(1, configItemName);
+
+		        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+		            if (!resultSet.next()) {
+		                return Optional.empty();
+		            }
+
+		            return Optional.of(resultSet.getString(1));
+
+		        }
+
+		    }
+
+		} catch (SQLException e) { throw new RuntimeException(e); }
 
 	}
 

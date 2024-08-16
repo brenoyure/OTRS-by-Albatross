@@ -11,11 +11,13 @@ import br.albatross.otrs.domain.services.beans.InventarioServiceBean;
 import br.albatross.otrs.domain.services.beans.OtrsServiceBean;
 import br.albatross.otrs.externos.ChamadoRepository;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.mail.Session;
 import jakarta.servlet.http.Part;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,10 +57,14 @@ public class OtrsBean implements Serializable {
 	@Inject
 	private SolicitacaoDeGarantiaFactoryBean solicitacaoFactoryBean;
 
+    @Resource(lookup = "java:jboss/mail/OtrsMailSession")
+    private Session sessaoEmail;	
+
 	@PostConstruct
 	void init() {
 
 	    solicitacao = solicitacaoFactoryBean.getSolicitacaoDeGarantia();
+	    solicitacao.getEmailDeGarantia().getDadosDoEnvio().setRemetente(sessaoEmail.getProperty("mail.smtp.user"));
 
 	}
 

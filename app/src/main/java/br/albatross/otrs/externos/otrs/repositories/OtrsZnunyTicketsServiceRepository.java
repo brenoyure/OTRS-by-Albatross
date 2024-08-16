@@ -1,20 +1,19 @@
 package br.albatross.otrs.externos.otrs.repositories;
 
-import static br.albatross.otrs.externos.otrs.entities.service.Service_.id;
-import static br.albatross.otrs.externos.otrs.entities.service.Service_.name;
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoServico;
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoServicoDto;
 import br.albatross.otrs.externos.ServicosDosChamadosRepository;
-import br.albatross.otrs.externos.otrs.entities.service.Service;
+import jakarta.annotation.Resource;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 
 /**
  * Representa o contexto de persistência com a entidade Service(Serviço do Ticket) do Sistema de Chamados OTRS/Znuny.
@@ -22,26 +21,40 @@ import jakarta.persistence.criteria.Root;
 @RequestScoped
 public class OtrsZnunyTicketsServiceRepository implements ServicosDosChamadosRepository {
 
-    @PersistenceContext(unitName = "otrsdb")
-    private EntityManager entityManager;
+    @Resource(lookup = "java:jboss/datasources/OtrsDS")
+    private DataSource dataSource;
 
     @Override
     public List<DadosDoServico> findAll() {
 
-        CriteriaBuilder builder              =  entityManager.getCriteriaBuilder();
-        CriteriaQuery<DadosDoServico> query  =  builder.createQuery(DadosDoServico.class);
-        Root<Service> service                =  query.from(Service.class);
+        try (Connection connection = dataSource.getConnection()) {
 
-        query
-            .select(
-                builder.construct(DadosDoServicoDto.class, 
-                                                      service.get(id),
-                                                      service.get(name)))
-            .orderBy(
-                builder.asc(service.get(name))
-            );
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+"""
+SELECT
+    s.id,
+    s.name
+FROM
+    service s
+ORDER BY 
+    s.name ASC
+""")) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    List<DadosDoServico> servicos = new LinkedList<>();
+                    while(resultSet.next()) {
+                        DadosDoServico servico = 
+                                new DadosDoServicoDto(
+                                        resultSet.getInt(1), 
+                                        resultSet.getString(2));
+                        servicos.add(servico);
+                    }
 
-        return entityManager.createQuery(query).getResultList();
+                    return servicos;
+
+                }
+            }
+
+        } catch (SQLException e) { throw new RuntimeException(e); }
 
     }
 
