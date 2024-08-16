@@ -7,7 +7,7 @@ public interface Repository<T, K> {
 
     T persist(T t);
 
-    T  merge(T  t);
+    T merge(T t);
 
     List<T> findAll();
 
@@ -18,5 +18,7 @@ public interface Repository<T, K> {
     boolean existsById(K id);
 
     void remove(T t);
+
+    boolean deleteById(K id);
 
 }

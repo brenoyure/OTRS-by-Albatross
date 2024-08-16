@@ -61,14 +61,10 @@ public class ProblemasServiceBean implements Serializable {
 	}
 
 	public void removerDescricaoProblema(DescricaoProblema descricaoProblema) {
-	    Integer id = descricaoProblema.getId();
 
-        if (descricaoProblemaRepository.existsById(id)) {
-	        descricaoProblema = descricaoProblemaRepository.getReferenceById(id);
-	        descricaoProblemaRepository.remove(descricaoProblema);
-	        context.addMessage("problemas", new FacesMessage("Descrição removida com sucesso"));
-	        atualizarListaDescricaoProblemas();
-	    }
+        descricaoProblemaRepository.deleteById(descricaoProblema.getId());
+        descricaoProblemas.remove(descricaoProblema);
+	    context.addMessage(null, new FacesMessage("Descrição removida com sucesso"));
 
 	}
 

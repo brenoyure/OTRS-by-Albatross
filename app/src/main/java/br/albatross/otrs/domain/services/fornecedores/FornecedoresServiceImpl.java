@@ -22,7 +22,7 @@ public class FornecedoresServiceImpl implements FornecedoresService {
     private FornecedorRepository repository;
 
     @Override
-    public DadosDoFornecedorDto cadastrarNovoFornecedor(@Valid DadosParaCadastroDeNovoFornecedor novosDados) {
+    public DadosDoFornecedor cadastrarNovoFornecedor(@Valid DadosParaCadastroDeNovoFornecedor novosDados) {
 
         if (repository.existsByNome(novosDados.getNome())) {
             throw new ValidationException("Já existe outro Fornecedor cadastrado com o nome informado");
@@ -47,12 +47,7 @@ public class FornecedoresServiceImpl implements FornecedoresService {
     @Override
     public void excluirFornecedorPeloId(int id) {
 
-        if (repository.existsById(id)) {
-
-            Fornecedor fornecedor = repository.getReferenceById(id);
-            repository.remove(fornecedor);
-
-        }
+        repository.deleteById(id);
 
     }
 
