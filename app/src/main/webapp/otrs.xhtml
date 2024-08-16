@@ -67,7 +67,7 @@
 	                    <p:outputLabel for="textArea-DescricaoProblema" value="Descrição do Problema" />
 	                    <p:inputTextarea id="textArea-DescricaoProblema" value="#{otrsBean.solicitacao.descricaoDoProblema.descricaoDetalhada}" readonly="true" rows="6" cols="33" placeholder="Computador/Monitor está apresentando problema de..."  autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
 
-	                    <p:outputLabel value="Adicionar Vídeo ou Foto do Problema (Máx: 10MB)" for="fileUpload" />
+	                    <p:outputLabel value="Adicionar Vídeo ou Foto do Problema (Máx: 15MB)" for="fileUpload" />
 	                    <h:inputFile id="fileUpload" styleClass="form-control" value="#{otrsBean.uploadedFile}" required="false" >
 	                        <f:ajax execute="@this" render=":mensagens" />
 	                    </h:inputFile>
