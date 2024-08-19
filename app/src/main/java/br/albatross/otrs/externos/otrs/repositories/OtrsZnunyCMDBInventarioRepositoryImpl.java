@@ -1,16 +1,12 @@
 package br.albatross.otrs.externos.otrs.repositories;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Optional;
 
-import javax.sql.DataSource;
-
 import br.albatross.otrs.externos.InventarioRepository;
-import jakarta.annotation.Resource;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
 
 /**
  * Contexto de persistência com o sistema de chamados OTRS/Znuny, 
@@ -21,22 +17,21 @@ import jakarta.enterprise.context.RequestScoped;
 @RequestScoped
 public class OtrsZnunyCMDBInventarioRepositoryImpl implements InventarioRepository {
 
-    @Resource(lookup = "java:jboss/datasources/OtrsDS")
-    private DataSource dataSource;
-    private static final byte RESULT_SET_FETCH_SIZE = 1;
+    @PersistenceContext(unitName = "otrsdb")
+    private EntityManager entityManager;
 
-	/**
-	 * Busca o número de série pelo Nome do Item de Configuração no inventário CMDB do Otrs/Znuny.
-	 * 
-	 * @param configItemName
-	 * @return optional contendo ou não o número de série.
-	 */
-	public Optional<String> findSerialNumberByIdentifier(String configItemName) {
+    /**
+     * Busca o número de série pelo BM do equipamento utilizando a NativeQuery JPA.
+     * 
+     * @param bm
+     * @return optional contendo ou não o número de série.
+     */
+    public Optional<String> findSerialNumberByIdentifier(String bm) {
 
-		try (Connection connection = dataSource.getConnection()) {
-
-		    try (PreparedStatement preparedStatement = connection.prepareStatement(
-"""
+        try {
+            return Optional.of(
+                    (String) entityManager
+                                .createNativeQuery("""
 SELECT 
     x.xml_content_value
 FROM
@@ -53,28 +48,15 @@ WHERE
             NOT x.xml_type = 'ITSM::ConfigItem::Archiv::22'
 
         AND
-            civ.name = ? 
+            civ.name = ?1
 
-"""
-		            )) {
+                    """, String.class)
+                                .setParameter(1, bm)
+                                .setMaxResults(1)
+                                .getSingleResult());
 
-		        preparedStatement.setFetchSize(RESULT_SET_FETCH_SIZE);
-		        preparedStatement.setString(1, configItemName);
+        } catch (NoResultException e) { return Optional.empty(); }
 
-		        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
-		            if (!resultSet.next()) {
-		                return Optional.empty();
-		            }
-
-		            return Optional.of(resultSet.getString(1));
-
-		        }
-
-		    }
-
-		} catch (SQLException e) { throw new RuntimeException(e); }
-
-	}
+    }
 
 }
