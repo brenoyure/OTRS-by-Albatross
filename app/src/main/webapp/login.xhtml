@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link href="#{request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="#{request.contextPath}/resources/css/login.css" rel="stylesheet" />
 	<title>OTRS | Login</title>
 </head>
 
@@ -13,16 +14,17 @@
     .logo-empresa {
         width: 114px; 
         height: 136px;
-        margin: 0 0 10px 80px;
+        display: block;
+        margin: auto;
     }
 
 </style>
 
-	<body>
-        <div class="container-sm" style="max-width: 20vw; margin: 20vh auto;">
+	<body class="d-flex align-items-center py-4 bg-body-tertiary">
+        <div class="form-signin w-100 m-auto" >
 
             <div>
-                <img class="logo-empresa" src="#{request.contextPath}/resources/images/logo-empresas/logo-empresa-cliente.png" alt="Logo da Empresa Cliente" />
+                <img class="mb-4 logo-empresa" src="#{request.contextPath}/resources/images/logo-empresas/logo-empresa-cliente.png" alt="Logo da Empresa Cliente" />
             </div>
 
 	        <form class="mb-3" action="j_security_check" method="post" id="login-form" >
