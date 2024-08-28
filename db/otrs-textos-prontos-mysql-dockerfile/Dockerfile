@@ -10,4 +10,6 @@ ENV MYSQL_PASSWORD_FILE=/run/secrets/mysql-password
 ENV MYSQL_DATABASE_FILE=/run/secrets/mysql-database
 
 COPY credenciais/* /run/secrets/
-COPY sql/*.sql .
+
+# Agora os DDLs serão gerenciados pelo Flyway, através das migrations no diretório src/main/resources/flyway
+# COPY sql/*.sql .
