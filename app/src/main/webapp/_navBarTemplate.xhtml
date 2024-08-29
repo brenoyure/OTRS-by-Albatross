@@ -29,7 +29,7 @@
                     <p:menuitem  value="Listagem"                   icon="pi pi-list-check"         outcome="/administracao/clientes/listagem"                                                        />
                 </p:submenu>
 
-                <p:menuitem  value="Relatórios dos Serviços (Em Manutenção)"        icon="pi pi-history"            outcome="/administracao/solicitacoes/listagem"  disabled="true"                   />
+                <p:menuitem  value="Relatórios dos Serviços"        icon="pi pi-history"            outcome="/administracao/solicitacoes/listagem"                                                    />
 
 	            <f:facet name="options">
                     <h:outputLabel   value="Olá, você está logado como Administrador"  style="margin-right: 10px;"                             rendered="#{request.userPrincipal.name.equals('Administrador')}"     />

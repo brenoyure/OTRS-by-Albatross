@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.hibernate.jpa.AvailableHints;
 
+import br.albatross.otrs.domain.models.fornecedor.FornecedorComboBox;
 import br.albatross.otrs.persistence.entities.fornecedor.Fornecedor;
 import br.albatross.otrs.persistence.repositories.RepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -77,6 +78,15 @@ public class FornecedoresRepositoryImpl extends RepositoryImpl<Fornecedor, Integ
         return entityManager
                 .createQuery("SELECT s.idsDosServicosDoFornecedorNoSistemaDeChamados FROM Fornecedor s WHERE id = ?1", Integer.class)
                 .setParameter(1, id)
+                .getResultList();
+
+    }
+
+    @Override
+    public List<FornecedorComboBox> findAllAsFornecedorComboBoxOrderByNome() {
+
+        return entityManager
+                .createQuery("SELECT new br.albatross.otrs.domain.models.fornecedor.FornecedorComboBox(f.id, f.nome) FROM Fornecedor f ORDER BY f.nome", FornecedorComboBox.class)
                 .getResultList();
 
     }

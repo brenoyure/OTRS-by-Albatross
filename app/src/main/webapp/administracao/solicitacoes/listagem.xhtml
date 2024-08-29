@@ -12,57 +12,70 @@
 	<ui:define name="titulo">Relatórios dos Serviços</ui:define>
 
 	<ui:define name="conteudo">
+	<p:focus for=":form-selectFornecedor:panel" />
 
 		<div>
             <p:fieldset legend="Administração / Solicitações / Listagem" >
 
-                <div style="margin-bottom: 1rem">
-	                <h3>Relatório Geral</h3>
-	                <h6 jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioGeral}">Total: #{relatorioServicoDeGarantiaBean.totalGeral}</h6>
-	                <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioGeral}" >
-	                    <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioGeral}" var="relatorio" >
-	                        <li>Serviço: #{relatorio.dadosDoServico.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
-	                            <h:outputText value="#{relatorio.dataEHoraDaUltimaSolicitacao}" >
-	                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime" />
-	                            </h:outputText>
-	                        </li>
-	                    </ui:repeat>
-	                </ul>
-                    <h:outputText rendered="#{empty relatorioServicoDeGarantiaBean.relatorioGeral}" value="Nenhuma Solicitação de Garantia efetuada" />
-                </div>
+                <h:form id="form-selectFornecedor" >
+                    <p:panelGrid columns="2" id="panel" layout="tabular" >
+                        <h:outputLabel value="Selecione o Fornecedor: " />
+                        <h:outputText  value="Nenhum Fornecedor Cadastrado" rendered="#{empty listaFornecedoresAsComboBoxBean.fornecedores}" />
+	                    <h:selectOneMenu value="#{relatorioServicoDeGarantiaBean.fornecedorId}" rendered="#{not empty listaFornecedoresAsComboBoxBean.fornecedores}" required="true" requiredMessage="Para exibir o relatório, selecione um Fornecedor" styleClass="form-select" >
+                            <f:selectItem itemLabel="Selecione o Fornecedor" noSelectionOption="true" />
+                            <f:selectItems value="#{listaFornecedoresAsComboBoxBean.fornecedores}" var="fornecedor" itemLabel="#{fornecedor.nome}" itemValue="#{fornecedor.id}" />
+                            <f:ajax listener="#{relatorioServicoDeGarantiaBean.obterRelatorioDoFornecedor}" render="@this :relatorio :mensagens" />	                           
+                        </h:selectOneMenu>
+                    </p:panelGrid>
+                </h:form>
 
-                <div style="margin-bottom: 1rem">
-                    <h3>Relatório Mensal</h3>
-                    <h6 jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioMensal}">Total: #{relatorioServicoDeGarantiaBean.totalMensal}</h6>
-                    <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioMensal}" >
-                        <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioMensal}" var="relatorio" >
-                            <li>Serviço: #{relatorio.dadosDoServico.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
-                                <h:outputText value="#{relatorio.dataEHoraDaUltimaSolicitacao}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime" />
-                                </h:outputText>
-                            </li>
-                        </ui:repeat>
-                    </ul>
-                    <h:outputText rendered="#{empty relatorioServicoDeGarantiaBean.relatorioMensal}" value="Nenhuma Solicitação de Garantia efetuada no Mês Atual" />
-                </div>
+                <div jsf:id="relatorio" style="cursor: default;" >
 
-                <div style="margin-bottom: 1rem">
-                    <h3>Relatório Anual</h3>
-                    <h6 jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioAnual}">Total: #{relatorioServicoDeGarantiaBean.totalAnual}</h6>
-                    <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioAnual}" >
-                        <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioAnual}" var="relatorio" >
-                            <li>Serviço: #{relatorio.dadosDoServico.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
-                                <h:outputText value="#{relatorio.dataEHoraDaUltimaSolicitacao}" >
-                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime" />
-                                </h:outputText>
-                            </li>
-                        </ui:repeat>
-                    </ul>
-                    <h:outputText rendered="#{empty relatorioServicoDeGarantiaBean.relatorioAnual}" value="Nenhuma Solicitação de Garantia efetuada no Ano Atual" />
-                </div>
+	                <div style="margin-bottom: 1rem" jsf:rendered="#{relatorioServicoDeGarantiaBean.fornecedorId != 0}" >
+	                    <h3>Relatório Geral</h3>
+	                    <h6 jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioGeral}">Total: #{relatorioServicoDeGarantiaBean.totalGeral}</h6>
+	                    <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioGeral}" class="list-group" >
+	                        <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioGeral}" var="relatorio" >
+	                            <li class="list-group-item list-group-item-action" >Serviço: #{relatorio.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
+	                                <h:outputText value="#{relatorio.dataEHoraDaUltimaSolicitacao}" >
+	                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime" />
+	                                </h:outputText>
+	                            </li>
+	                        </ui:repeat>
+	                    </ul>
+	                    <h:outputText rendered="#{empty relatorioServicoDeGarantiaBean.relatorioGeral}" value="Nenhuma Solicitação de Garantia efetuada" />
+	                </div>
 
-                <div>
-                    <span>* Os resultados nesta tela podem apresentar um atraso de até 5 minutos</span>
+	                <div style="margin-bottom: 1rem" jsf:rendered="#{relatorioServicoDeGarantiaBean.fornecedorId != 0}" >
+	                    <h3>Relatório Mensal</h3>
+	                    <h6 jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioMensal}">Total: #{relatorioServicoDeGarantiaBean.totalMensal}</h6>
+	                    <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioMensal}" class="list-group" >
+	                        <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioMensal}" var="relatorio" >
+	                            <li class="list-group-item list-group-item-action" >Serviço: #{relatorio.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
+	                                <h:outputText value="#{relatorio.dataEHoraDaUltimaSolicitacao}" >
+	                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime" />
+	                                </h:outputText>
+	                            </li>
+	                        </ui:repeat>
+	                    </ul>
+	                    <h:outputText rendered="#{empty relatorioServicoDeGarantiaBean.relatorioMensal}" value="Nenhuma Solicitação de Garantia efetuada no Mês Atual" />
+	                </div>
+	
+	                <div style="margin-bottom: 1rem" jsf:rendered="#{relatorioServicoDeGarantiaBean.fornecedorId != 0}" >
+	                    <h3>Relatório Anual</h3>
+	                    <h6 jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioAnual}">Total: #{relatorioServicoDeGarantiaBean.totalAnual}</h6>
+	                    <ul jsf:rendered="#{not empty relatorioServicoDeGarantiaBean.relatorioAnual}" class="list-group" >
+	                        <ui:repeat value="#{relatorioServicoDeGarantiaBean.relatorioAnual}" var="relatorio" >
+	                            <li class="list-group-item list-group-item-action" >Serviço: #{relatorio.nomeDoServico} | Total: #{relatorio.total} | Última Solicitação:  
+	                                <h:outputText value="#{relatorio.dataEHoraDaUltimaSolicitacao}" >
+	                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime" />
+	                                </h:outputText>
+	                            </li>
+	                        </ui:repeat>
+	                    </ul>
+	                    <h:outputText rendered="#{empty relatorioServicoDeGarantiaBean.relatorioAnual}" value="Nenhuma Solicitação de Garantia efetuada no Ano Atual" />
+	                </div>
+
                 </div>
 
             </p:fieldset>
