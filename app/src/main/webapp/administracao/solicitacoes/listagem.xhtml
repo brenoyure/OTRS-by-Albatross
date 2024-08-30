@@ -29,7 +29,7 @@
                     </p:panelGrid>
                 </h:form>
 
-                <div jsf:id="relatorio" style="cursor: default;" >
+                <p:fieldset id="relatorio" style="cursor: default;" >
 
 	                <div style="margin-bottom: 1rem" jsf:rendered="#{relatorioServicoDeGarantiaBean.fornecedorId != 0}" >
 	                    <h3>Relatório Geral</h3>
@@ -76,7 +76,7 @@
 	                    <h:outputText rendered="#{empty relatorioServicoDeGarantiaBean.relatorioAnual}" value="Nenhuma Solicitação de Garantia efetuada no Ano Atual" />
 	                </div>
 
-                </div>
+                </p:fieldset>
 
             </p:fieldset>
 		</div>

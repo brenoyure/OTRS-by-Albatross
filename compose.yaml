@@ -35,6 +35,30 @@ services:
       - br.albatross.otrs.messaging.activemq-vol:/var/lib/artemis-instance
     restart: always
 
+  otrs-messaging_activemq_consumer:
+    image: br.albatross.otrs.messaging.activemq-consumer-image
+    container_name: br.albatross.otrs.messaging.activemq-consumer-dc
+    build:
+      context: ./messaging-consumer
+      args:
+        - MESSAGING_ACTIVEMQ_HOST=${MESSAGING_ACTIVEMQ_HOST}
+        - MESSAGING_ACTIVEMQ_USERNAME=${MESSAGING_ACTIVEMQ_USERNAME}
+        - MESSAGING_ACTIVEMQ_PASSWORD=${MESSAGING_ACTIVEMQ_PASSWORD}
+
+        - OTRS_MAIL_SESSION_USER=${OTRS_MAIL_SESSION_USER}
+        - OTRS_MAIL_SESSION_PASSWORD=${OTRS_MAIL_SESSION_PASSWORD}
+        - OTRS_MAIL_SMTP_HOST=${OTRS_MAIL_SMTP_HOST}
+        - OTRS_MAIL_SMTP_PORT=${OTRS_MAIL_SMTP_PORT}
+    networks:
+      - otrs-network
+    volumes:
+      - br.albatross.otrs.messaging.activemq-consumer-logs-vol:/opt/jboss/wildfly/standalone/log:rw
+      - br.albatross.otrs.messaging.activemq-consumer-configuration-history-vol:/opt/jboss/wildfly/standalone/configuration/standalone_xml_history:rw
+    restart: always
+    depends_on:
+      otrs-messaging_activemq:
+        condition: service_started
+    
   otrs-app:
     image: ${OTRS_APP_DOCKER_IMAGE}
     container_name: ${OTRS_APP_CONTAINER_NAME}
@@ -46,11 +70,6 @@ services:
         - MYSQL_OTRS_PASSWORD=${MYSQL_OTRS_PASSWORD}
         - MYSQL_OTRS_DATABASE=${MYSQL_OTRS_DATABASE}
         - MYSQL_OTRS_DATABASE_HOST=${MYSQL_OTRS_DATABASE_HOST}
-
-        - OTRS_MAIL_SESSION_USER=${OTRS_MAIL_SESSION_USER}
-        - OTRS_MAIL_SESSION_PASSWORD=${OTRS_MAIL_SESSION_PASSWORD}
-        - OTRS_MAIL_SMTP_HOST=${OTRS_MAIL_SMTP_HOST}
-        - OTRS_MAIL_SMTP_PORT=${OTRS_MAIL_SMTP_PORT}
 
         - MYSQL_OTRS_TEXTOS_PRONTOS_USER=${MYSQL_OTRS_TEXTOS_PRONTOS_USER}
         - MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD=${MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD}
@@ -90,3 +109,5 @@ volumes:
   br.albatross.otrs-app-configuration-history-vol:
   br.albatross.otrsdb.textos_prontos-vol:
   br.albatross.otrs.messaging.activemq-vol:
+  br.albatross.otrs.messaging.activemq-consumer-logs-vol:
+  br.albatross.otrs.messaging.activemq-consumer-configuration-history-vol:

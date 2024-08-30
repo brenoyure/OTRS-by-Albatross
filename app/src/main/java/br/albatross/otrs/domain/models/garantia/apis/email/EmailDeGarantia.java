@@ -1,5 +1,6 @@
 package br.albatross.otrs.domain.models.garantia.apis.email;
 
+import br.albatross.apis.email.Email;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import jakarta.validation.constraints.NotNull;
 

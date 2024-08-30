@@ -1,6 +1,6 @@
 package br.albatross.otrs.messaging;
 
-import br.albatross.otrs.domain.models.garantia.apis.email.Email;
+import br.albatross.apis.email.Email;
 import jakarta.annotation.Resource;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;

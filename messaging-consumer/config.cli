@@ -1,0 +1,26 @@
+embed-server --server-config=standalone-full.xml
+
+# Configurando o ActiveMQ Remoto para o consumo de mensagens JMS
+
+# Configurando o socket-binding com o host e a porta do ActiveMQ
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=remote-activemq-socket-binding:add(host=${env.MESSAGING_ACTIVEMQ_HOST}, port=61616)
+
+# Configurando o remote-active-mq-connector
+/subsystem=messaging-activemq/remote-connector=remote-activemq-connector:add(socket-binding=remote-activemq-socket-binding)
+
+# Configurando uma Pooled Connection Factory remota
+/subsystem=messaging-activemq/pooled-connection-factory=remote-activemq-connection-factory:add(connectors=[remote-activemq-connector], entries=[java:/jms/RemoteActiveMQConnectionFactory], user=${env.MESSAGING_ACTIVEMQ_USERNAME}, password=${env.MESSAGING_ACTIVEMQ_PASSWORD}
+
+# Configurando a File (Queue) de Mensageria
+/subsystem=messaging-activemq/external-jms-queue=OtrsEmailQueue:add(entries=[jms.queue.OtrsEmailQueue, java:jboss/exported/jms/queue/OtrsEmailQueue]
+
+# Criando o socket Binding com o servidor de email smtp
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-smtp-binding:add(host=${env.OTRS_MAIL_SMTP_HOST}, port=${env.OTRS_MAIL_SMTP_PORT})
+
+# Criando o Mail Session
+/subsystem=mail/mail-session=otrsMailSession:add(jndi-name=java:jboss/mail/OtrsMailSession)
+
+# Definindo o socket binding criado para o Session anteriormente criado
+/subsystem=mail/mail-session=otrsMailSession/server=smtp:add(outbound-socket-binding-ref=my-smtp-binding, username=${env.OTRS_MAIL_SESSION_USER}, password=${env.OTRS_MAIL_SESSION_PASSWORD}, tls=true)
+
+stop-embedded-server

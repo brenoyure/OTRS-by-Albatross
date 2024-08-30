@@ -29,7 +29,7 @@ public class OtrsServiceBean implements Serializable {
 	private FacesContext context;
 
 	@Inject
-	private SolicitacaoDeGarantiaServiceBean solicitacaoDeGarantiaServiceBean;
+	private SolicitacaoDeGarantiaService solicitacaoDeGarantiaService;
 
 	@Inject
 	private AssuntoEmailDeGarantiaServiceBean assuntoEmailServiceBean;
@@ -79,7 +79,7 @@ public class OtrsServiceBean implements Serializable {
 			assuntoEmailServiceBean.setAssuntoDoEmail(solicitacao.getEmailDeGarantia());
 			assinaturaEmailServiceBean.setCorpoDaMensagemComAssinatura(solicitacao.getEmailDeGarantia());
 			
-			solicitacaoDeGarantiaServiceBean.solicitarGarantia(solicitacao);
+			solicitacaoDeGarantiaService.solicitarGarantia(solicitacao);
 
 			solicitacaoGarantiaJaEfetuada = true;
 
