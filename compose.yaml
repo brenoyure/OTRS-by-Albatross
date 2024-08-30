@@ -21,6 +21,20 @@ services:
       - br.albatross.otrsdb.textos_prontos-vol:/var/lib/mysql
     restart: always
 
+  otrs-messaging_activemq:
+    image: br.albatross.otrs.messaging.activemq-image
+    container_name: br.albatross.otrs.messaging.activemq-dc
+    build:
+      context: ./messaging
+    environment:
+      - ARTEMIS_USER=${MESSAGING_ACTIVEMQ_USERNAME}
+      - ARTEMIS_PASSWORD=${MESSAGING_ACTIVEMQ_PASSWORD}
+    networks:
+      - otrs-network
+    volumes:
+      - br.albatross.otrs.messaging.activemq-vol:/var/lib/artemis-instance
+    restart: always
+
   otrs-app:
     image: ${OTRS_APP_DOCKER_IMAGE}
     container_name: ${OTRS_APP_CONTAINER_NAME}
@@ -43,17 +57,24 @@ services:
         - MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST=${MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST}
         - MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE=${MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE}
 
+        - MESSAGING_ACTIVEMQ_HOST=${MESSAGING_ACTIVEMQ_HOST}
+        - MESSAGING_ACTIVEMQ_USERNAME=${MESSAGING_ACTIVEMQ_USERNAME}
+        - MESSAGING_ACTIVEMQ_PASSWORD=${MESSAGING_ACTIVEMQ_PASSWORD}
+
     networks:
       - otrs-network
     volumes:
       - br.albatross.otrs-app-logs-vol:/opt/jboss/wildfly/standalone/log:rw
       - br.albatross.otrs-app-configuration-history-vol:/opt/jboss/wildfly/standalone/configuration/standalone_xml_history:rw
-      
+
     depends_on:
       otrsdb:
         condition: service_started
       otrsdb_textos_prontos:
         condition: service_started
+      otrs-messaging_activemq:
+        condition: service_started
+
     ports:
       - 8080:8080
     restart: always
@@ -68,3 +89,4 @@ volumes:
   br.albatross.otrs-app-logs-vol:
   br.albatross.otrs-app-configuration-history-vol:
   br.albatross.otrsdb.textos_prontos-vol:
+  br.albatross.otrs.messaging.activemq-vol:

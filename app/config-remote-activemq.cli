@@ -1,0 +1,18 @@
+embed-server --server-config=standalone-full.xml
+
+# Configurando o ActiveMQ Remoto (JMS)
+
+# Configurando o socket-binding com o host e a porta do ActiveMQ
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=remote-activemq-socket-binding:add(host=${env.MESSAGING_ACTIVEMQ_HOST}, port=61616)
+
+# Configurando o remote-active-mq-connector
+/subsystem=messaging-activemq/remote-connector=remote-activemq-connector:add(socket-binding=remote-activemq-socket-binding)
+
+# Configurando uma Pooled Connection Factory remota
+/subsystem=messaging-activemq/pooled-connection-factory=remote-activemq-connection-factory:add(connectors=[remote-activemq-connector], entries=[java:/jms/RemoteActiveMQConnectionFactory], user=${env.MESSAGING_ACTIVEMQ_USERNAME}, password=${env.MESSAGING_ACTIVEMQ_PASSWORD}
+
+# Configurando a File (Queue) de Mensageria
+/subsystem=messaging-activemq/external-jms-queue=OtrsEmailQueue:add(entries=[jms.queue.OtrsEmailQueue, java:jboss/exported/jms/queue/OtrsEmailQueue]
+
+stop-embedded-server
+
