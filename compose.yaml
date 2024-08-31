@@ -34,6 +34,9 @@ services:
     volumes:
       - br.albatross.otrs.messaging.activemq-vol:/var/lib/artemis-instance
     restart: always
+    ports:
+      - 8161:8161
+      - 61616:61616
 
   otrs-messaging_activemq_consumer:
     image: br.albatross.otrs.messaging.activemq-consumer-image
@@ -75,6 +78,11 @@ services:
         - MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD=${MYSQL_OTRS_TEXTOS_PRONTOS_PASSWORD}
         - MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST=${MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE_HOST}
         - MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE=${MYSQL_OTRS_TEXTOS_PRONTOS_DATABASE}
+
+        - OTRS_MAIL_SESSION_USER=${OTRS_MAIL_SESSION_USER}
+        - OTRS_MAIL_SESSION_PASSWORD=${OTRS_MAIL_SESSION_PASSWORD}
+        - OTRS_MAIL_SMTP_HOST=${OTRS_MAIL_SMTP_HOST}
+        - OTRS_MAIL_SMTP_PORT=${OTRS_MAIL_SMTP_PORT}
 
         - MESSAGING_ACTIVEMQ_HOST=${MESSAGING_ACTIVEMQ_HOST}
         - MESSAGING_ACTIVEMQ_USERNAME=${MESSAGING_ACTIVEMQ_USERNAME}

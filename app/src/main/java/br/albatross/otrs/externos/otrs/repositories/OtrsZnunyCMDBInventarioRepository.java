@@ -15,7 +15,7 @@ import jakarta.persistence.PersistenceContext;
  * @author breno.brito
  */
 @RequestScoped
-public class OtrsZnunyCMDBInventarioRepositoryImpl implements InventarioRepository {
+public class OtrsZnunyCMDBInventarioRepository implements InventarioRepository {
 
     @PersistenceContext(unitName = "otrsdb")
     private EntityManager entityManager;

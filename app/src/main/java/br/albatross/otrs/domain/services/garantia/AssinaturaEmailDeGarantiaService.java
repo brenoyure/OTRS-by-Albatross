@@ -4,7 +4,7 @@ import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGa
 import jakarta.enterprise.context.RequestScoped;
 
 @RequestScoped
-public class AssinaturaEmailService {
+public class AssinaturaEmailDeGarantiaService {
 
 	public String getCorpoDoEmailComAssinatura(SolicitacaoDeGarantia solicitacao) {
 

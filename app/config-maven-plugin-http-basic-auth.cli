@@ -3,19 +3,30 @@
 deploy mariadb-java-client.jar
 
 ## 2 Adicionando os DataSources do sistema de chamados e dos textos prontos ####
-data-source add --name=OtrsDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mariadb://172.19.0.3:3306/otrsdb --user-name=albatross18 --password=pass123 --enabled=true --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
-data-source add --name=ProblemaDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mariadb://172.19.0.2:3306/otrsdb_textos_prontos --user-name=albatross18 --password=pass123 --enabled=true --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
+data-source add --name=OtrsDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mariadb://localhost:3306/otrsdb --user-name=root --password=Bl@ck0511 --enabled=true --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
+data-source add --name=ProblemaDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mariadb://localhost:3306/otrsdb_textos_prontos --user-name=root --password=Bl@ck0511 --enabled=true --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
 
-### 3.Criando a Fila JMS ###
-jms-queue add --queue-address=jms.queue.OtrsEmailQueue --entries=java:/jms/queue/OtrsEmailQueue
+# Configurando o ActiveMQ Remoto para a produção de mensagens JMS
 
-### 4. Criando o socket Binding ###
+# Configurando o socket-binding com o host e a porta do ActiveMQ
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=remote-activemq-socket-binding:add(host=localhost, port=61616)
+
+# Configurando o remote-active-mq-connector
+/subsystem=messaging-activemq/remote-connector=remote-activemq-connector:add(socket-binding=remote-activemq-socket-binding)
+
+# Configurando uma Pooled Connection Factory remota
+/subsystem=messaging-activemq/pooled-connection-factory=remote-activemq-connection-factory:add(connectors=[remote-activemq-connector], entries=[java:/jms/RemoteActiveMQConnectionFactory], user=albatross18, password=pass123
+
+# Configurando a File (Queue) de Mensageria
+/subsystem=messaging-activemq/external-jms-queue=OtrsEmailQueue:add(entries=[jms.queue.OtrsEmailQueue, java:jboss/exported/jms/queue/OtrsEmailQueue]
+
+# Criando o socket Binding com o servidor de email smtp
 /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=my-smtp-binding:add(host=sandbox.smtp.mailtrap.io, port=587)
 
-### 5. Criando o Mail Session ###
+# Criando o Mail Session
 /subsystem=mail/mail-session=otrsMailSession:add(jndi-name=java:jboss/mail/OtrsMailSession)
 
-### 6. Definindo o socket binding criado para o Session anteriormente criado ###
+# Definindo o socket binding criado para o Session anteriormente criado
 /subsystem=mail/mail-session=otrsMailSession/server=smtp:add(outbound-socket-binding-ref=my-smtp-binding, username=905f2dd9fbc8bb, password=45f40d644a1897, tls=true)
 
 

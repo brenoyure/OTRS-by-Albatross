@@ -2,6 +2,12 @@
 
 docker compose down
 
+cd ./messaging-consumer
+
+mvn clean package
+
+cd ..
+
 docker compose build otrsdb_textos_prontos otrs-messaging_activemq otrs-messaging_activemq_consumer
 docker compose up -d otrsdb_textos_prontos otrs-messaging_activemq otrs-messaging_activemq_consumer
 

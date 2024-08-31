@@ -25,7 +25,7 @@ public class OtrsEmailMessageProducer {
     private Queue queue;
 
     public void enviarEmailParaAJmsQueue(@Valid Email email) {
-        context.createProducer().send(queue, email);
+        context.createProducer().send(queue, context.createObjectMessage(email));
     }
 
 }

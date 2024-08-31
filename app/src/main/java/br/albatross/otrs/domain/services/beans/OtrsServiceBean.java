@@ -3,16 +3,21 @@ package br.albatross.otrs.domain.services.beans;
 import static jakarta.faces.application.FacesMessage.SEVERITY_ERROR;
 import static jakarta.faces.application.FacesMessage.SEVERITY_WARN;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
 
-import br.albatross.otrs.domain.models.garantia.apis.email.EmailDeGarantia;
+import br.albatross.apis.email.Anexo;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import br.albatross.otrs.domain.services.garantia.AnexoGenerator;
+import br.albatross.otrs.domain.services.garantia.AssinaturaEmailDeGarantiaService;
+import br.albatross.otrs.domain.services.garantia.AssuntoEmailDeGarantiaService;
 import br.albatross.otrs.domain.services.garantia.FormularioGenerator;
-import br.albatross.otrs.domain.services.garantia.FormularioInputStreamGenerator;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -32,24 +37,22 @@ public class OtrsServiceBean implements Serializable {
 	private SolicitacaoDeGarantiaService solicitacaoDeGarantiaService;
 
 	@Inject
-	private AssuntoEmailDeGarantiaServiceBean assuntoEmailServiceBean;
+	private AssuntoEmailDeGarantiaService assuntoEmailService;
 
 	@Inject
-	private AssinaturaEmailServiceBean assinaturaEmailServiceBean;
+	private AssinaturaEmailDeGarantiaService assinaturaEmailService;
 
 	@Inject
 	private FormularioGenerator geradorFormulario;
-
-	@Inject
-	private FormularioInputStreamGenerator formularioFileInputStream;
 
 	@Inject
 	private AnexoGenerator anexoGenerator;
 
 	private boolean solicitacaoGarantiaJaEfetuada = false;
 
-	public void definirAssuntoDoEmail(EmailDeGarantia emailGarantia) {
-		assuntoEmailServiceBean.setAssuntoDoEmail(emailGarantia);
+	public void definirAssuntoDoEmail(SolicitacaoDeGarantia solicitacaoDeGarantia) {
+		String assuntoDoEmailBaseadoNoServicoDoChamado = assuntoEmailService.getAssuntoDoEmailBaseadoNoServicoDoChamado(solicitacaoDeGarantia);
+		solicitacaoDeGarantia.getEmailDeGarantia().setAssunto(assuntoDoEmailBaseadoNoServicoDoChamado);
 	}
 
 	public void enviarSolicitacaoDeGarantiaPorEmail(SolicitacaoDeGarantia solicitacao, Part uploadedFile) {
@@ -61,26 +64,31 @@ public class OtrsServiceBean implements Serializable {
 
 		try {
 
-			File[] vetorAnexos;
+            Anexo[] vetorAnexos;
 
-			if (uploadedFile == null) {
-				vetorAnexos = new File[1];
+            if (uploadedFile == null) {
+                vetorAnexos = new Anexo[1];
 
-			} else {
-				vetorAnexos = new File[2];
-				vetorAnexos[1] = anexoGenerator.getAnexo(uploadedFile);
-			}
+            } else {
+                vetorAnexos = new Anexo[2];
+                File uploadedAnexoFile = anexoGenerator.getAnexo(uploadedFile);
+                try (InputStream uploadedFileInputStream = new BufferedInputStream(new FileInputStream(uploadedAnexoFile))) {
+                    Anexo anexo = new Anexo(uploadedAnexoFile.getName(), uploadedFileInputStream.readAllBytes());
+                    vetorAnexos[vetorAnexos.length - 1] = anexo;
+                }
+            }
 
-			var formulario = geradorFormulario.getFormulario(formularioFileInputStream.getInputStream(), solicitacao);
-			vetorAnexos[0] = formulario;
+            File formulario = geradorFormulario.getFormulario(solicitacao);
+            try (InputStream formularioInputStream = new BufferedInputStream(new FileInputStream(formulario))) {
+                Anexo anexo = new Anexo(formulario.getName(), formularioInputStream.readAllBytes());
+                vetorAnexos[0] = anexo;
+            }
+            
+            solicitacao.getEmailDeGarantia().setAnexos(vetorAnexos);
 
-			solicitacao.getEmailDeGarantia().setAnexos(vetorAnexos);
+		    solicitacao.getEmailDeGarantia().setCorpoDaMensagem(assinaturaEmailService.getCorpoDoEmailComAssinatura(solicitacao));
 
-			assuntoEmailServiceBean.setAssuntoDoEmail(solicitacao.getEmailDeGarantia());
-			assinaturaEmailServiceBean.setCorpoDaMensagemComAssinatura(solicitacao.getEmailDeGarantia());
-			
 			solicitacaoDeGarantiaService.solicitarGarantia(solicitacao);
-
 			solicitacaoGarantiaJaEfetuada = true;
 
 		}	catch (NotOfficeXmlFileException e) {
@@ -88,6 +96,8 @@ public class OtrsServiceBean implements Serializable {
 		}   catch (ConstraintViolationException e) {
 			e.printStackTrace();
 			context.addMessage("otrs", new FacesMessage(SEVERITY_ERROR, e.getLocalizedMessage(), e.getMessage()));
+		}   catch(IOException e) { 
+		    context.addMessage("otrs", new FacesMessage(SEVERITY_ERROR, "Erro de IO", "Ocorreu um erro ao gerar o formulário ou ao converter o arquivo submetido para anexo"));
 		}
 
 	}

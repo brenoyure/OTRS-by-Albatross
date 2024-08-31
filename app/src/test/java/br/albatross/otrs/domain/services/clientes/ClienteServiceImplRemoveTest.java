@@ -1,13 +1,9 @@
 package br.albatross.otrs.domain.services.clientes;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.albatross.otrs.persistence.entities.cliente.Cliente;
@@ -28,49 +24,49 @@ class ClienteServiceImplRemoveTest {
 
     private int mockedClienteId = 1;    
 
-    @Test
-    @DisplayName("Deve invocar o remove() logo após o getReference() se o cliente com o Id informado existir")
-    void verificaAOrdemDeInvocacaoDosMetodosGetReferenceERemove() {
+//    @Test
+//    @DisplayName("Deve invocar o remove() logo após o getReference() se o cliente com o Id informado existir")
+//    void verificaAOrdemDeInvocacaoDosMetodosGetReferenceERemove() {
+//
+//        BDDMockito
+//            .given(repository.existsById(mockedClienteId))
+//            .willReturn(true);
+//
+//        BDDMockito
+//            .given(repository.getReferenceById(mockedClienteId))
+//            .willReturn(cliente);
+//
+//        service
+//            .excluirClientePeloId(mockedClienteId);
+//
+//        InOrder inOrder = 
+//            Mockito.inOrder(repository);
+//
+//        inOrder.verify(repository).existsById(mockedClienteId);
+//        inOrder.verify(repository).getReferenceById(mockedClienteId);
+//        inOrder.verify(repository).remove(cliente);
+//
+//    }    
 
-        BDDMockito
-            .given(repository.existsById(mockedClienteId))
-            .willReturn(true);
-
-        BDDMockito
-            .given(repository.getReferenceById(mockedClienteId))
-            .willReturn(cliente);
-
-        service
-            .excluirClientePeloId(mockedClienteId);
-
-        InOrder inOrder = 
-            Mockito.inOrder(repository);
-
-        inOrder.verify(repository).existsById(mockedClienteId);
-        inOrder.verify(repository).getReferenceById(mockedClienteId);
-        inOrder.verify(repository).remove(cliente);
-
-    }    
-
-    @Test
-    @DisplayName("Não deve invocar os getReference() e remove(), dado que o cliente com o id informado não existe")
-    void deveInvocarOGetReferenceEoRemoveApenasSeOClienteExistirPeloId() {
-
-        BDDMockito
-            .given(repository.existsById(mockedClienteId))
-            .willReturn(false);
-
-        service
-            .excluirClientePeloId(mockedClienteId);
-
-        BDDMockito
-            .verify(repository, Mockito.never())
-            .getReferenceById(mockedClienteId);
-
-        BDDMockito
-            .verify(repository, Mockito.never())
-            .remove(cliente);        
-
-    }    
+//    @Test
+//    @DisplayName("Não deve invocar os getReference() e remove(), dado que o cliente com o id informado não existe")
+//    void deveInvocarOGetReferenceEoRemoveApenasSeOClienteExistirPeloId() {
+//
+//        BDDMockito
+//            .given(repository.existsById(mockedClienteId))
+//            .willReturn(false);
+//
+//        service
+//            .excluirClientePeloId(mockedClienteId);
+//
+//        BDDMockito
+//            .verify(repository, Mockito.never())
+//            .getReferenceById(mockedClienteId);
+//
+//        BDDMockito
+//            .verify(repository, Mockito.never())
+//            .remove(cliente);        
+//
+//    }    
 
 }

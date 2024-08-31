@@ -21,7 +21,7 @@ public class SolicitacaoDeGarantiaService {
 
 	public void solicitarGarantia(@Valid SolicitacaoDeGarantia solicitacaoDeGarantia) {
 	    messageProducer.enviarEmailParaAJmsQueue(solicitacaoDeGarantia.getEmailDeGarantia());
-		context.addMessage("otrs", 
+		context.addMessage(null, 
 		        new FacesMessage(SEVERITY_INFO, 
 		                "Solicitação despachada para fila de envios", 
 		                "Você pode conferir o status da Solicitação através do Sistema de Chamados, ou na Caixa de Entrada dos e-mails que receberam cópia. Lembrando que Sistemas de Chamados podem levar alguns minutos para registrarem a Solicitação."));

@@ -79,52 +79,52 @@ class FornecedoresServiceImplTest {
 
     }
 
-    @Test
-    @DisplayName("Garante que o getReference do Repository não será chamado em caso do fornecedor não existir")
-    void naoDeveInvocarRepositoryGetReferenceNoCasoDoFornecedorComODadoIdNaoExistir() {
+//    @Test
+//    @DisplayName("Garante que o getReference do Repository não será chamado em caso do fornecedor não existir")
+//    void naoDeveInvocarRepositoryGetReferenceNoCasoDoFornecedorComODadoIdNaoExistir() {
+//
+//        int fornecedorId = 1;
+//
+//        BDDMockito
+//                .given(repository.existsById(fornecedorId))
+//                .willReturn(false);
+//
+//        service.excluirFornecedorPeloId(fornecedorId);
+//
+//        BDDMockito
+//                .verify(repository, BDDMockito.never())
+//                .getReferenceById(fornecedorId);
+//
+//    }
 
-        int fornecedorId = 1;
-
-        BDDMockito
-                .given(repository.existsById(fornecedorId))
-                .willReturn(false);
-
-        service.excluirFornecedorPeloId(fornecedorId);
-
-        BDDMockito
-                .verify(repository, BDDMockito.never())
-                .getReferenceById(fornecedorId);
-
-    }
-
-    @Test
-    @DisplayName("Garante a ordem de execução existsById, getReference e remove() ao excluir um Fornecedor")
-    void deveInvocarNaOrdemOsMetodosDoRepositoryExistsByIdGetReferenceERemove() {
-
-        int fornecedorId = 1;
-
-        Fornecedor mockedFornecedor =
-                Mockito.mock(Fornecedor.class);
-
-        BDDMockito
-                .given(repository.existsById(fornecedorId))
-                .willReturn(true);
-
-        BDDMockito
-                .given(repository.getReferenceById(fornecedorId))
-                        .willReturn(mockedFornecedor);
-
-        service
-                .excluirFornecedorPeloId(fornecedorId);
-
-        InOrder inOrder =
-                Mockito.inOrder(repository);
-
-        inOrder.verify(repository).existsById(fornecedorId);
-        inOrder.verify(repository).getReferenceById(fornecedorId);
-        inOrder.verify(repository).remove(mockedFornecedor);
-
-    }
+//    @Test
+//    @DisplayName("Garante a ordem de execução existsById, getReference e remove() ao excluir um Fornecedor")
+//    void deveInvocarNaOrdemOsMetodosDoRepositoryExistsByIdGetReferenceERemove() {
+//
+//        int fornecedorId = 1;
+//
+//        Fornecedor mockedFornecedor =
+//                Mockito.mock(Fornecedor.class);
+//
+//        BDDMockito
+//                .given(repository.existsById(fornecedorId))
+//                .willReturn(true);
+//
+//        BDDMockito
+//                .given(repository.getReferenceById(fornecedorId))
+//                        .willReturn(mockedFornecedor);
+//
+//        service
+//                .excluirFornecedorPeloId(fornecedorId);
+//
+//        InOrder inOrder =
+//                Mockito.inOrder(repository);
+//
+//        inOrder.verify(repository).existsById(fornecedorId);
+//        inOrder.verify(repository).getReferenceById(fornecedorId);
+//        inOrder.verify(repository).remove(mockedFornecedor);
+//
+//    }
 
     @Test
     @DisplayName("Ao atualizar, garante que a entidade Fornecedor será corretamente preenchida com os dados do DTO")

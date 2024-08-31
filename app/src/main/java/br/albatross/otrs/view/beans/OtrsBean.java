@@ -57,14 +57,14 @@ public class OtrsBean implements Serializable {
 	@Inject
 	private SolicitacaoDeGarantiaFactoryBean solicitacaoFactoryBean;
 
-//    @Resource(lookup = "java:jboss/mail/OtrsMailSession")
-//    private Session sessaoEmail;	
+    @Resource(lookup = "java:jboss/mail/OtrsMailSession")
+    private Session sessaoEmail;
 
 	@PostConstruct
 	void init() {
 
 	    solicitacao = solicitacaoFactoryBean.getSolicitacaoDeGarantia();
-	    solicitacao.getEmailDeGarantia().getDadosDoEnvio().setRemetente("xpto.mail.org");
+	    solicitacao.getEmailDeGarantia().getDadosDoEnvio().setRemetente(sessaoEmail.getProperty("mail.smtp.user"));
 
 	}
 
@@ -83,7 +83,7 @@ public class OtrsBean implements Serializable {
 	        return;
 	    }
 
-	    serviceBean.definirAssuntoDoEmail(solicitacao.getEmailDeGarantia());
+	    serviceBean.definirAssuntoDoEmail(solicitacao);
 
 	}
 
