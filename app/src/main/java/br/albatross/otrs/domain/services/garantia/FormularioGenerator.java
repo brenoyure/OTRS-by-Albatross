@@ -3,11 +3,12 @@ package br.albatross.otrs.domain.services.garantia;
 import static java.io.File.createTempFile;
 import static java.time.LocalDate.now;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -25,10 +26,14 @@ public class FormularioGenerator {
 	private static final String TEMP_FILE_SUFFIX = ".docx";
 	private static final String SPACE = " ";
 
+    private static final String ARQUIVOS_FOLDER = "/opt/jboss/wildfly/bin/arquivos";
+    private static final String FORMULARIOS_FOLDER = "formularios";
+    private static final String FORMULARIO_GARANTIA_DOCX = "Formulario-Garantia.docx";	
+
 	private static final int STRING_BUILDER_SIZE = 5;
 
-	public File getFormulario(InputStream formTemplate, SolicitacaoDeGarantia solicitacao) {
-		try (XWPFDocument doc = new XWPFDocument(formTemplate)) {
+	public File getFormulario(SolicitacaoDeGarantia solicitacao) {
+		try (XWPFDocument doc = new XWPFDocument(new BufferedInputStream(new FileInputStream(new File(ARQUIVOS_FOLDER + File.separator + FORMULARIOS_FOLDER, FORMULARIO_GARANTIA_DOCX))))) {
 
             String numeroDeSerie = solicitacao.getNumeroDeSerie();
             String descricaoDoProblema = solicitacao.getDescricaoDoProblema().getDescricaoDetalhada();
