@@ -1,23 +1,16 @@
 package br.albatross.otrs.cdi;
 
-import br.albatross.apis.email.EmailFactoryBean;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import br.albatross.otrs.domain.models.garantia.entidades.solicitacao.SolicitacaoDeGarantiaImpl;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.Produces;
 
-@RequestScoped
 public class SolicitacaoDeGarantiaFactoryBean {
 
-    @Inject
-    private EmailFactoryBean emailFactoryBean;
-
+    @Produces @Dependent
     public SolicitacaoDeGarantia getSolicitacaoDeGarantia() {
 
-        SolicitacaoDeGarantia solicitacao = new SolicitacaoDeGarantiaImpl();
-        solicitacao.setEmailDeGarantia(emailFactoryBean.newInstance());
-
-        return solicitacao;
+        return new SolicitacaoDeGarantiaImpl();
 
     }
 

@@ -35,8 +35,7 @@ services:
       - br.albatross.otrs.messaging.activemq-vol:/var/lib/artemis-instance
     restart: always
     ports:
-      - 8161:8161
-      - 61616:61616
+      - ${MESSAGING_ACTIVEMQ_PORT}:8161
 
   otrs-messaging_activemq_consumer:
     image: br.albatross.otrs.messaging.activemq-consumer-image
@@ -61,7 +60,7 @@ services:
     depends_on:
       otrs-messaging_activemq:
         condition: service_started
-    
+
   otrs-app:
     image: ${OTRS_APP_DOCKER_IMAGE}
     container_name: ${OTRS_APP_CONTAINER_NAME}

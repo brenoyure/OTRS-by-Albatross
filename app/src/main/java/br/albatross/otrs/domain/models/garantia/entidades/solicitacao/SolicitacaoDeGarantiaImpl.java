@@ -6,9 +6,12 @@ import br.albatross.otrs.domain.models.garantia.apis.cliente.DadosDoCliente;
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
 import br.albatross.otrs.domain.models.garantia.apis.problemas.DescricaoProblema;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
 
+@Dependent
 @Getter @Setter
 public class SolicitacaoDeGarantiaImpl implements SolicitacaoDeGarantia {
 
@@ -18,6 +21,7 @@ public class SolicitacaoDeGarantiaImpl implements SolicitacaoDeGarantia {
 
     private DescricaoProblema descricaoDoProblema;
 
+    @Inject
     private Email emailDeGarantia;
 
     private DadosDoChamado chamado;
@@ -29,7 +33,7 @@ public class SolicitacaoDeGarantiaImpl implements SolicitacaoDeGarantia {
     public void setDadosDoFornecedor(DadosDoFornecedor dadosDoFornecedor) {
 
         this.dadosDoFornecedor = dadosDoFornecedor;
-        emailDeGarantia.getDadosDoEnvio().setDestinatario(dadosDoFornecedor.getEmails());
+        emailDeGarantia.setDestinatario(dadosDoFornecedor.getEmails());
 
     }
 

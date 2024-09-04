@@ -1,29 +1,24 @@
 package br.albatross.otrs.domain.services.beans;
 
 import static jakarta.faces.application.FacesMessage.SEVERITY_ERROR;
+import static jakarta.faces.application.FacesMessage.SEVERITY_INFO;
 import static jakarta.faces.application.FacesMessage.SEVERITY_WARN;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 
-import org.apache.poi.openxml4j.exceptions.NotOfficeXmlFileException;
-
-import br.albatross.apis.email.Anexo;
+import br.albatross.apis.email.Email;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
-import br.albatross.otrs.domain.services.garantia.AnexoGenerator;
 import br.albatross.otrs.domain.services.garantia.AssinaturaEmailDeGarantiaService;
 import br.albatross.otrs.domain.services.garantia.AssuntoEmailDeGarantiaService;
 import br.albatross.otrs.domain.services.garantia.FormularioGenerator;
+import br.albatross.otrs.domain.services.garantia.SolicitacaoService;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.Part;
-import jakarta.validation.ConstraintViolationException;
 
 @ViewScoped
 public class OtrsServiceBean implements Serializable {
@@ -34,7 +29,7 @@ public class OtrsServiceBean implements Serializable {
 	private FacesContext context;
 
 	@Inject
-	private SolicitacaoDeGarantiaService solicitacaoDeGarantiaService;
+	private SolicitacaoService solicitacaoService;
 
 	@Inject
 	private AssuntoEmailDeGarantiaService assuntoEmailService;
@@ -44,9 +39,6 @@ public class OtrsServiceBean implements Serializable {
 
 	@Inject
 	private FormularioGenerator geradorFormulario;
-
-	@Inject
-	private AnexoGenerator anexoGenerator;
 
 	private boolean solicitacaoGarantiaJaEfetuada = false;
 
@@ -58,46 +50,38 @@ public class OtrsServiceBean implements Serializable {
 	public void enviarSolicitacaoDeGarantiaPorEmail(SolicitacaoDeGarantia solicitacao, Part uploadedFile) {
 
 		if (solicitacaoGarantiaJaEfetuada) {
-			context.addMessage("otrs", new FacesMessage(SEVERITY_WARN, "Solicitação de Garantia Já Realizada.", null));
+			context.addMessage(null,
+					new FacesMessage(SEVERITY_WARN, "Solicitação de Garantia Já Realizada.", null));
 			return;
 		}
 
 		try {
 
-            Anexo[] vetorAnexos;
+		    Email emailDeGarantia = solicitacao.getEmailDeGarantia();
 
-            if (uploadedFile == null) {
-                vetorAnexos = new Anexo[1];
+		    File formularioDeGarantia = geradorFormulario.getFormulario(solicitacao);
+		    emailDeGarantia.adicionarAnexo(formularioDeGarantia);
 
-            } else {
-                vetorAnexos = new Anexo[2];
-                File uploadedAnexoFile = anexoGenerator.getAnexo(uploadedFile);
-                try (InputStream uploadedFileInputStream = new BufferedInputStream(new FileInputStream(uploadedAnexoFile))) {
-                    Anexo anexo = new Anexo(uploadedAnexoFile.getName(), uploadedFileInputStream.readAllBytes());
-                    vetorAnexos[vetorAnexos.length - 1] = anexo;
-                }
-            }
+		    if (uploadedFile != null) {
+		        emailDeGarantia.adicionarAnexo(uploadedFile.getSubmittedFileName(), uploadedFile.getInputStream());
+		    }
 
-            File formulario = geradorFormulario.getFormulario(solicitacao);
-            try (InputStream formularioInputStream = new BufferedInputStream(new FileInputStream(formulario))) {
-                Anexo anexo = new Anexo(formulario.getName(), formularioInputStream.readAllBytes());
-                vetorAnexos[0] = anexo;
-            }
-            
-            solicitacao.getEmailDeGarantia().setAnexos(vetorAnexos);
+		    String corpoDoEmail = assinaturaEmailService.getCorpoDoEmailComAssinatura(solicitacao);
+		    emailDeGarantia.setCorpoDaMensagem(corpoDoEmail);
 
-		    solicitacao.getEmailDeGarantia().setCorpoDaMensagem(assinaturaEmailService.getCorpoDoEmailComAssinatura(solicitacao));
+		    solicitacaoService.solicitarGarantia(solicitacao);
+		    solicitacaoGarantiaJaEfetuada = true;
 
-			solicitacaoDeGarantiaService.solicitarGarantia(solicitacao);
-			solicitacaoGarantiaJaEfetuada = true;
+	        context.addMessage(null, 
+	                new FacesMessage(SEVERITY_INFO, 
+	                        "Solicitação despachada para fila de envios", 
+	                        "Você pode conferir o status da Solicitação através do Sistema de Chamados, ou na Caixa de Entrada dos e-mails que receberam cópia. Lembrando que Sistemas de Chamados podem levar alguns minutos para registrarem a Solicitação."));		    
 
-		}	catch (NotOfficeXmlFileException e) {
-			context.addMessage("otrs", new FacesMessage(SEVERITY_WARN, "Arquivo Inválido", "Arquivo submetido não é um formulário válido."));
-		}   catch (ConstraintViolationException e) {
-			e.printStackTrace();
-			context.addMessage("otrs", new FacesMessage(SEVERITY_ERROR, e.getLocalizedMessage(), e.getMessage()));
-		}   catch(IOException e) { 
-		    context.addMessage("otrs", new FacesMessage(SEVERITY_ERROR, "Erro de IO", "Ocorreu um erro ao gerar o formulário ou ao converter o arquivo submetido para anexo"));
+		}   catch(IOException e) {
+		    context.addMessage(null, 
+		            new FacesMessage(SEVERITY_ERROR, 
+		                    "Erro de IO", 
+		                    "Ocorreu um erro ao gerar o formulário ou ao converter o arquivo submetido para anexo"));
 		}
 
 	}

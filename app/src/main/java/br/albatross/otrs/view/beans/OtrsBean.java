@@ -3,7 +3,6 @@ package br.albatross.otrs.view.beans;
 import java.io.Serializable;
 import java.util.List;
 
-import br.albatross.otrs.cdi.SolicitacaoDeGarantiaFactoryBean;
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
@@ -33,7 +32,7 @@ public class OtrsBean implements Serializable {
 	@Getter @Setter
 	private String bm;
 
-	@Getter @Setter
+	@Inject @Getter
 	private SolicitacaoDeGarantia solicitacao;
 
 	@Getter @Setter
@@ -50,12 +49,9 @@ public class OtrsBean implements Serializable {
 
 	@Getter @Setter
 	private List<DadosDoChamado> chamadosDisponiveis;
-	
-	@Inject
-	private InventarioServiceBean inventarioServiceBean;
 
 	@Inject
-	private SolicitacaoDeGarantiaFactoryBean solicitacaoFactoryBean;
+	private InventarioServiceBean inventarioServiceBean;
 
     @Resource(lookup = "java:jboss/mail/OtrsMailSession")
     private Session sessaoEmail;
@@ -63,8 +59,7 @@ public class OtrsBean implements Serializable {
 	@PostConstruct
 	void init() {
 
-	    solicitacao = solicitacaoFactoryBean.getSolicitacaoDeGarantia();
-	    solicitacao.getEmailDeGarantia().getDadosDoEnvio().setRemetente(sessaoEmail.getProperty("mail.smtp.user"));
+	    solicitacao.getEmailDeGarantia().setRemetente(sessaoEmail.getProperty("mail.smtp.user"));
 
 	}
 

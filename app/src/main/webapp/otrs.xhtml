@@ -79,13 +79,13 @@
                 <p:panelGrid layout="tabular" columns="2" >
 
                         <p:outputLabel for="outputText-EmailRemetente" value="E-mail do Remetente: " />
-                        <p:outputLabel id="outputText-EmailRemetente"  value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.remetente}" size="50" />
+                        <p:outputLabel id="outputText-EmailRemetente"  value="#{otrsBean.solicitacao.emailDeGarantia.remetente}" size="50" />
 
                         <p:outputLabel for="inputText-EmailDestino" value="E-mail(s) de Destino(s): " />
-                        <p:outputLabel id="inputText-EmailDestino"  value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.destinatario}" />
+                        <p:outputLabel id="inputText-EmailDestino"  value="#{otrsBean.solicitacao.emailDeGarantia.destinatario}" />
 
                         <p:outputLabel for="inputText-EmailCopia" value="(Opcional) Cópia para: " />
-                        <p:inputText id="inputText-EmailCopia" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.dadosDoEnvio.copiaPara}" size="50" >
+                        <p:inputText id="inputText-EmailCopia" type="email" value="#{otrsBean.solicitacao.emailDeGarantia.copiaPara}" size="50" >
                             <f:ajax event="input" execute="@this" render="@this" />
                         </p:inputText>
 
