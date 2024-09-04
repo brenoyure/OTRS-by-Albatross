@@ -1,14 +1,16 @@
 package br.albatross.otrs.view.beans;
 
+import static jakarta.faces.application.FacesMessage.SEVERITY_WARN;
+
 import java.io.Serializable;
 import java.util.List;
 
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
-import br.albatross.otrs.domain.services.beans.InventarioServiceBean;
 import br.albatross.otrs.domain.services.beans.OtrsServiceBean;
 import br.albatross.otrs.externos.ChamadoRepository;
+import br.albatross.otrs.externos.InventarioRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import jakarta.faces.application.FacesMessage;
@@ -50,8 +52,8 @@ public class OtrsBean implements Serializable {
 	@Getter @Setter
 	private List<DadosDoChamado> chamadosDisponiveis;
 
-	@Inject
-	private InventarioServiceBean inventarioServiceBean;
+    @Inject
+    private InventarioRepository repository;
 
     @Resource(lookup = "java:jboss/mail/OtrsMailSession")
     private Session sessaoEmail;
@@ -64,10 +66,17 @@ public class OtrsBean implements Serializable {
 	}
 
 	public void buscarNumeroDeSeriePeloBm() {
-	      inventarioServiceBean
-	          .buscarNumeroDeSeriePorBm(bm)
-	          .ifPresentOrElse(NdeSerie -> solicitacao.setNumeroDeSerie(NdeSerie), 
-                  () -> solicitacao.setNumeroDeSerie(null));
+        if (bm == null || bm.isBlank()) {
+            facesContext.addMessage(null, 
+                    new FacesMessage(SEVERITY_WARN, "BM deve ser informado para realizar a consulta.", null));
+            return;
+        }
+
+        repository.findSerialNumberByIdentifier(bm).ifPresentOrElse(solicitacao::setNumeroDeSerie, () -> 
+            facesContext.addMessage(null, 
+                    new FacesMessage(SEVERITY_WARN, "Nº de Série não encontrado para o BM informado.", null))
+        );
+
 	}
 
 	public void definirAssuntoDoEmail() {

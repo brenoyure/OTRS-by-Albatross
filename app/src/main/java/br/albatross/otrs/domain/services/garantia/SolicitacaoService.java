@@ -35,7 +35,7 @@ public class SolicitacaoService {
      * Envia o e-mail da solicitação de garantia em formato JSON para a fila.
      * @param solicitacaoDeGarantia
      */
-	@Asynchronous
+    @Asynchronous
 	public void solicitarGarantia(@Valid SolicitacaoDeGarantia solicitacaoDeGarantia) {
 
 	    Jsonb jsonb = JsonbBuilder.create();
