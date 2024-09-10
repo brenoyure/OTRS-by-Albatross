@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" >
+
+<ui:composition template="/_template.xhtml">
+
+    <ui:define name="titulo">Cadastro de Email Pronto</ui:define>
+
+    <ui:define name="conteudo">
+
+        <p:fieldset legend="Administração / Emails / Cadastro">
+            <p:focus for=":form-cadastroEmailPronto" />
+
+            <p:fieldset legend="Cadastro de Email Pronto (Tipo Template)">
+                <h:form id="form-cadastroEmailPronto" acceptcharset="UTF-8" >
+                    <p:panelGrid id="panel" columns="2" layout="tabular" style="width: 100%" >
+                        <h:outputLabel for="inputText-descricaoDoEmailPronto" value="Descrição do Tipo do E-mail: " />
+                        <p:inputText value="#{cadastroEmailTemplateBean.email.descricao}" styleClass="form-control" id="inputText-descricaoDoEmailPronto" placeholder="Email Pronto para quando acontecer o problema X ..." />
+
+                        <h:outputLabel for="inputText-assuntoDoEmailPronto" value="Assunto do E-mail: " />
+                        <p:inputText value="#{cadastroEmailTemplateBean.email.assunto}" styleClass="form-control" id="inputText-assuntoDoEmailPronto" placeholder="Solicitação de $problema.tipo no equipamento do Forneceodr $fornecedor.nome " />
+
+                        <h:outputLabel value="Corpo do Email: " for="textArea-corpoDoEmailPronto" />
+                        <p:inputTextarea styleClass="form-control" value="#{cadastroEmailTemplateBean.email.corpoDoEmail}" id="textArea-corpoDoEmailPronto" rows="10" cols="50" placeholder="Prezado atendente da $fornecedor.nome, solicitamos garantia para o equipamento $numeroDeSerie..." />
+
+                        <h:outputLabel value="Finalizar Cadastro" />
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          Launch demo modal
+                        </button>
+                    </p:panelGrid>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            ...
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <h:commandButton value="Cadastrar" actionListener="#{cadastroEmailTemplateBean.cadastrar}" styleClass="btn btn-primary" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </h:form>
+            </p:fieldset>
+
+            <p:fieldset legend="Variáveis Disponíveis" >
+                <p>
+                    Você pode utilizar as variáveis abaixo para gerar <i>um corpo de e-mail template</i>, que pode ser reaproveitado para várias solicitações ou fornecedores.
+                </p>
+                <ul style="list-style: none;">
+                    <li>Número de Série do Equipamento: $numeroDeSerie</li>
+                    <li>Tipo do Problema: $problema.tipo</li>
+                    <li>Descrição Detalhada do Problema do Equipamento: $problema.descricao</li>
+                    <li>Número do Ticket no Sistema de Chamado: $chamado.numeroDoTicket</li>
+                    <li>Nome do Fornecedor: $fornecedor.nome</li>
+                    <li>Nome do Cliente: $cliente.nome</li>
+                    <li>Números para contato do Cliente: $cliente.numerosParaContato</li>
+                    <li>Emails para contato do Cliente: $cliente.emailsParaContato</li>
+                    <li>Endereço do Cliente: Rua ou Avenida: $cliente.endereco.logradouro</li>
+                    <li>Endereço do Cliente: Número: $cliente.endereco.numero</li>
+                    <li>Endereço do Cliente: Bairro: $cliente.endereco.bairro</li>
+                    <li>Endereço do Cliente: Estado: $cliente.endereco.estado</li>
+                    <li>Endereço do Cliente: Cidade: $cliente.endereco.cidade</li>
+                    <li>Endereço do Cliente: CEP: $cliente.endereco.cep</li>
+                    <li>Horários do Cliente: Início do Expediente: $cliente.horarios.inicioDoExpediente</li>
+                    <li>Horários do Cliente: Início do Almoço: $cliente.horarios.inicioDoAlmoco</li>
+                    <li>Horários do Cliente: Início do Fim: $cliente.horarios.fimDoAlmoco</li>
+                    <li>Horários do Cliente: Fim do Expediente: $cliente.horarios.fimDoExpediente</li>
+                </ul>
+
+                <h2>Template</h2>
+                <h5>Assunto</h5>
+                <p>
+                    [Ticket#$chamado.numeroDoTicket] Problema $problema.tipo $fornecedor.nome - $cliente.nome
+                </p>
+                <h5>Corpo do E-mail</h5>
+                <p>
+                    Prezados, <br/>
+                    Falamos da $cliente.nome, <br/>
+                    Segue em anexo o formulário preenchido para abertura de solicitação de garantia para o equipamento: $numeroDeSerie. <br/>
+                    O Expediente vai das $cliente.horarios.inicioDoExpediente às $cliente.horarios.fimDoExpediente. <br/>
+                    Atenciosamente, <br/>
+                    $cliente.nome - $cliente.descricao <br/>
+                    $cliente.endereco.logradouro <br/>
+                    $cliente.endereco.estado / $cliente.endereco.cidade <br/>
+                </p>
+
+                <h2>Resultado</h2>
+
+                <h5>Assunto</h5>
+                <p>
+                    [Ticket#20240101486] Problema Mouse Fornecedor LTDA - Empresa Cliente Inc
+                </p>
+                <h5>Corpo do E-mail</h5>
+                <p>
+                    Prezados, <br/>
+                    Falamos da Empresa Cliente LTDA, <br/>
+                    Segue em anexo o formulário preenchido para abertura de solicitação de garantia para o equipamento: AVCL486XPTO. <br/>
+                    O Expediente vai das 08:00 às 17:00. <br/>
+                    Atenciosamente, <br/>
+                    Empresa Cliente LTDA - Matriz da Empresa Cliente LTDA <br/>
+                    Avenida dos Expedicionários <br/>
+                    Ceará / Fortaleza <br/>
+                </p>
+            </p:fieldset>
+
+        </p:fieldset>
+    </ui:define>
+</ui:composition>
+</html>
