@@ -8,49 +8,40 @@
 
 <ui:composition template="/_template.xhtml">
 
-    <ui:define name="titulo">Cadastro de Email Pronto</ui:define>
+    <ui:define name="titulo">Cadastro de Modelo de Email</ui:define>
 
     <ui:define name="conteudo">
 
-        <p:fieldset legend="Administração / Emails / Cadastro">
+        <p:fieldset legend="Administração / Emails / Cadastro" >
             <p:focus for=":form-cadastroEmailPronto" />
 
+            <h:form id="form-cadastroEmailPronto" >
             <p:fieldset legend="Cadastro de Email Pronto (Tipo Template)">
-                <h:form id="form-cadastroEmailPronto" acceptcharset="UTF-8" >
-                    <p:panelGrid id="panel" columns="2" layout="tabular" style="width: 100%" >
-                        <h:outputLabel for="inputText-descricaoDoEmailPronto" value="Descrição do Tipo do E-mail: " />
-                        <p:inputText value="#{cadastroEmailTemplateBean.email.descricao}" styleClass="form-control" id="inputText-descricaoDoEmailPronto" placeholder="Email Pronto para quando acontecer o problema X ..." />
+                <p:panelGrid id="panel" columns="2" layout="flex" style="width: 100%" >
+                    <h:outputLabel for="inputText-descricaoDoEmailTemplate" value="Descrição do Tipo do E-mail: " />
+                    <h:inputText id="inputText-descricaoDoEmailTemplate" value="#{cadastroEmailTemplateBean.email.descricao}" styleClass="form-control" pt:placeholder="Email Pronto para quando acontecer o problema X ..." />
 
-                        <h:outputLabel for="inputText-assuntoDoEmailPronto" value="Assunto do E-mail: " />
-                        <p:inputText value="#{cadastroEmailTemplateBean.email.assunto}" styleClass="form-control" id="inputText-assuntoDoEmailPronto" placeholder="Solicitação de $problema.tipo no equipamento do Forneceodr $fornecedor.nome " />
+                    <h:outputLabel for="inputText-assuntoDoEmailTemplate" value="Assunto do E-mail: " />
+                    <h:inputText id="inputText-assuntoDoEmailTemplate" value="#{cadastroEmailTemplateBean.email.assunto}" pt:oninput="imprimeAssuntoTemplateNoInputTextResultado()" styleClass="form-control" pt:placeholder="Solicitação de $problema.tipo no equipamento do fornecedor $fornecedor.nome " />
 
-                        <h:outputLabel value="Corpo do Email: " for="textArea-corpoDoEmailPronto" />
-                        <p:inputTextarea styleClass="form-control" value="#{cadastroEmailTemplateBean.email.corpoDoEmail}" id="textArea-corpoDoEmailPronto" rows="10" cols="50" placeholder="Prezado atendente da $fornecedor.nome, solicitamos garantia para o equipamento $numeroDeSerie..." />
+                    <h:outputLabel value="Corpo do Email: " for="textArea-corpoDoEmailTemplate" />
+                    <h:inputTextarea id="textArea-corpoDoEmailTemplate" styleClass="form-control" pt:oninput="imprimeTemplateNoTextAreaResultado()" value="#{cadastroEmailTemplateBean.email.corpoDoEmail}" rows="10" cols="50" pt:placeholder="Prezado atendente da $fornecedor.nome, solicitamos garantia para o equipamento $numeroDeSerie..." />
 
-                        <h:outputLabel value="Finalizar Cadastro" />
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                          Launch demo modal
-                        </button>
-                    </p:panelGrid>
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            ...
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <h:commandButton value="Cadastrar" actionListener="#{cadastroEmailTemplateBean.cadastrar}" styleClass="btn btn-primary" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </h:form>
+                    <h:outputLabel value="Digite nos campos, assunto e corpo do e-mail, acima para ir conferindo o resultado logo abaixo" />
+                    <br/>
+
+                    <h:outputLabel value="Assunto do Email (Resultado)" />
+                    <input id="inputText-resultado-assuntoDoEmailTemplate" placeholder="Digite no campo de Assunto do Email acima para ir conferindo o resultado neste campo" readonly="true" class="form-control" style="cursor: not-allowed;" />
+                    <h:outputLabel for="textArea-resultado-corpoDoEmailTemplate" value="Corpo do Email (Resultado)" />
+                    <textarea id="textArea-resultado-corpoDoEmailTemplate" class="form-control" rows="10" cols="50" readonly="true" style="cursor: not-allowed;" />
+
+                    <h:outputLabel value="Confira os resultados acima e em seguida, salve as alterações" />
+                    <p:commandButton value="Salvar Alterações" >
+                        <f:ajax execute="@form" listener="#{cadastroEmailTemplateBean.cadastrar}" render=":mensagens inputText-descricaoDoEmailTemplate inputText-assuntoDoEmailTemplate textArea-corpoDoEmailTemplate " />
+                    </p:commandButton>
+                </p:panelGrid>
             </p:fieldset>
+            </h:form>
 
             <p:fieldset legend="Variáveis Disponíveis" >
                 <p>
@@ -77,7 +68,10 @@
                     <li>Horários do Cliente: Fim do Expediente: $cliente.horarios.fimDoExpediente</li>
                 </ul>
 
-                <h2>Template</h2>
+                <h2>Exemplo</h2>
+                <p>
+                    Abaixo é possível conferir como ficaria um cadastro de um email modelo
+                </p>
                 <h5>Assunto</h5>
                 <p>
                     [Ticket#$chamado.numeroDoTicket] Problema $problema.tipo $fornecedor.nome - $cliente.nome
@@ -114,6 +108,8 @@
             </p:fieldset>
 
         </p:fieldset>
+    <script type="text/javascript" async="true" src="#{request.contextPath}/resources/js/administracao/emailstemplates/main.js"></script>
+    <script type="text/javascript" async="true" src="#{request.contextPath}/resources/js/administracao/emailstemplates/cadastro.js"></script>
     </ui:define>
 </ui:composition>
 </html>

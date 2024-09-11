@@ -3,8 +3,8 @@ package br.albatross.otrs.view.beans;
 import java.io.Serializable;
 import java.util.List;
 
-import br.albatross.otrs.domain.services.emailpronto.EmailTemplateService;
-import br.albatross.otrs.persistence.entities.emailpronto.EmailTemplate;
+import br.albatross.otrs.domain.models.emailtemplate.DadosDoEmailTemplateDto;
+import br.albatross.otrs.persistence.repositories.emailtemplate.EmailTemplateRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -17,14 +17,14 @@ public class ListaEmailsTemplateBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Getter
-    private List<EmailTemplate> emails;
+    private List<DadosDoEmailTemplateDto> emails;
 
     @Inject
-    private EmailTemplateService templateService;
+    private EmailTemplateRepository repository;
 
     @PostConstruct
     void init() {
-        emails = templateService.listar();
+        emails = repository.findAllAsDtoOrderByAssunto();
     }
 
 }

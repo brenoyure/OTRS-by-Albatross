@@ -11,16 +11,16 @@
 
     <ui:define name="conteudo">
 
-        <p:fieldset legend="Administração / Emails / Listagem">
-            <h:form id="form-cadastroEmailPronto">
+        <p:fieldset legend="Administração / Modelos de Emails / Listagem" >
+            <h:form id="form-tableEmails">
 
-            <p:fieldset legend="Templates Cadastrados">
-                <p:dataTable value="#{listaEmailsTemplateBean.emails}" var="email" >
-                    
-	                <p:column>
+            <p:fieldset legend="Modelos Cadastrados">
+                <p:dataTable id="dataTable-emails" value="#{listaEmailsTemplateBean.emails}" var="email" style="cursor: pointer" >
+
+	                <p:column >
 	                    <f:facet name="header">
 	                        <h:outputLabel value="Descrição" />
-	                        <h:outputLabel style="margin-left: 5px" styleClass="pi pi-exclamation-circle" />
+	                        <h:outputLabel style="margin-left: 5px;" styleClass="pi pi-exclamation-circle" />
 	                    </f:facet>
 	                    <p:outputLabel value="#{email.descricao}" />
 	                </p:column>
@@ -33,18 +33,12 @@
                         <p:outputLabel value="#{email.assunto}" />
                     </p:column>
 
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputLabel value="Corpo do E-mail" />
-                            <h:outputLabel style="margin-left: 5px" styleClass="pi pi-exclamation-circle" />
-                        </f:facet>
-                        <p:outputLabel value="#{email.corpoDoEmail}" />
-                    </p:column>
-
                 </p:dataTable>
             </p:fieldset>
             </h:form>
         </p:fieldset>
+    <script type="text/javascript" async="true" src="#{request.contextPath}/resources/js/administracao/emailstemplates/main.js"></script>
+    <script type="text/javascript" async="true" src="#{request.contextPath}/resources/js/administracao/emailstemplates/listagem.js"></script>
     </ui:define>
 </ui:composition>
 </html>

@@ -1,15 +1,16 @@
-package br.albatross.otrs.domain.services.emailpronto;
+package br.albatross.otrs.domain.services.emailtemplate;
 
-import java.util.List;
 import java.util.Optional;
 
+import br.albatross.otrs.domain.models.emailtemplate.DadosParaAtualizacaoDeEmailTemplate;
 import br.albatross.otrs.domain.models.emailtemplate.DadosParaCadastroDeEmailTemplate;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
-import br.albatross.otrs.persistence.entities.emailpronto.EmailTemplate;
+import br.albatross.otrs.persistence.entities.emailtemplate.EmailTemplate;
 import br.albatross.otrs.persistence.repositories.emailtemplate.EmailTemplateRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 
 /**
 <p>
@@ -43,17 +44,28 @@ public class EmailTemplateService {
     private EmailTemplateRepository repository;
 
     public void cadastrar(@Valid DadosParaCadastroDeEmailTemplate dados) {
+
+        if (repository.existsByDescricao(dados.getDescricao())) {
+            throw new ValidationException("Já existe outro Email Modelo cadastrado com a descrição informada");
+        }
+
         EmailTemplate email = 
                 new EmailTemplate(dados.getDescricao(), dados.getAssunto(), dados.getCorpoDoEmail());
-//        repository.persist(email);
+        repository.persist(email);
     }
 
-    public List<EmailTemplate> listar() {
-        return repository.findAll();
-    }
+    public void atualizar(@Valid DadosParaAtualizacaoDeEmailTemplate dadosAtualizados) {
 
-    public boolean excluirPorId(Integer id) {
-        return repository.deleteById(id);
+        if (!repository.existsById(dadosAtualizados.getId())) {
+            throw new ValidationException("Email Modelo com o Id informado não existe");
+        }
+
+        if (repository.existsByDescricaoAndNotById(dadosAtualizados.getDescricao(), dadosAtualizados.getId())) {
+            throw new ValidationException("Já existe outro Email Modelo cadastrado com a descrição informada");
+        }
+
+        repository.update(dadosAtualizados);
+
     }
 
     public String getFromTemplate(String template, SolicitacaoDeGarantia solicitacaoDeGarantia) {

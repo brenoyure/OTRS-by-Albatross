@@ -15,7 +15,7 @@
 
                 <p:submenu label="Textos Prontos"                   icon="pi pi-align-left"                                                           disabled="#{not request.isUserInRole('ADMIN')}"  >
                     <p:menuitem  value="Problemas"                  icon="pi pi-question"           outcome="/administracao/problemas"                                                                />
-                    <p:submenu label="Emails"                       icon="pi pi-inbox"                                                                                                                 >
+                    <p:submenu label="Modelos de Emails "           icon="pi pi-inbox"                                                                                                                 >
                         <p:menuitem value="Novo"                    icon="pi pi-plus-circle"        outcome="/administracao/emailstemplates/cadastro"                                                 />
                         <p:menuitem value="Listagem"                icon="pi pi-list-check"         outcome="/administracao/emailstemplates/listagem"                                                 />
                     </p:submenu>

@@ -1,21 +1,22 @@
 package br.albatross.otrs.domain.models.emailtemplate;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 public class DadosParaCadastroDeEmailTemplate {
 
-    @NotBlank
+    @NotBlank(message = "Descrição do Template Obrigatória")
     private String descricao;
 
-    @NotBlank
+    @NotBlank(message = "Assunto do Email Template Obrigatório")
     private String assunto;
 
-    @NotBlank
+    @NotBlank(message = "Corpo do Email Template Obrigatório")
     private String corpoDoEmail;
 
 }

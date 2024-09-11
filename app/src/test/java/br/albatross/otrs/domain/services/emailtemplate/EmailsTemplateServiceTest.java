@@ -1,4 +1,4 @@
-package br.albatross.otrs.domain.services.emailpronto;
+package br.albatross.otrs.domain.services.emailtemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
