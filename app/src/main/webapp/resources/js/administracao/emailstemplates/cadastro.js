@@ -1,7 +1,6 @@
 /**
  * 
  */
-
 const placeholder = 
 `Ao digitar: Prezado Fornecedor $fornecedor.nome, falamos da $cliente.descricao referente ao equipamento $numeroDeSerie.
 

@@ -33,6 +33,17 @@
                         <p:outputLabel value="#{email.assunto}" />
                     </p:column>
 
+                   <p:column>
+                       <f:facet name="header">
+                           <h:outputLabel style="margin-right: 5px" styleClass="pi pi-exclamation-circle" />
+                           <h:outputLabel value="Informações" />
+                       </f:facet>
+                       <p:link outcome="/administracao/emailstemplates/atualizacao" includeViewParams="true" >
+                           <h:outputText title="Informações" value="Informações" styleClass="btn btn-secondary" />
+                           <f:param name="emailId" value="#{email.id}" />
+                       </p:link>
+                   </p:column>
+
                 </p:dataTable>
             </p:fieldset>
             </h:form>

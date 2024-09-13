@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" >
 
+<f:metadata>
+    <f:viewParam  name="emailId" />
+    <f:viewAction action="#{atualizacaoEmailTemplateBean.carregarPeloId(param.emailId)}" if="#{param.emailId != null}" />
+</f:metadata>
+
 <ui:composition template="/_template.xhtml">
 
-    <ui:define name="titulo">Cadastro de Modelo de Email</ui:define>
+    <ui:define name="titulo">Atualização de Modelo</ui:define>
 
     <ui:define name="conteudo">
 
-        <p:fieldset legend="Administração / Emails / Cadastro" >
+        <p:fieldset legend="Administração / Emails / Atualização" >
             <p:focus for=":form-cadastroEmailPronto" />
 
             <h:form id="form-cadastroEmailPronto" >
@@ -30,24 +36,47 @@ como $cliente.endereco.cidade, é possível conferir nos campos de cidade, seu v
                     </label>
 
                     <h:outputLabel for="inputText-descricaoDoEmailTemplate" value="Descrição do Tipo do E-mail: " style="font-weight: bold;" />
-                    <h:inputText id="inputText-descricaoDoEmailTemplate" value="#{cadastroEmailTemplateBean.email.descricao}" styleClass="form-control" pt:placeholder="Email Pronto para quando acontecer o problema X ..." maxlength="255" />
+                    <h:inputText id="inputText-descricaoDoEmailTemplate" value="#{atualizacaoEmailTemplateBean.email.descricao}" styleClass="form-control" pt:placeholder="Email Pronto para quando acontecer o problema X ..." maxlength="255" />
 
                     <h:outputLabel for="inputText-assuntoDoEmailTemplate" value="Assunto do E-mail: " style="font-weight: bold;" />
-                    <h:inputText id="inputText-assuntoDoEmailTemplate" value="#{cadastroEmailTemplateBean.email.assunto}" pt:oninput="imprimeAssuntoTemplateNoInputTextResultado()" styleClass="form-control" pt:placeholder="Solicitação de $problema.tipo no equipamento do fornecedor $fornecedor.nome " maxlength="255" />
+                    <h:inputText id="inputText-assuntoDoEmailTemplate" value="#{atualizacaoEmailTemplateBean.email.assunto}" pt:oninput="imprimeAssuntoTemplateNoInputTextResultado()" styleClass="form-control" pt:placeholder="Solicitação de $problema.tipo no equipamento do fornecedor $fornecedor.nome " maxlength="255" />
 
                     <h:outputLabel value="Corpo do Email: " for="textArea-corpoDoEmailTemplate" style="font-weight: bold;" />
-                    <h:inputTextarea id="textArea-corpoDoEmailTemplate" styleClass="form-control" pt:oninput="imprimeTemplateNoTextAreaResultado()" value="#{cadastroEmailTemplateBean.email.corpoDoEmail}" rows="10" cols="50" pt:placeholder="Prezado atendente da $fornecedor.nome, solicitamos garantia para o equipamento $numeroDeSerie..." />
+                    <h:inputTextarea id="textArea-corpoDoEmailTemplate" styleClass="form-control" disabled="#{atualizacaoEmailTemplateBean.email.id == 1}" pt:oninput="imprimeTemplateNoTextAreaResultado()" value="#{atualizacaoEmailTemplateBean.email.corpoDoEmail}" rows="10" cols="50" pt:placeholder="Prezado atendente da $fornecedor.nome, solicitamos garantia para o equipamento $numeroDeSerie..." />
 
-                    <h:outputLabel value="Assunto do Email (Resultado)" style="font-weight: bold;" />
+                    <h:outputLabel value="Assunto do Email (Resultado)" style="font-weight: bold;" rendered="#{atualizacaoEmailTemplateBean.email.id != 1}" />
                     <input id="inputText-resultado-assuntoDoEmailTemplate" placeholder="Digite no campo de Assunto do Email acima para ir conferindo o resultado neste campo" readonly="true" class="form-control" style="cursor: not-allowed;" />
-                    <h:outputLabel for="textArea-resultado-corpoDoEmailTemplate" value="Corpo do Email (Resultado)" style="font-weight: bold;" />
-                    <textarea id="textArea-resultado-corpoDoEmailTemplate" class="form-control" rows="10" cols="50" readonly="true" style="cursor: not-allowed;" />
+                    <h:outputLabel for="textArea-resultado-corpoDoEmailTemplate" value="Corpo do Email (Resultado)" style="font-weight: bold;" rendered="#{atualizacaoEmailTemplateBean.email.id != 1}" />
+                    <textarea id="textArea-resultado-corpoDoEmailTemplate" class="form-control" rows="10" cols="50" readonly="true" style="cursor: not-allowed;" jsf:rendered="#{atualizacaoEmailTemplateBean.email.id != 1}" />
 
-                    <h:outputLabel value="Confira os resultados acima e em seguida, salve as alterações" style="font-weight: bold;" />
-                    <h:commandButton value="Salvar Alterações" styleClass="btn btn-primary" style="margin-right:5px;" >
-                        <f:ajax execute="@form" listener="#{cadastroEmailTemplateBean.cadastrar}" render="@this :mensagens inputText-descricaoDoEmailTemplate inputText-assuntoDoEmailTemplate textArea-corpoDoEmailTemplate " />
-                        <h:link value="Limpar Formulário" styleClass="btn btn-secondary" outcome="/administracao/emailstemplates/cadastro" />
-                    </h:commandButton>
+                    <label id="label-confiraOsResultadosAntesDeSalvar" style="font-weight: bold;" >
+                        <p:commandButton id="btn-salvarAlteracoes" value="Salvar Alterações" styleClass="btn btn-primary" style="margin-right:5px;" >
+                            <f:ajax execute="@form" listener="#{atualizacaoEmailTemplateBean.atualizar}" render="@this :mensagens inputText-descricaoDoEmailTemplate inputText-assuntoDoEmailTemplate textArea-corpoDoEmailTemplate " />
+                        </p:commandButton>
+                        <h:link id="link-descartarAlteracoes" value="Descartar Alterações" styleClass="btn btn-secondary" outcome="/administracao/emailstemplates/listagem" />
+                    </label>
+
+                    <button type="button" id="btn-excluir" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#emailModal#{atualizacaoEmailTemplateBean.email.id}" >Excluir</button>
+                    <div class="modal fade" id="emailModal#{atualizacaoEmailTemplateBean.email.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Confirmação de Exclusão</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <label>Confirmar Exclusão do Email Modelo: <span style="text-transform: capitalize; font-weight: bold;">#{atualizacaoEmailTemplateBean.email.descricao}</span> ?</label>
+                          </div>
+                          <div class="modal-footer">
+                            <h:form>
+                              <h:commandButton value="Confirmar Exclusão" action="#{atualizacaoEmailTemplateBean.excluirPorId()}" styleClass="btn btn-danger" />
+                            </h:form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                 </p:panelGrid>
             </p:fieldset>
             </h:form>
@@ -119,6 +148,7 @@ como $cliente.endereco.cidade, é possível conferir nos campos de cidade, seu v
         </p:fieldset>
     <script type="text/javascript" async="true" src="#{request.contextPath}/resources/js/administracao/emailstemplates/main.js"></script>
     <script type="text/javascript" async="true" src="#{request.contextPath}/resources/js/administracao/emailstemplates/cadastro.js"></script>
+    <script type="text/javascript" async="true" src="#{request.contextPath}/resources/js/administracao/emailstemplates/atualizacao.js"></script>
     </ui:define>
 </ui:composition>
 </html>

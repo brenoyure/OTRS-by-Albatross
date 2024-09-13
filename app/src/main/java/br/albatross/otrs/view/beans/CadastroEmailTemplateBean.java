@@ -7,6 +7,7 @@ import java.io.Serializable;
 import br.albatross.otrs.domain.models.emailtemplate.DadosParaCadastroDeEmailTemplate;
 import br.albatross.otrs.domain.services.emailtemplate.EmailTemplateService;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.html.HtmlCommandButton;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.AjaxBehaviorEvent;
 import jakarta.faces.view.ViewScoped;
@@ -37,6 +38,12 @@ public class CadastroEmailTemplateBean implements Serializable {
 
             templateService.cadastrar(email);
             facesContext.addMessage(null, new FacesMessage("Email " + email.getDescricao() + "Cadastrado com sucesso"));
+
+            if (event.getComponent() instanceof HtmlCommandButton) {
+                HtmlCommandButton botaoSalvar = (HtmlCommandButton) event.getComponent();
+                botaoSalvar.setValue("Email Modelo Salvo com sucesso");
+                botaoSalvar.setDisabled(true);
+            }
 
         } catch (ValidationException e) {
             facesContext.addMessage(null, new FacesMessage(SEVERITY_WARN, "Erro de validação ao cadastrar modelo", e.getMessage()));

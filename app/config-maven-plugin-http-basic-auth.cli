@@ -4,7 +4,7 @@ deploy mariadb-java-client.jar
 
 ## 2 Adicionando os DataSources do sistema de chamados e dos textos prontos ####
 data-source add --name=OtrsDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/OtrsDS --connection-url=jdbc:mariadb://172.23.0.2:3306/otrsdb --user-name=albatross18 --password=pass123 --enabled=true --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
-data-source add --name=ProblemaDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mariadb://172.23.0.4:3306/otrsdb_textos_prontos --user-name=albatross18 --password=pass123 --enabled=true --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
+data-source add --name=ProblemaDS --driver-name=mariadb-java-client.jar --jndi-name=java:jboss/datasources/ProblemaDS --connection-url=jdbc:mariadb://172.23.0.3:3306/otrsdb_textos_prontos --user-name=albatross18 --password=pass123 --enabled=true --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
 
 # Configurando o ActiveMQ Remoto para a produção de mensagens JMS
 
