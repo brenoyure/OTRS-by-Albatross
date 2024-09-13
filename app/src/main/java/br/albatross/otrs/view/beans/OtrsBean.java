@@ -5,10 +5,12 @@ import static jakarta.faces.application.FacesMessage.SEVERITY_WARN;
 import java.io.Serializable;
 import java.util.List;
 
+import br.albatross.apis.email.Email;
 import br.albatross.otrs.domain.models.garantia.apis.chamado.DadosDoChamado;
 import br.albatross.otrs.domain.models.garantia.apis.fornecedores.DadosDoFornecedor;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
 import br.albatross.otrs.domain.services.beans.OtrsServiceBean;
+import br.albatross.otrs.domain.services.emailtemplate.EmailTemplateService;
 import br.albatross.otrs.externos.ChamadoRepository;
 import br.albatross.otrs.externos.InventarioRepository;
 import jakarta.annotation.PostConstruct;
@@ -52,8 +54,14 @@ public class OtrsBean implements Serializable {
 	@Getter @Setter
 	private List<DadosDoChamado> chamadosDisponiveis;
 
+	@Getter @Setter
+	private int emailModeloId;
+
     @Inject
     private InventarioRepository repository;
+
+    @Inject
+    private EmailTemplateService emailTemplateService;
 
     @Resource(lookup = "java:jboss/mail/OtrsMailSession")
     private Session sessaoEmail;
@@ -79,18 +87,6 @@ public class OtrsBean implements Serializable {
 
 	}
 
-	public void definirAssuntoDoEmail() {
-
-	    if (solicitacao.getChamado() == null || solicitacao.getDadosDoFornecedor() == null || solicitacao.getDescricaoDoProblema() == null || solicitacao.getDadosDoCliente() == null) {
-
-	        solicitacao.getEmailDeGarantia().setAssunto(null);
-	        return;
-	    }
-
-	    serviceBean.definirAssuntoDoEmail(solicitacao);
-
-	}
-
     public void listarChamadosComOServicoDoFornecedor() {
 
         solicitacao.setDadosDoFornecedor(fornecedorSelecionado);
@@ -111,7 +107,46 @@ public class OtrsBean implements Serializable {
 
         chamadosDisponiveis = chamadosRelacionadosAoFornecedor;
 
-    }	
+    }
+
+    public void definirModeloDeEmail() {
+        if (solicitacao.getChamado() == null || solicitacao.getDadosDoFornecedor() == null || solicitacao.getDescricaoDoProblema() == null || solicitacao.getDadosDoCliente() == null || solicitacao.getNumeroDeSerie() == null || solicitacao.getNumeroDeSerie().isBlank()) {
+            facesContext.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_WARN, 
+                    "Campos Obrigatórios não preenchidos", 
+                    "Para utilizar a opção de modelo de email pronto, favor preencher os campos obrigatórios, como Ticket, Fornecedor, Cliente, Número de Série..."));
+            return;
+        }
+
+        emailTemplateService.buscarPorId(emailModeloId).ifPresent(emailTemplate -> {
+
+            Email emailDeGarantia = solicitacao.getEmailDeGarantia();
+
+            String assuntoDoEmail = emailTemplateService.getFromTemplate(emailTemplate.getAssunto(), solicitacao);
+            String corpoDoEmail = emailTemplateService.getFromTemplate(emailTemplate.getCorpoDoEmail(), solicitacao);
+
+            emailDeGarantia.setAssunto(assuntoDoEmail);
+            emailDeGarantia.setCorpoDaMensagem(corpoDoEmail);
+            
+        });        
+
+    }
+
+    public void converterTemplatesParaStrings() {
+        try {
+
+            Email emailDeGarantia = solicitacao.getEmailDeGarantia();
+            emailDeGarantia.setCorpoDaMensagem(
+            emailTemplateService.getFromTemplate(emailDeGarantia.getCorpoDaMensagem(), solicitacao));
+
+        } catch(NullPointerException e) {
+            facesContext.addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_WARN, 
+                    "Campos Obrigatórios não preenchidos", 
+                    "Algum(s) do(s) campos obrigatórios não foram preenchidos, isso pode impedir que algumas declarações de variáveis de modelo, como $numeroDeSerie, não sejam corretamente interpretadas"));
+        }
+
+    }
 
     public void enviarSolicitacaoDeGarantiaPorEmail() {
 
@@ -121,4 +156,3 @@ public class OtrsBean implements Serializable {
 
 
 }
-

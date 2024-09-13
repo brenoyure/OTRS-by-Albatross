@@ -10,8 +10,6 @@ import java.io.Serializable;
 
 import br.albatross.apis.email.Email;
 import br.albatross.otrs.domain.models.garantia.apis.solicitacao.SolicitacaoDeGarantia;
-import br.albatross.otrs.domain.services.garantia.AssinaturaEmailDeGarantiaService;
-import br.albatross.otrs.domain.services.garantia.AssuntoEmailDeGarantiaService;
 import br.albatross.otrs.domain.services.garantia.FormularioGenerator;
 import br.albatross.otrs.domain.services.garantia.SolicitacaoService;
 import jakarta.faces.application.FacesMessage;
@@ -32,20 +30,9 @@ public class OtrsServiceBean implements Serializable {
 	private SolicitacaoService solicitacaoService;
 
 	@Inject
-	private AssuntoEmailDeGarantiaService assuntoEmailService;
-
-	@Inject
-	private AssinaturaEmailDeGarantiaService assinaturaEmailService;
-
-	@Inject
 	private FormularioGenerator geradorFormulario;
 
 	private boolean solicitacaoGarantiaJaEfetuada = false;
-
-	public void definirAssuntoDoEmail(SolicitacaoDeGarantia solicitacaoDeGarantia) {
-		String assuntoDoEmailBaseadoNoServicoDoChamado = assuntoEmailService.getAssuntoDoEmailBaseadoNoServicoDoChamado(solicitacaoDeGarantia);
-		solicitacaoDeGarantia.getEmailDeGarantia().setAssunto(assuntoDoEmailBaseadoNoServicoDoChamado);
-	}
 
 	public void enviarSolicitacaoDeGarantiaPorEmail(SolicitacaoDeGarantia solicitacao, Part uploadedFile) {
 
@@ -65,9 +52,6 @@ public class OtrsServiceBean implements Serializable {
 		    if (uploadedFile != null) {
 		        emailDeGarantia.adicionarAnexo(uploadedFile.getSubmittedFileName(), uploadedFile.getInputStream());
 		    }
-
-		    String corpoDoEmail = assinaturaEmailService.getCorpoDoEmailComAssinatura(solicitacao);
-		    emailDeGarantia.setCorpoDaMensagem(corpoDoEmail);
 
 		    solicitacaoService.solicitarGarantia(solicitacao);
 		    solicitacaoGarantiaJaEfetuada = true;

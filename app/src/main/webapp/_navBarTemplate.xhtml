@@ -13,12 +13,11 @@
             <p:menubar autoDisplay="true">
                 <p:menuitem  value="Serviço de Garantia"            icon="pi pi-wrench"             outcome="/otrs"                                                                                   />
 
-                <p:submenu label="Textos Prontos"                   icon="pi pi-align-left"                                                           disabled="#{not request.isUserInRole('ADMIN')}"  >
-                    <p:menuitem  value="Problemas"                  icon="pi pi-question"           outcome="/administracao/problemas"                                                                />
-                    <p:submenu label="Modelos de Emails "           icon="pi pi-inbox"                                                                                                                 >
-                        <p:menuitem value="Novo"                    icon="pi pi-plus-circle"        outcome="/administracao/emailstemplates/cadastro"                                                 />
-                        <p:menuitem value="Listagem"                icon="pi pi-list-check"         outcome="/administracao/emailstemplates/listagem"                                                 />
-                    </p:submenu>
+                <p:menuitem  value="Textos Prontos"                 icon="pi pi-align-left"        outcome="/administracao/problemas"                 disabled="#{not request.isUserInRole('ADMIN')}" />
+
+                <p:submenu label="Modelos de Emails "               icon="pi pi-inbox"                                                                disabled="#{not request.isUserInRole('ADMIN')}"  >
+                    <p:menuitem value="Novo"                        icon="pi pi-plus-circle"        outcome="/administracao/emailstemplates/cadastro"                                                 />
+                    <p:menuitem value="Listagem"                    icon="pi pi-list-check"         outcome="/administracao/emailstemplates/listagem"                                                 />
                 </p:submenu>
 
 	            <p:submenu label="Usuários"                         icon="pi pi-fw pi-user"                                                           disabled="#{not request.isUserInRole('ADMIN')}"  >

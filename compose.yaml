@@ -40,7 +40,7 @@ services:
       resources:
         reservations:
           cpus: '0.25'
-          memory: 384M
+          memory: 256M
         limits:
           cpus: '0.5'
           memory: 512M
@@ -75,7 +75,7 @@ services:
           memory: 384M
         limits:
           cpus: '0.5'
-          memory: 512M
+          memory: 768M
 
   otrs-app:
     image: ${OTRS_APP_DOCKER_IMAGE}

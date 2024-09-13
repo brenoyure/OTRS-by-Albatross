@@ -9,7 +9,7 @@ data-source add --name=ProblemaDS --driver-name=mariadb-java-client.jar --jndi-n
 # Configurando o ActiveMQ Remoto para a produção de mensagens JMS
 
 # Configurando o socket-binding com o host e a porta do ActiveMQ
-/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=remote-activemq-socket-binding:add(host=localhost, port=61616)
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=remote-activemq-socket-binding:add(host=172.23.0.4, port=61616)
 
 # Configurando o remote-active-mq-connector
 /subsystem=messaging-activemq/remote-connector=remote-activemq-connector:add(socket-binding=remote-activemq-socket-binding)

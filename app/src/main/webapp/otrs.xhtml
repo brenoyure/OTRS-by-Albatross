@@ -21,11 +21,11 @@
 	    <p:focus context="panel" />
 
 	        <p:fieldset legend="Serviço de Garantia" collapsed="false" toggleable="true" > 
-	                <p:panelGrid columns="2" id="panel" layout="tabular" >
+	                <p:panelGrid columns="2" id="panel" layout="tabular" style="width: 100%;" >
 
                         <p:outputLabel for="selectOne-Cliente" value="Selecione o Solicitante" />
                         <p:selectOneMenu id="selectOne-Cliente" value="#{otrsBean.solicitacao.dadosDoCliente}" required="true" requiredMessage="É Obrigatório informar qual cliente solicitará a garantia" converter="clienteConverter" >
-                            <f:selectItem itemLabel="Selecione o Cliente" itemDisabled="true" noSelectionOption="true" />
+                            <f:selectItem itemLabel="Selecione o Cliente" noSelectionOption="true" />
                             <f:selectItems value="#{listaClientesBean.clientes}" var="cliente" itemValue="#{cliente}" itemLabel="#{cliente.nome} - #{cliente.descricao}" />
                             <f:ajax event="change" render=":mensagens outputText-Assunto" />
                         </p:selectOneMenu>
@@ -51,21 +51,50 @@
                         <p:selectOneMenu id="selectOne-Ticket" value="#{otrsBean.solicitacao.chamado}" required="true" requiredMessage="Ticket Obrigatório" converter="ticketConverter" >
                             <f:selectItem itemLabel="Selecione um Ticket" itemDisabled="true" noSelectionOption="true" />
                             <f:selectItems value="#{otrsBean.chamadosDisponiveis}" var="ticket" itemLabel="Nº: #{ticket.numeroDoChamado} | Título: #{ticket.titulo} | Serviço: #{ticket.dadosDoServico.nomeDoServico} | Usuário: #{ticket.dadosDoUsuarioCliente.nomeDoUsuarioCliente}" itemValue="#{ticket}" />
-                            <f:ajax event="change" listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens @this outputText-Assunto" />
+                            <f:ajax event="change" render=":mensagens @this outputText-Assunto" />
                         </p:selectOneMenu>
 
                         <p:outputLabel value="Problema: " for="selectOne-DescricaoProblema" />
                         <p:selectOneMenu id="selectOne-DescricaoProblema" value="#{otrsBean.solicitacao.descricaoDoProblema}" required="true" requiredMessage="Descrição do Problema Obrigatória" converter="descricaoProblemaConverter" >
 							<f:selectItem itemLabel="Selecione o Problema" itemDisabled="false" noSelectionOption="true" />
                             <f:selectItems var="problema" value="#{listaDescricaoProblemasBean.problemasDisponiveis}" itemLabel="#{problema.problema.tipo} - #{problema.descricaoResumida}" itemDescription="#{problema.descricaoDetalhada}" itemValue="#{problema}" />
-                            <f:ajax event="change" listener="#{otrsBean.definirAssuntoDoEmail}" render=":mensagens @this textArea-DescricaoProblema outputText-Assunto" />
+                            <f:ajax event="change" render=":mensagens @this textArea-DescricaoProblema outputText-Assunto" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="textArea-DescricaoProblema" value="Descrição do Problema" />
+                        <p:inputTextarea id="textArea-DescricaoProblema" value="#{otrsBean.solicitacao.descricaoDoProblema.descricaoDetalhada}" readonly="true" style="cursor: not-allowed;" rows="6" cols="33" placeholder="Computador/Monitor está apresentando problema de..."  autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" >
+                            <f:ajax event="change" render="@this :mensagens" />
+                        </p:inputTextarea>
+
+                        <p:outputLabel value="(Opcional) Selecione um Modelo de Email: " for="selectOne-emailModelo" />
+                        <p:selectOneMenu id="selectOne-emailModelo" value="#{otrsBean.emailModeloId}" >
+                            <f:selectItem itemLabel="(Opcional) Utilizar um Modelo de Email Pronto" noSelectionOption="true" />
+                            <f:selectItems var="email" value="#{listaEmailTemplateAsComboBoxBean.modelosEmails}" itemLabel="#{email.descricao}" itemValue="#{email.id}" />
+                            <f:ajax event="change" listener="#{otrsBean.definirModeloDeEmail()}" render="outputText-Assunto textArea-corpoDoEmail :mensagens" />
                         </p:selectOneMenu>
 
                         <p:outputLabel for="outputText-Assunto" value="Assunto: " />
-                        <p:outputLabel id="outputText-Assunto" value="#{otrsBean.solicitacao.emailDeGarantia.assunto}" size="#{otrsBean.solicitacao.emailDeGarantia.assunto.length()}" />
+                        <p:inputText id="outputText-Assunto" 
+                                     value="#{otrsBean.solicitacao.emailDeGarantia.assunto}" 
+                                     styleClass="form-control"
+                                     required="true"
+                                     requiredMessage="Assunto do Email Obrigatŕoio" 
+                                     pt:placeholder="Selecione um Modelo de E-mail acima, ou digite o assunto para a solicitação" >
+                            <f:ajax event="change" render="@this :mensagens" />
+                        </p:inputText>
 
-	                    <p:outputLabel for="textArea-DescricaoProblema" value="Descrição do Problema" />
-	                    <p:inputTextarea id="textArea-DescricaoProblema" value="#{otrsBean.solicitacao.descricaoDoProblema.descricaoDetalhada}" readonly="true" rows="6" cols="33" placeholder="Computador/Monitor está apresentando problema de..."  autoResize="false" required="true" requiredMessage="Descrição do Problema Obrigatória" />
+                        <p:outputLabel value="Corpo do Email: " for="textArea-corpoDoEmail" />
+                        <p:inputTextarea 
+                            id="textArea-corpoDoEmail" 
+                            styleClass="form-control" 
+                            value="#{otrsBean.solicitacao.emailDeGarantia.corpoDaMensagem}"
+                            rows="10" cols="50" 
+                            required="true"
+                            requiredMessage="Corpo do Email Obrigatório"
+                            pt:placeholder="Prezado atendente da $fornecedor.nome, solicitamos garantia para o equipamento $numeroDeSerie..." >
+
+                            <f:ajax event="change" listener="#{otrsBean.converterTemplatesParaStrings()}" render="@this :mensagens" />
+                        </p:inputTextarea>
 
 	                    <p:outputLabel value="Adicionar Vídeo ou Foto do Problema (Máx: 15MB)" for="fileUpload" />
 	                    <h:inputFile id="fileUpload" styleClass="form-control" value="#{otrsBean.uploadedFile}" required="false" >

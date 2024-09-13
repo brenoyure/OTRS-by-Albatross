@@ -10,6 +10,7 @@ import java.util.List;
 
 import br.albatross.otrs.domain.models.emailtemplate.DadosDoEmailTemplateDto;
 import br.albatross.otrs.domain.models.emailtemplate.DadosParaAtualizacaoDeEmailTemplate;
+import br.albatross.otrs.domain.models.emailtemplate.EmailTemplateComboBox;
 import br.albatross.otrs.persistence.entities.emailtemplate.EmailTemplate;
 import br.albatross.otrs.persistence.repositories.RepositoryImpl;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -61,7 +62,7 @@ public class EmailTemplateRepositoryImpl extends RepositoryImpl<EmailTemplate, I
         return entityManager.createQuery(query).setHint(HINT_CACHEABLE, true).getResultList();
 
     }
-
+    
     @Override
     public boolean existsByDescricao(String descricao) {
         try {
@@ -116,6 +117,31 @@ public class EmailTemplateRepositoryImpl extends RepositoryImpl<EmailTemplate, I
             .setParameter(parameterAssunto, dadosAtualizados.getAssunto())
             .setParameter(parameterCorpoDoEmail, dadosAtualizados.getCorpoDoEmail())
             .executeUpdate();
+
+    }
+
+    @Override
+    public List<EmailTemplateComboBox> findAllAsEmailTemplateComboBoxOrderByDescricao() {
+        CriteriaBuilder cb = 
+                entityManager.getCriteriaBuilder();
+        CriteriaQuery<EmailTemplateComboBox> query = 
+                cb.createQuery(EmailTemplateComboBox.class);
+        Root<EmailTemplate> emailTemplate = 
+                query.from(EmailTemplate.class);
+
+        CompoundSelection<EmailTemplateComboBox> emailTemplateSelect = 
+                cb.construct(
+                        EmailTemplateComboBox.class, 
+                            emailTemplate.get(id),
+                            emailTemplate.get(descricao));
+        Order assuntoAsc = 
+                cb.asc(emailTemplate.get(descricao));
+
+        query
+            .select(emailTemplateSelect)
+            .orderBy(assuntoAsc);        
+
+        return entityManager.createQuery(query).setHint(HINT_CACHEABLE, true).getResultList();
 
     }
 
