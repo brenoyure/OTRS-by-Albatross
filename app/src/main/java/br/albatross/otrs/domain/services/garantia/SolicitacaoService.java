@@ -1,7 +1,6 @@
 package br.albatross.otrs.domain.services.garantia;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 
 import br.albatross.apis.email.Email;
@@ -19,8 +18,6 @@ import jakarta.jms.JMSContext;
 import jakarta.jms.Queue;
 
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
 import jakarta.json.stream.JsonGenerator;
 
 import jakarta.validation.Valid;
@@ -94,13 +91,7 @@ public class SolicitacaoService {
 
             }
 
-            String emailDeGarantiaAsJson = stringWriter.toString();
-
-            JsonReader jsonReader = Json.createReader(new StringReader(emailDeGarantiaAsJson));
-            JsonObject jsonObject = jsonReader.readObject();
-            System.out.println(jsonObject.toString());
-
-            context.createProducer().send(queue, emailDeGarantiaAsJson);
+            context.createProducer().send(queue, stringWriter.toString());
 
         } catch (IOException e) { throw new RuntimeException(e); }
 
