@@ -153,16 +153,11 @@ public class OtrsEmailQueueConsumerTest {
 
         for (Anexo anexo : email.getAnexos()) {
 
-            if (anexo.getNome().equals("VIDEO MONITOR ARTEFATO.mp4")) {
+            switch(anexo.getNome()) {
 
-                anexoVideo = anexo;
-                continue;
-            }
+                case "VIDEO MONITOR ARTEFATO.mp4" -> anexoVideo = anexo;
+                case "Abertura de Chamado AVCL486XPTO 2024 18036123176031463778.docx" -> anexoFormulario = anexo;
 
-            if (anexo.getNome().equals("Abertura de Chamado AVCL486XPTO 2024 18036123176031463778.docx")) {
-
-                anexoFormulario = anexo;
-                break;
             }
 
         }
