@@ -36,14 +36,14 @@ services:
     restart: always
     ports:
       - ${MESSAGING_ACTIVEMQ_PORT}:8161
-    deploy:
-      resources:
-        reservations:
-          cpus: '0.25'
-          memory: 256M
-        limits:
-          cpus: '0.5'
-          memory: 512M
+#    deploy:
+#      resources:
+#        reservations:
+#          cpus: '0.25'
+#          memory: 256M
+#        limits:
+#          cpus: '0.5'
+#          memory: 512M
 
   otrs-messaging_activemq_consumer:
     image: br.albatross.otrs.messaging.activemq-consumer-image
@@ -68,14 +68,14 @@ services:
     depends_on:
       otrs-messaging_activemq:
         condition: service_started
-    deploy:
-      resources:
-        reservations:
-          cpus: '0.25'
-          memory: 384M
-        limits:
-          cpus: '0.5'
-          memory: 768M
+#    deploy:
+#      resources:
+#        reservations:
+#          cpus: '0.25'
+#          memory: 384M
+#        limits:
+#          cpus: '0.5'
+#          memory: 768M
 
   otrs-app:
     image: ${OTRS_APP_DOCKER_IMAGE}
@@ -121,14 +121,14 @@ services:
       - 8080:8080
     restart: always
 
-    deploy:
-      resources:
-        reservations:
-          cpus: '0.25'
-          memory: 512M
-        limits:
-          cpus: '0.5'
-          memory: 768M
+#    deploy:
+#      resources:
+#        reservations:
+#          cpus: '0.25'
+#          memory: 512M
+#        limits:
+#          cpus: '0.5'
+#          memory: 768M
 
 networks:
   otrs-network:

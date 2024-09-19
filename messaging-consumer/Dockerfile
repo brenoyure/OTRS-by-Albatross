@@ -1,4 +1,4 @@
-FROM quay.io/wildfly/wildfly:33.0.1.Final-jdk17
+FROM quay.io/wildfly/wildfly:33.0.2.Final-jdk21
 
 WORKDIR /opt/jboss/wildfly/
 
